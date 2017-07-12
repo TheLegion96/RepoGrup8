@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovableCharacter : MonoBehaviour {
-
+    public int speed;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +13,12 @@ public class MovableCharacter : MonoBehaviour {
 	void Update () {
 		
 	}
+    public void Move()
+    {
+        
+    }
+    public void Die()
+    {
+
+    }
 }
