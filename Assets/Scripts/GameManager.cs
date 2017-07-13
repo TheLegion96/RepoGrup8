@@ -22,11 +22,30 @@ namespace Completed
 		private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 		private bool enemiesMoving;								//Boolean to check if enemies are moving.
 		private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
-		
-		
-		
-		//Awake is always called before any Start functions
-		void Awake()
+
+        //[Verza] Added new property in order to change scene title.
+        private string title;
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+                    
+                if (levelText != null)
+                    UpdateSceneTitle(levelText);
+            }
+        }
+
+
+
+        //Awake is always called before any Start functions
+        void Awake()
 		{
             //Check if instance already exists
             if (instance == null)
@@ -78,10 +97,15 @@ namespace Completed
 			
 			//Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
 			levelText = GameObject.Find("LevelText").GetComponent<Text>();
-			
-			//Set the text of levelText to the string "Day" and append the current level number.
-			levelText.text = "Day " + level;
-			
+
+            //Set the text of levelText to the string "Day" and append the current level number.
+            //levelText.text = "Day " + level;
+            //[Verza] Added dynamic title.
+            UpdateSceneTitle(levelText);
+
+            //[Verza] Moving title block.
+            StartCoroutine(MoveTitleBlock());
+
 			//Set levelImage to active blocking player's view of the game board during setup.
 			levelImage.SetActive(true);
 			
@@ -92,6 +116,31 @@ namespace Completed
 			enemies.Clear();
 			
 		}
+
+        void UpdateSceneTitle(Text levelText)
+        {
+            levelText.text = title;
+        }
+
+        IEnumerator MoveTitleBlock()
+        {
+            /*Vector3 startPosition = new Vector3(0, 305, 0);
+            Vector3 endPosition = new Vector3(0, 5, 0);
+            float movingSeconds = 2f;
+            
+            levelImage.GetComponent<RectTransform>().position = startPosition;
+
+            while (movingSeconds > 0)
+            {
+                movingSeconds -= Time.deltaTime;
+
+                levelImage.GetComponent<RectTransform>().position = Vector3.Lerp(levelImage.GetComponent<RectTransform>().position, endPosition, movingSeconds);
+
+                yield return null;
+            }*/
+
+            yield return null;
+        }
 		
 		
 		//Hides black image used between levels
