@@ -14,4 +14,15 @@ public class MirrorEnemy : Enemy {
 	void Update () {
 		
 	}
+    void GetPlayerMovement(int input)
+    {
+        switch(input)
+        {
+
+
+
+        }
+
+
+    }
 }

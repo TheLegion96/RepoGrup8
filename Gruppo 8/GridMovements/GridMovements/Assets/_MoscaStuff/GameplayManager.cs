@@ -7,6 +7,7 @@ public class GameplayManager : MonoBehaviour {
     public Sprite mySprite;
 
     public GameObject myPlayer;
+    
 
     public GameObject prefab;
     public int gridX = 5;
@@ -22,6 +23,7 @@ public class GameplayManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        
         tiledMap = new MovableTile[gridX, gridY];
 
         for (int y = 0; y < gridY; y++)

@@ -15,7 +15,7 @@ public class Player : MovableCharacter {
 	void Update () {
 		
 	}
-
+     
     public void Move()
     {
       
