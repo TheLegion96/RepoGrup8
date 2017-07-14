@@ -27,6 +27,7 @@ namespace Completed
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
 
+        private bool isAbleToMove = true;
 
         //Start overrides the Start function of MovingObject
         protected override void Start()
@@ -58,24 +59,27 @@ namespace Completed
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
-            int horizontal = 0;     //Used to store the horizontal move direction.
-            int vertical = 0;       //Used to store the vertical move direction.
+            if (isAbleToMove)
+            {
 
-            //Check if we are running either in the Unity editor or in a standalone build.
+                int horizontal = 0;     //Used to store the horizontal move direction.
+                int vertical = 0;       //Used to store the vertical move direction.
+
+                //Check if we are running either in the Unity editor or in a standalone build.
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
 
-            //Get input from the input manager, round it to an integer and store in horizontal to set x axis move direction
-            horizontal = (int)(Input.GetAxisRaw("Horizontal"));
+                //Get input from the input manager, round it to an integer and store in horizontal to set x axis move direction
+                horizontal = (int)(Input.GetAxisRaw("Horizontal"));
 
-            //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
-            vertical = (int)(Input.GetAxisRaw("Vertical"));
+                //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
+                vertical = (int)(Input.GetAxisRaw("Vertical"));
 
-            //Check if moving horizontally, if so set vertical to zero.
-            if (horizontal != 0)
-            {
-                vertical = 0;
-            }
-            //Check if we are running on iOS, Android, Windows Phone 8 or Unity iPhone
+                //Check if moving horizontally, if so set vertical to zero.
+                if (horizontal != 0)
+                {
+                    vertical = 0;
+                }
+                //Check if we are running on iOS, Android, Windows Phone 8 or Unity iPhone
 #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 			
 			//Check if Input has registered more than zero touches
@@ -117,12 +121,13 @@ namespace Completed
 			}
 			
 #endif //End of mobile platform dependendent compilation section started above with #elif
-            //Check if we have a non-zero value for horizontal or vertical
-            if (horizontal != 0 || vertical != 0)
-            {
-                //Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
-                //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-                AttemptMove<Wall>(horizontal, vertical);
+                //Check if we have a non-zero value for horizontal or vertical
+                if (horizontal != 0 || vertical != 0)
+                {
+                    //Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
+                    //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
+                    AttemptMove<Wall>(horizontal, vertical);
+                }
             }
         }
 
@@ -254,14 +259,25 @@ namespace Completed
 
         private IEnumerator ExecuteGameOverCoroutine()
         {
+            isAbleToMove = false;
 
+            //[Verza]   Verifico esistenza del componente CameraShake sulla Main Camera.
+            //          Se esiste, allora shakero la camera alla morte del player.
+            //          Altrimenti il personaggio sta fermo, la camera non shakera ma non si spacca niente.
+            CameraShake cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+            if (cameraShake != null)
+            {
+                // Call al metodo di Shake.
+                cameraShake.ShakeCamera(1f, 0.1f);
+            }
+            
+            yield return new WaitForSeconds(2f);
 
             //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
             SoundManager.instance.PlaySingle(gameOverSound);
 
             //Stop the background music.
             SoundManager.instance.musicSource.Stop();
-            yield return new WaitForSeconds(2f);
 
             //Call the GameOver function of GameManager.
             GameManager.instance.GameOver();
