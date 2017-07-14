@@ -152,7 +152,10 @@ namespace Completed
 			
 			//Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
 			SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
-		}
+
+            hitPlayer.ExecuteGameOver();
+
+        }
 
 
     //DA RIGUARDARE

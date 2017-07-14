@@ -249,14 +249,24 @@ namespace Completed
         //ExecuteGameOver ends the game.
         public void ExecuteGameOver()
         {
+            StartCoroutine(ExecuteGameOverCoroutine());
+        }
+
+        private IEnumerator ExecuteGameOverCoroutine()
+        {
+
+
             //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
             SoundManager.instance.PlaySingle(gameOverSound);
 
             //Stop the background music.
             SoundManager.instance.musicSource.Stop();
+            yield return new WaitForSeconds(2f);
 
             //Call the GameOver function of GameManager.
             GameManager.instance.GameOver();
+
+            yield return null;
         }
     }
 }
