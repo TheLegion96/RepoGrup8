@@ -46,18 +46,17 @@ namespace Completed
 			skipMove = true;
 		}
 
-        private float pA, pB;
+        public float pA, pB;
         private float step = 1f;
-        private bool wayOfMovement;
-
+        public bool wayOfMovement;
+       
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void MoveEnemy ()
 		{
             switch (enemyTipe)
             {
                 case 0://Pattern AB_AsseX
-                    pA = this.transform.position.x+3f;
-                    pB = this.transform.position.x-3f;
+                  
                     if (wayOfMovement == true)
                     {
                         this.transform.position = new Vector2(this.transform.position.x + step, this.transform.position.y);
@@ -78,8 +77,7 @@ namespace Completed
 
                 
                 case 2://Pattern AB_AsseY 
-                    pA = this.transform.position.y + 3f;
-                    pB = this.transform.position.y - 3f;
+                 
                     if (wayOfMovement == true)
                     {
                         this.transform.position = new Vector2(this.transform.position.x , this.transform.position.y + step);
@@ -102,11 +100,13 @@ namespace Completed
                 case 1: break; //Pattern Mimic
                 case 3: break; //Pattern RangedEnemy
             }
+
 			//Declare variables for X and Y axis move directions, these range from -1 to 1.
 			//These values allow us to choose between the cardinal directions: up, down, left and right.
 			int xDir = 0;
 			int yDir = 0;
 			
+            /*
 			//If the difference in positions is approximately zero (Epsilon) do the following:
 			if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
 				
@@ -121,7 +121,7 @@ namespace Completed
 			//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
 			AttemptMove <Player> (xDir, yDir);
 
-
+    */
 		}
 		
 		
@@ -160,6 +160,18 @@ namespace Completed
         //Find the Player GameObject using it's tag and store a reference to its transform component.
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
+            if (enemyTipe == 0)
+            {
+
+                pA = this.transform.position.x + 3f;
+                pB = this.transform.position.x - 3f;
+            }
+            else if (enemyTipe == 1)
+            {
+                pA = this.transform.position.y + 3f;
+                pB = this.transform.position.y - 3f;
+
+            }
         //Call the start function of our base class MovingObject.
         base.Start();
     }
