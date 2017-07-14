@@ -13,25 +13,18 @@ namespace Completed
 		
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
 		private Transform target;							//Transform to attempt to move toward each turn.
-		private bool skipMove;								//Boolean to determine whether or not enemy should skip a turn or move this turn.
-		
-		
-		//Start overrides the virtual Start function of the base class.
-		protected override void Start ()
-		{
-			//Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
-			//This allows the GameManager to issue movement commands.
-			GameManager.instance.AddEnemyToList (this);
-			
-			//Get and store a reference to the attached Animator component.
-			animator = GetComponent<Animator> ();
-			
-			//Find the Player GameObject using it's tag and store a reference to its transform component.
-			target = GameObject.FindGameObjectWithTag ("Player").transform;
-			
-			//Call the start function of our base class MovingObject.
-			base.Start ();
-		}
+		private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
+        public int enemyTipe;                               // Indica il tipo di nemico
+        /*
+         0 Movimento A => B su Asse X
+         1 Movimento A => B su Asse Y
+         2 Movimento Doppleganger Comandi riflessi rispetto al player
+         3 Movimento Auto Rotativo Nemico Ranged
+         ...
+             */
+
+
+      
 		
 		
 		//Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
@@ -52,16 +45,68 @@ namespace Completed
 			//Now that Enemy has moved, set skipMove to true to skip next move.
 			skipMove = true;
 		}
-		
-		
-		//MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
-		public void MoveEnemy ()
+
+        public float pA, pB;
+        private float step = 1f;
+        public bool wayOfMovement;
+       
+        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
+        public void MoveEnemy ()
 		{
+            switch (enemyTipe)
+            {
+                case 0://Pattern AB_AsseX
+                  
+                    if (wayOfMovement == true)
+                    {
+                        this.transform.position = new Vector2(this.transform.position.x + step, this.transform.position.y);
+                    }
+                    else
+                    {
+                        this.transform.position = new Vector2(this.transform.position.x - step, this.transform.position.y);
+                    }
+                    if (this.transform.position.x==pA)
+                    {
+                        wayOfMovement = false;
+                    }
+                    if(this.transform.position.x==pB)
+                    {
+                        wayOfMovement = true;
+                    }
+                    break; 
+
+                
+                case 2://Pattern AB_AsseY 
+                 
+                    if (wayOfMovement == true)
+                    {
+                        this.transform.position = new Vector2(this.transform.position.x , this.transform.position.y + step);
+                    }
+                    else
+                    {
+                        this.transform.position = new Vector2(this.transform.position.x , this.transform.position.y - step);
+                    }
+                    if (this.transform.position.y == pA)
+                    {
+                        wayOfMovement = false;
+                    }
+                    if (this.transform.position.y == pB)
+                    {
+                        wayOfMovement = true;
+                    }
+                    break; 
+
+
+                case 1: break; //Pattern Mimic
+                case 3: break; //Pattern RangedEnemy
+            }
+
 			//Declare variables for X and Y axis move directions, these range from -1 to 1.
 			//These values allow us to choose between the cardinal directions: up, down, left and right.
 			int xDir = 0;
 			int yDir = 0;
 			
+            /*
 			//If the difference in positions is approximately zero (Epsilon) do the following:
 			if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
 				
@@ -75,6 +120,8 @@ namespace Completed
 			
 			//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
 			AttemptMove <Player> (xDir, yDir);
+
+    */
 		}
 		
 		
@@ -86,7 +133,7 @@ namespace Completed
 			Player hitPlayer = component as Player;
 			
 			//Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
-			hitPlayer.LoseFood (playerDamage);
+		//	hitPlayer.LoseFood (playerDamage);
 			
 			//Set the attack trigger of animator to trigger Enemy attack animation.
 			animator.SetTrigger ("enemyAttack");
@@ -94,5 +141,40 @@ namespace Completed
 			//Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
 			SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
 		}
+
+
+    //DA RIGUARDARE
+  //--------------------------------------------------------------------------------------------------------------------------
+
+
+    //Start overrides the virtual Start function of the base class. 
+    protected override void Start()
+    {
+        //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
+        //This allows the GameManager to issue movement commands.
+        GameManager.instance.AddEnemyToList(this);
+
+        //Get and store a reference to the attached Animator component.
+        animator = GetComponent<Animator>();
+
+        //Find the Player GameObject using it's tag and store a reference to its transform component.
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+
+            if (enemyTipe == 0)
+            {
+
+                pA = this.transform.position.x + 3f;
+                pB = this.transform.position.x - 3f;
+            }
+            else if (enemyTipe == 1)
+            {
+                pA = this.transform.position.y + 3f;
+                pB = this.transform.position.y - 3f;
+
+            }
+        //Call the start function of our base class MovingObject.
+        base.Start();
+    }
 	}
+
 }

@@ -11,23 +11,41 @@ namespace Completed
 	{
 		public float levelStartDelay = 2f;						//Time to wait before starting level, in seconds.
 		public float turnDelay = 0.1f;							//Delay between each Player turn.
-		public int playerFoodPoints = 100;						//Starting value for Player food points.
+		public int playerTotalTurns = 0;				        //Starting value for Player Turns.
 		public static GameManager instance = null;				//Static instance of GameManager which allows it to be accessed by any other script.
 		[HideInInspector] public bool playersTurn = true;		//Boolean to check if it's players turn, hidden in inspector but public.
 		
 		
 		private Text levelText;									//Text to display current level number.
 		private GameObject levelImage;							//Image to block out level as levels are being set up, background for levelText.
-		private BoardManager boardScript;						//Store a reference to our BoardManager which will set up the level.
 		private int level = 1;									//Current level number, expressed in game as "Day 1".
 		private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
 		private bool enemiesMoving;								//Boolean to check if enemies are moving.
 		private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
-		
-		
-		
-		//Awake is always called before any Start functions
-		void Awake()
+
+        //[Verza] Added new property in order to change scene title.
+        private string title;
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+                    
+                if (levelText != null)
+                    UpdateSceneTitle(levelText);
+            }
+        }
+
+
+
+        //Awake is always called before any Start functions
+        void Awake()
 		{
             //Check if instance already exists
             if (instance == null)
@@ -46,9 +64,6 @@ namespace Completed
 			
 			//Assign enemies to a new List of Enemy objects.
 			enemies = new List<Enemy>();
-			
-			//Get a component reference to the attached BoardManager script
-			boardScript = GetComponent<BoardManager>();
 			
 			//Call the InitGame function to initialize the first level 
 			InitGame();
@@ -82,10 +97,15 @@ namespace Completed
 			
 			//Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
 			levelText = GameObject.Find("LevelText").GetComponent<Text>();
-			
-			//Set the text of levelText to the string "Day" and append the current level number.
-			levelText.text = "Day " + level;
-			
+
+            //Set the text of levelText to the string "Day" and append the current level number.
+            //levelText.text = "Day " + level;
+            //[Verza] Added dynamic title.
+            UpdateSceneTitle(levelText);
+
+            //[Verza] Moving title block.
+            StartCoroutine(MoveTitleBlock());
+
 			//Set levelImage to active blocking player's view of the game board during setup.
 			levelImage.SetActive(true);
 			
@@ -95,10 +115,32 @@ namespace Completed
 			//Clear any Enemy objects in our List to prepare for next level.
 			enemies.Clear();
 			
-			//Call the SetupScene function of the BoardManager script, pass it current level number.
-			boardScript.SetupScene(level);
-			
 		}
+
+        void UpdateSceneTitle(Text levelText)
+        {
+            levelText.text = title;
+        }
+
+        IEnumerator MoveTitleBlock()
+        {
+            /*Vector3 startPosition = new Vector3(0, 305, 0);
+            Vector3 endPosition = new Vector3(0, 5, 0);
+            float movingSeconds = 2f;
+            
+            levelImage.GetComponent<RectTransform>().position = startPosition;
+
+            while (movingSeconds > 0)
+            {
+                movingSeconds -= Time.deltaTime;
+
+                levelImage.GetComponent<RectTransform>().position = Vector3.Lerp(levelImage.GetComponent<RectTransform>().position, endPosition, movingSeconds);
+
+                yield return null;
+            }*/
+
+            yield return null;
+        }
 		
 		
 		//Hides black image used between levels
