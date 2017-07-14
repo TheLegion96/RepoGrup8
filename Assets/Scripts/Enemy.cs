@@ -14,7 +14,10 @@ namespace Completed
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
 		private Transform target;							//Transform to attempt to move toward each turn.
 		private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
-        public int enemyTipe;                               // Indica il tipo di nemico
+
+        public enum enemyType {Horizzontal, Vertical, Ranged, Mimic};
+
+        public enemyType enemyTipe;                               // Indica il tipo di nemico
         /*
          0 Movimento A => B su Asse X
          1 Movimento A => B su Asse Y
@@ -43,85 +46,94 @@ namespace Completed
 			base.AttemptMove <T> (xDir, yDir);
 			
 			//Now that Enemy has moved, set skipMove to true to skip next move.
-			skipMove = true;
+            //[Verza] We never skip movements maddaffakka!
+			//skipMove = true;
 		}
 
-        private float pA, pB;
+        public float pA, pB;
         private float step = 1f;
-        private bool wayOfMovement;
-
+        public bool wayOfMovement;
+       
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void MoveEnemy ()
-		{
+        {
+
+            //Declare variables for X and Y axis move directions, these range from -1 to 1.
+            //These values allow us to choose between the cardinal directions: up, down, left and right.
+            int xDir = 0;
+            int yDir = 0;
+
+            Vector2 newPos;
+
+
             switch (enemyTipe)
-            {
-                case 0://Pattern AB_AsseX
-                    pA = this.transform.position.x+3f;
-                    pB = this.transform.position.x-3f;
+             {
+                case enemyType.Horizzontal://Pattern AB_AsseX
+                  
                     if (wayOfMovement == true)
                     {
-                        this.transform.position = new Vector2(this.transform.position.x + step, this.transform.position.y);
+                        xDir = (int)step;
+                        newPos = new Vector2(this.transform.position.x + step, this.transform.position.y);
                     }
                     else
                     {
-                        this.transform.position = new Vector2(this.transform.position.x - step, this.transform.position.y);
+                        xDir = -(int)step;
+                        newPos = new Vector2(this.transform.position.x - step, this.transform.position.y);
                     }
-                    if (this.transform.position.x==pA)
+                    if (newPos.x==pA)
                     {
                         wayOfMovement = false;
                     }
-                    if(this.transform.position.x==pB)
+                    if(newPos.x==pB)
                     {
                         wayOfMovement = true;
                     }
                     break; 
 
                 
-                case 2://Pattern AB_AsseY 
-                    pA = this.transform.position.y + 3f;
-                    pB = this.transform.position.y - 3f;
+                case enemyType.Vertical://Pattern AB_AsseY 
+                 
                     if (wayOfMovement == true)
                     {
-                        this.transform.position = new Vector2(this.transform.position.x , this.transform.position.y + step);
+                        yDir = (int)step;
+                        newPos = new Vector2(this.transform.position.x , this.transform.position.y + step);
                     }
                     else
                     {
-                        this.transform.position = new Vector2(this.transform.position.x , this.transform.position.y - step);
+                        yDir = -(int)step;
+                        newPos = new Vector2(this.transform.position.x , this.transform.position.y - step);
                     }
-                    if (this.transform.position.y == pA)
+                    if (newPos.y == pA)
                     {
                         wayOfMovement = false;
                     }
-                    if (this.transform.position.y == pB)
+                    if (newPos.y == pB)
                     {
                         wayOfMovement = true;
                     }
                     break; 
 
-
-                case 1: break; //Pattern Mimic
-                case 3: break; //Pattern RangedEnemy
+                    
+                case enemyType.Mimic: break; //Pattern Mimic
+                case enemyType.Ranged: break; //Pattern RangedEnemy
             }
-			//Declare variables for X and Y axis move directions, these range from -1 to 1.
-			//These values allow us to choose between the cardinal directions: up, down, left and right.
-			int xDir = 0;
-			int yDir = 0;
 			
-			//If the difference in positions is approximately zero (Epsilon) do the following:
-			if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
+            
+			////If the difference in positions is approximately zero (Epsilon) do the following:
+			//if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
 				
-				//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
-				yDir = target.position.y > transform.position.y ? 1 : -1;
+			//	//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
+			//	yDir = target.position.y > transform.position.y ? 1 : -1;
 			
-			//If the difference in positions is not approximately zero (Epsilon) do the following:
-			else
-				//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
-				xDir = target.position.x > transform.position.x ? 1 : -1;
+			////If the difference in positions is not approximately zero (Epsilon) do the following:
+			//else
+			//	//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
+			//	xDir = target.position.x > transform.position.x ? 1 : -1;
 			
 			//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
 			AttemptMove <Player> (xDir, yDir);
 
-
+    
 		}
 		
 		
@@ -140,7 +152,10 @@ namespace Completed
 			
 			//Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
 			SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
-		}
+
+            hitPlayer.ExecuteGameOver();
+
+        }
 
 
     //DA RIGUARDARE
@@ -160,6 +175,18 @@ namespace Completed
         //Find the Player GameObject using it's tag and store a reference to its transform component.
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
+            if (enemyTipe == enemyType.Horizzontal)
+            {
+
+                pA = this.transform.position.x + 3f;
+                pB = this.transform.position.x - 3f;
+            }
+            else if (enemyTipe == enemyType.Vertical)
+            {
+                pA = this.transform.position.y + 3f;
+                pB = this.transform.position.y - 3f;
+
+            }
         //Call the start function of our base class MovingObject.
         base.Start();
     }
