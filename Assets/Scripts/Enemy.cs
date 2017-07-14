@@ -104,7 +104,8 @@ namespace Completed
 			//Declare variables for X and Y axis move directions, these range from -1 to 1.
 			//These values allow us to choose between the cardinal directions: up, down, left and right.
 			int xDir = 0;
-			int yDir = 0;
+            int yDir = 0;
+            int randoooom;
 			
             /*
 			//If the difference in positions is approximately zero (Epsilon) do the following:
