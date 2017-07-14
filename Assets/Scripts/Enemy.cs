@@ -46,7 +46,8 @@ namespace Completed
 			base.AttemptMove <T> (xDir, yDir);
 			
 			//Now that Enemy has moved, set skipMove to true to skip next move.
-			skipMove = true;
+            //[Verza] We never skip movements maddaffakka!
+			//skipMove = true;
 		}
 
         public float pA, pB;
