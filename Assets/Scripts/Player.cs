@@ -151,7 +151,11 @@ namespace Completed
             if (Move(xDir, yDir, out hit))
             {
                 //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
-                SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+                //SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+                if (SoundManager.instance)
+                {
+                    StartCoroutine(SoundManager.instance.PlayNextStep(0.5f));//moveTime * 5));
+                }
             }
 
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
@@ -270,7 +274,7 @@ namespace Completed
                 // Call al metodo di Shake.
                 cameraShake.ShakeCamera(1f, 0.1f);
             }
-            
+
             yield return new WaitForSeconds(2f);
 
             //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
