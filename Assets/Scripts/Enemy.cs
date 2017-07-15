@@ -8,13 +8,13 @@ namespace Completed
 	{
 		public int playerDamage; 							//The amount of food points to subtract from the player when attacking.
 		public AudioClip attackSound1;						//First of two audio clips to play when attacking the player.
-		public AudioClip attackSound2;						//Second of two audio clips to play when attacking the player.
-		
-		
+		public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
+
+        private BoxCollider2D boxCollider;
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
 		private Transform target;							//Transform to attempt to move toward each turn.
 		private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
-
+        public GameObject Aim;
         public enum enemyType {Horizzontal, Vertical, Ranged, Mimic};
 
         public enemyType enemyTipe;                               // Indica il tipo di nemico
@@ -26,13 +26,20 @@ namespace Completed
          ...
              */
 
+        public float pA, pB;
+        private float step = 1f;
+        public bool wayOfMovement;
+        public int tick;
+        public enum AIMING { up, down, left, right};
+        public AIMING EnemyAimingWay;
 
-      
-		
-		
-		//Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
-		//See comments in MovingObject for more on how base AttemptMove function works.
-		protected override void AttemptMove <T> (int xDir, int yDir)
+      public  Vector2 start;
+        public Vector2 end;
+
+
+        //Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
+        //See comments in MovingObject for more on how base AttemptMove function works.
+        protected override void AttemptMove <T> (int xDir, int yDir)
 		{
 			//Check if skipMove is true, if so set it to false and skip this turn.
 			if(skipMove)
@@ -50,10 +57,6 @@ namespace Completed
 			//skipMove = true;
 		}
 
-        public float pA, pB;
-        private float step = 1f;
-        public bool wayOfMovement;
-       
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void MoveEnemy ()
         {
@@ -114,29 +117,94 @@ namespace Completed
                     break; 
 
                     
-                case enemyType.Mimic: break; //Pattern Mimic
-                case enemyType.Ranged: break; //Pattern RangedEnemy
+                case enemyType.Mimic: //Pattern Mimic
+                    break;
+                case enemyType.Ranged://Pattern RangedEnemy
+                    if (tick == 0)
+                    {
+                        tick++;
+                    }else if(tick==1)
+                    {
+                        ChangeAwayAiming(ref EnemyAimingWay);
+                        tick = 0;
+                    }
+                    ////DA CONTROLLARE 
+                    
+                    //start = transform.position;
+                    //RaycastHit2D Bullet;
+                    //boxCollider.enabled = false;
+                    //switch (EnemyAimingWay)
+                    //{
+
+                    //    case AIMING.down:
+
+                    //        end = start + new Vector2(transform.position.x, transform.position.y - 3f);
+                           
+                    //        break;
+                    //    case AIMING.up:
+                    //        end = start + new Vector2(transform.position.x, transform.position.y + 3f);
+                           
+                    //        break;
+                    //    case AIMING.right:
+                    //        end = start + new Vector2(transform.position.x +3f, transform.position.y );
+                           
+                    //        break;
+                    //    case AIMING.left:
+                    //        end = start + new Vector2(transform.position.x-3f, transform.position.y);
+                    //        break;
+                    //}
+                    //Bullet = Physics2D.Linecast(start, end, blockingLayer);
+                    //if (Bullet.transform == null)
+                    //{
+                    //    Debug.Log("YES");
+                    //}
+                    //else
+                    //    Debug.Log(Bullet.transform.name);
+                    //boxCollider.enabled = true;
+                  
+                    break;
             }
-			
-            
-			////If the difference in positions is approximately zero (Epsilon) do the following:
-			//if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
-				
-			//	//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
-			//	yDir = target.position.y > transform.position.y ? 1 : -1;
-			
-			////If the difference in positions is not approximately zero (Epsilon) do the following:
-			//else
-			//	//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
-			//	xDir = target.position.x > transform.position.x ? 1 : -1;
-			
-			//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
-			AttemptMove <Player> (xDir, yDir);
+
+           
+            ////If the difference in positions is approximately zero (Epsilon) do the following:
+            //if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
+
+            //	//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
+            //	yDir = target.position.y > transform.position.y ? 1 : -1;
+
+            ////If the difference in positions is not approximately zero (Epsilon) do the following:
+            //else
+            //	//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
+            //	xDir = target.position.x > transform.position.x ? 1 : -1;
+
+            //Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
+            AttemptMove <Player> (xDir, yDir);
 
     
 		}
 		
-		
+		private void ChangeAwayAiming(ref AIMING posizione)
+        {
+            switch(posizione)
+            {
+                case AIMING.down:
+                    Aim.transform.position = new Vector2(transform.position.x-1f, transform.position.y);
+                    posizione = AIMING.left;
+                    break;
+                case AIMING.left:
+                    Aim.transform.position = new Vector2(transform.position.x , transform.position.y + 1f);
+                    posizione = AIMING.up;
+                    break;
+                case AIMING.up:
+                    Aim.transform.position = new Vector2(transform.position.x+1f, transform.position.y);
+                    posizione = AIMING.right;
+                    break;
+                case AIMING.right:
+                    Aim.transform.position = new Vector2(transform.position.x , transform.position.y-1f);
+                    posizione = AIMING.down;
+                    break;
+            }
+        }
 		//OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject 
 		//and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
 		protected override void OnCantMove <T> (T component)
@@ -158,13 +226,12 @@ namespace Completed
         }
 
 
-    //DA RIGUARDARE
-  //--------------------------------------------------------------------------------------------------------------------------
-
+   
 
     //Start overrides the virtual Start function of the base class. 
     protected override void Start()
     {
+            boxCollider = GetComponent<BoxCollider2D>();
         //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
         //This allows the GameManager to issue movement commands.
         GameManager.instance.AddEnemyToList(this);
