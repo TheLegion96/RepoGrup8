@@ -27,7 +27,7 @@ namespace Completed
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
 
-        private bool isAbleToMove = true;
+        public bool isStillAlive = true;
 
         //Start overrides the Start function of MovingObject
         protected override void Start()
@@ -59,7 +59,7 @@ namespace Completed
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
-            if (isAbleToMove)
+            if (isStillAlive)
             {
 
                 int horizontal = 0;     //Used to store the horizontal move direction.
@@ -124,9 +124,27 @@ namespace Completed
                 //Check if we have a non-zero value for horizontal or vertical
                 if (horizontal != 0 || vertical != 0)
                 {
-                    //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
-                    //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-                    AttemptMove<Enemy>(horizontal, vertical);
+                    bool isStillAlive = true;
+
+                    //[Verza] Add check on enemies that can kill the player.
+                    RaycastHit2D hit;
+                    Vector2 end;
+                    CanMove(horizontal, vertical, out hit, out end);
+                    if (hit.transform != null && hit.transform.GetComponent<Enemy>() != null)
+                    {
+                        foreach (Enemy enemy in GameManager.instance.enemies)
+                        {
+                            enemy.TryToKillPlayer(this, out isStillAlive);
+                            if (!isStillAlive) break;
+                        }
+                    }
+
+                    if (isStillAlive)
+                    {
+                        //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
+                        //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
+                        AttemptMove<Enemy>(horizontal, vertical);
+                    }
                 }
             }
         }
@@ -148,7 +166,8 @@ namespace Completed
             RaycastHit2D hit;
 
             //If Move returns true, meaning Player was able to move into an empty space.
-            if (Move(xDir, yDir, out hit))
+            Vector2 end;
+            if (CanMove(xDir, yDir, out hit, out end))
             {
                 //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
                 //SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
@@ -258,13 +277,12 @@ namespace Completed
         //ExecuteGameOver ends the game.
         public void ExecuteGameOver()
         {
+            isStillAlive = false;
             StartCoroutine(ExecuteGameOverCoroutine());
         }
 
         private IEnumerator ExecuteGameOverCoroutine()
         {
-            isAbleToMove = false;
-
             //[Verza]   Verifico esistenza del componente CameraShake sulla Main Camera.
             //          Se esiste, allora shakero la camera alla morte del player.
             //          Altrimenti il personaggio sta fermo, la camera non shakera ma non si spacca niente.

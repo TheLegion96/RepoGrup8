@@ -58,14 +58,10 @@ namespace Completed
             //skipMove = true;
         }
 
-        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
-        public void MoveEnemy()
+        public void CheckNextCell(out int xDir, out int yDir)
         {
-
-            //Declare variables for X and Y axis move directions, these range from -1 to 1.
-            //These values allow us to choose between the cardinal directions: up, down, left and right.
-            int xDir = 0;
-            int yDir = 0;
+            xDir = 0;
+            yDir = 0;
 
             Vector2 newPos;
 
@@ -132,7 +128,7 @@ namespace Completed
                     }
                     ////DA CONTROLLARE 
 
-             
+
                     RaycastHit2D Bullet;
                     Bullet = new RaycastHit2D();
                     boxCollider.enabled = false;
@@ -155,27 +151,52 @@ namespace Completed
                             break;
                     }
                     Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
-                  /*  string name = Bullet.transform.tag;
-                    if(name=="Player")
-                    { hitPlayer.ExecuteGameOver(); }*/
+                    /*  string name = Bullet.transform.tag;
+                      if(name=="Player")
+                      { hitPlayer.ExecuteGameOver(); }*/
                     // Bullet = Physics2D.Linecast(start, end,blockingLayer);
-                    if (Bullet.transform==null)
+                    if (Bullet.transform == null)
                     {
-                      
-                     //   hitPlayer.ExecuteGameOver();
-                    }
-             
-                     
-                    boxCollider.enabled = true;
-               
-                
 
-            
+                        //   hitPlayer.ExecuteGameOver();
+                    }
+
+
+                    boxCollider.enabled = true;
+
+
+
+
                     break;
             }
+        }
+
+        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
+        public void MoveEnemy()
+        {
+
+            //Declare variables for X and Y axis move directions, these range from -1 to 1.
+            //These values allow us to choose between the cardinal directions: up, down, left and right.
+            int xDir = 0;
+            int yDir = 0;
+
+            CheckNextCell(out xDir, out yDir);
+
             AttemptMove<Player>(xDir, yDir);
+        }
 
+        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
+        public void TryToKillPlayer(Player player, out bool isStillAlive)
+        {
 
+            //Declare variables for X and Y axis move directions, these range from -1 to 1.
+            //These values allow us to choose between the cardinal directions: up, down, left and right.
+            int xDir = 0;
+            int yDir = 0;
+
+            CheckNextCell(out xDir, out yDir);
+
+            AttemptAttack(xDir, yDir, player, out isStillAlive);
         }
 
         private void ChangeAwayAiming(ref AIMING posizione)
@@ -198,7 +219,7 @@ namespace Completed
         }
         //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject
         //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
-        Player hitPlayer;
+        //Player hitPlayer;
         protected override void OnCantMove<T>(T component)
         {
             //Declare hitPlayer and set it to equal the encountered component.
@@ -271,6 +292,35 @@ namespace Completed
                 gameObject.SetActive(false);
                 //Destroy(gameObject);
             }
+        }
+
+
+        //The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.
+        //AttemptMove takes a generic parameter T to specify the type of component we expect our unit to interact with if blocked (Player for Enemies, Wall for Player).
+        private void AttemptAttack(int xDir, int yDir, Player player, out bool isStillAlive)
+        {
+            //Hit will store whatever our linecast hits when Move is called.
+            RaycastHit2D hit;
+            Vector2 end;
+            isStillAlive = true;
+
+            //Set canMove to true if Move was successful, false if failed.
+            bool canMove = CanMove(xDir, yDir, out hit, out end);
+
+            //Check if nothing was hit by linecast
+            if (hit.transform == null)
+                //If nothing was hit, return and don't execute further code.
+                return;
+
+            //Get a component reference to the component of type T attached to the object that was hit
+            Player hitComponent = hit.transform.GetComponent<Player>();
+
+            //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
+            if (!canMove && object.Equals(hitComponent, player))
+                isStillAlive = false;
+
+            //Call the OnCantMove function and pass it hitComponent as a parameter.
+            OnCantMove(player);
         }
     }
 
