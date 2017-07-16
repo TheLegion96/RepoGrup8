@@ -132,54 +132,47 @@ namespace Completed
                     }
                     ////DA CONTROLLARE 
 
-                    //start = transform.position;
-                    //RaycastHit2D Bullet;
-                    //boxCollider.enabled = false;
-                    //switch (EnemyAimingWay)
-                    //{
+             
+                    RaycastHit2D Bullet;
+                    Bullet = new RaycastHit2D();
+                    boxCollider.enabled = false;
+                    end = new Vector2(0, 0);
+                    switch (EnemyAimingWay)
+                    {
 
-                    //    case AIMING.down:
+                        case AIMING.down:
+                            end = -transform.up;
+                            break;
+                        case AIMING.up:
+                            end = transform.up;
+                            break;
+                        case AIMING.right:
+                            end = transform.right;
 
-                    //        end = start + new Vector2(transform.position.x, transform.position.y - 3f);
+                            break;
+                        case AIMING.left:
+                            end = -transform.right;
+                            break;
+                    }
+                    Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
+                  /*  string name = Bullet.transform.tag;
+                    if(name=="Player")
+                    { hitPlayer.ExecuteGameOver(); }*/
+                    // Bullet = Physics2D.Linecast(start, end,blockingLayer);
+                    if (Bullet.transform==null)
+                    {
+                      
+                     //   hitPlayer.ExecuteGameOver();
+                    }
+             
+                     
+                    boxCollider.enabled = true;
+               
+                
 
-                    //        break;
-                    //    case AIMING.up:
-                    //        end = start + new Vector2(transform.position.x, transform.position.y + 3f);
-
-                    //        break;
-                    //    case AIMING.right:
-                    //        end = start + new Vector2(transform.position.x +3f, transform.position.y );
-
-                    //        break;
-                    //    case AIMING.left:
-                    //        end = start + new Vector2(transform.position.x-3f, transform.position.y);
-                    //        break;
-                    //}
-                    //Bullet = Physics2D.Linecast(start, end, blockingLayer);
-                    //if (Bullet.transform == null)
-                    //{
-                    //    Debug.Log("YES");
-                    //}
-                    //else
-                    //    Debug.Log(Bullet.transform.name);
-                    //boxCollider.enabled = true;
-
+            
                     break;
             }
-
-
-            ////If the difference in positions is approximately zero (Epsilon) do the following:
-            //if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
-
-            //	//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
-            //	yDir = target.position.y > transform.position.y ? 1 : -1;
-
-            ////If the difference in positions is not approximately zero (Epsilon) do the following:
-            //else
-            //	//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
-            //	xDir = target.position.x > transform.position.x ? 1 : -1;
-
-            //Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
             AttemptMove<Player>(xDir, yDir);
 
 
@@ -190,25 +183,22 @@ namespace Completed
             switch (posizione)
             {
                 case AIMING.down:
-                    Aim.transform.position = new Vector2(transform.position.x - 1f, transform.position.y);
                     posizione = AIMING.left;
                     break;
                 case AIMING.left:
-                    Aim.transform.position = new Vector2(transform.position.x, transform.position.y + 1f);
                     posizione = AIMING.up;
                     break;
                 case AIMING.up:
-                    Aim.transform.position = new Vector2(transform.position.x + 1f, transform.position.y);
                     posizione = AIMING.right;
                     break;
                 case AIMING.right:
-                    Aim.transform.position = new Vector2(transform.position.x, transform.position.y - 1f);
                     posizione = AIMING.down;
                     break;
             }
         }
-        //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject 
+        //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject
         //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
+        Player hitPlayer;
         protected override void OnCantMove<T>(T component)
         {
             //Declare hitPlayer and set it to equal the encountered component.
