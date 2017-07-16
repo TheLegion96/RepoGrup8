@@ -11,7 +11,7 @@ namespace Completed
         public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
-        public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
+        public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
         public Text foodText;                       //UI Text to display current player food total.
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
@@ -124,9 +124,9 @@ namespace Completed
                 //Check if we have a non-zero value for horizontal or vertical
                 if (horizontal != 0 || vertical != 0)
                 {
-                    //Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
+                    //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
                     //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-                    AttemptMove<Wall>(horizontal, vertical);
+                    AttemptMove<Enemy>(horizontal, vertical);
                 }
             }
         }
@@ -168,10 +168,10 @@ namespace Completed
         protected override void OnCantMove<T>(T component)
         {
             //Set hitWall to equal the component passed in as a parameter.
-            Wall hitWall = component as Wall;
+            Enemy hitEnemy = component as Enemy;
 
             //Call the DamageWall function of the Wall we are hitting.
-            hitWall.DamageWall(wallDamage);
+            hitEnemy.DamageEnemy(attackDamage);
 
             //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
             animator.SetTrigger("playerChop");

@@ -43,15 +43,15 @@ namespace Completed
         {
             if (playerMusicSource != null)
             {
-                if (playerMusicSource.isPlaying)
-                {
-                    playerMusicSource.Pause();
+                if (!playerMusicSource.isPlaying)
+                { 
+                    playerMusicSource.Play();
                 }
-                playerMusicSource.Play();
+                playerMusicSource.mute = false;
 
                 yield return new WaitForSeconds(time);
 
-                playerMusicSource.Pause();
+                playerMusicSource.mute = true;
 
                 yield return null;
             }
