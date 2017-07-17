@@ -7,14 +7,14 @@ public class EnemiesPatrol : MonoBehaviour
 
     public Transform[] patrolPoints;
     public float moveSpeed;
-    private int currentPoint;
+    private int patrolIndex;
 
     // Use this for initialization
     void Start()
     {
 
         transform.position = patrolPoints[0].position;
-        currentPoint = 0;
+        patrolIndex = 0;
 
     }
 
@@ -24,17 +24,17 @@ public class EnemiesPatrol : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (transform.position == patrolPoints[currentPoint].position)
+            if (transform.position == patrolPoints[patrolIndex].position)
             {
-                currentPoint++;
+                patrolIndex++;
             }
         }
 
-        if (currentPoint >= patrolPoints.Length)
+        if (patrolIndex >= patrolPoints.Length)
         {
-            currentPoint = 0;
+            patrolIndex = 0;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[currentPoint].position, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[patrolIndex].position, moveSpeed * Time.deltaTime);
     }
 }

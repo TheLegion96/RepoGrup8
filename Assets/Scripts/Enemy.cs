@@ -15,7 +15,7 @@ namespace Completed
         private Transform target;                           //Transform to attempt to move toward each turn.
         private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
         public GameObject Aim;
-        public enum enemyType { Horizzontal, Vertical, Ranged, Mimic };
+        public enum enemyType { Horizzontal, Vertical, Ranged, Mimic, CustomPatrol };
 
         public enemyType enemyTipe;                               // Indica il tipo di nemico
         /*
@@ -29,7 +29,8 @@ namespace Completed
         public float pA, pB;
         private float step = 1f;
         public bool wayOfMovement;
-        public int tick;
+        [SerializeField] private int tick;
+        public int maxTicks;
         public int hp = 1;                          //hit points for the enemy.
         public enum AIMING { up, down, left, right };
         public AIMING EnemyAimingWay;
@@ -37,7 +38,11 @@ namespace Completed
         public Vector2 start;
         public Vector2 end;
 
+        //Patrolling
+        public Transform[] patrolPoints;
+        private int patrolIndex;
 
+        /*
         //Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
         //See comments in MovingObject for more on how base AttemptMove function works.
         protected override void AttemptMove<T>(int xDir, int yDir)
@@ -57,6 +62,7 @@ namespace Completed
             //[Verza] We never skip movements maddaffakka!
             //skipMove = true;
         }
+        */
 
         public void CheckNextCell(out int xDir, out int yDir)
         {
@@ -68,6 +74,21 @@ namespace Completed
 
             switch (enemyTipe)
             {
+                case enemyType.CustomPatrol: //Patrol defined by level designers.
+
+                    if (transform.position == patrolPoints[patrolIndex].position)
+                    {
+                        patrolIndex++;
+                    }
+                    if (patrolIndex >= patrolPoints.Length)
+                    {
+                        patrolIndex = 0;
+                    }
+
+                    xDir = (int)(patrolPoints[patrolIndex].position.x - transform.position.x);
+                    yDir = (int)(patrolPoints[patrolIndex].position.y - transform.position.y);
+                    break;
+
                 case enemyType.Horizzontal://Pattern AB_AsseX
 
                     if (wayOfMovement == true)
@@ -116,70 +137,66 @@ namespace Completed
 
                 case enemyType.Mimic: //Pattern Mimic
 
-                   if(PlayerInfo.new_Coordinate.x>PlayerInfo.old_Coordinate.x)
-                      {
-                      //MoveRight
-                      }
-                      else if(PlayerInfo.new_Coordinate.x<PlayerInfo.old_Coordinate.x)
-                      {
-                      //MoveLeft
-                      }
-                      else if(PlayerInfo.new_Coordinate.y>PlayerInfo.old_Coordinate.y)
-                      {
-                      //MoveDown
-                      }
-                      else if(PlayerInfo.new_Coordinate.y<PlayerInfo.old_Coordinate.y)
-                      {
-                      //MoveUp
-                      }
-                  
+                    if (PlayerInfo.new_Coordinate.x > PlayerInfo.old_Coordinate.x)
+                    {
+                        //MoveRight
+                    }
+                    else if (PlayerInfo.new_Coordinate.x < PlayerInfo.old_Coordinate.x)
+                    {
+                        //MoveLeft
+                    }
+                    else if (PlayerInfo.new_Coordinate.y > PlayerInfo.old_Coordinate.y)
+                    {
+                        //MoveDown
+                    }
+                    else if (PlayerInfo.new_Coordinate.y < PlayerInfo.old_Coordinate.y)
+                    {
+                        //MoveUp
+                    }
+
                     break;
-               case enemyType.Ranged:
+                case enemyType.Ranged:
                     //Pattern RangedEnemy
-                //    if (tick == 0)
-                //    {
-                //        tick++;
-                //    }
-                //    else if (tick == 1)
-                //    {
-                //        ChangeAwayAiming(ref EnemyAimingWay);
-                //        tick = 0;
-                //    }
-                //    ////DA CONTROLLARE 
-                //    RaycastHit2D Bullet;
-                //    Bullet = new RaycastHit2D();
-                //    boxColliderEnemy.enabled = false;
-                //    end = new Vector2(0, 0);
-                //    switch (EnemyAimingWay)
-                //    {
+                    tick++;
+                    if (tick == maxTicks)
+                    {
+                        ChangeAwayAiming(ref EnemyAimingWay);
+                        tick = 0;
+                    }
+                    ////DA CONTROLLARE 
+                    boxColliderEnemy.enabled = false;
+                    end = new Vector2(0, 0);
+                    switch (EnemyAimingWay)
+                    {
 
-                //        case AIMING.down:
-                //            end = -transform.up;
-                //            break;
-                //        case AIMING.up:
-                //            end = transform.up;
-                //            break;
-                //        case AIMING.right:
-                //            end = transform.right;
+                        case AIMING.down:
+                            end = -transform.up;
+                            break;
+                        case AIMING.up:
+                            end = transform.up;
+                            break;
+                        case AIMING.right:
+                            end = transform.right;
+                            break;
+                        case AIMING.left:
+                            end = -transform.right;
+                            break;
+                    }
+                    RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
+                    if (Bullet.collider == null) Bullet = Physics2D.Raycast(transform.position, end, 8f, exitLayer);
 
-                //            break;
-                //        case AIMING.left:
-                //            end = -transform.right;
-                //            break;
-                //    }
-                //    Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
-                //    /*  string name = Bullet.transform.tag;
-                //      if(name=="Player")
-                //      { hitPlayer.ExecuteGameOver(); }*/
-                //    // Bullet = Physics2D.Linecast(start, end,blockingLayer);
-                //   if (Bullet.transform == null)
-                //    {
-                //       //   hitPlayer.ExecuteGameOver();
-                //    }
-                //    else
-                //        Debug.Log(Bullet.transform.name);
-           
-                //    boxColliderEnemy.enabled = true;
+                    if (Bullet.transform.tag == "Player")
+                    {
+                        Bullet.transform.GetComponent<Player>().ExecuteGameOver();
+                    }
+
+                    //if (Bullet.transform == null)
+                    //{
+                    //    hitPlayer.ExecuteGameOver();
+                    //}
+                    //else Debug.Log(Bullet.transform.name);
+
+                    boxColliderEnemy.enabled = true;
                     break;
             }
         }
@@ -310,6 +327,16 @@ namespace Completed
                 GameManager.instance.RemoveEnemyFromList(this);
                 gameObject.SetActive(false);
                 //Destroy(gameObject);
+
+                //[Verza]   Verifico esistenza del componente CameraShake sulla Main Camera.
+                //          Se esiste, allora shakero la camera alla morte del player.
+                //          Altrimenti il personaggio sta fermo, la camera non shakera ma non si spacca niente.
+                CameraShake cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+                if (cameraShake != null)
+                {
+                    // Call al metodo di Shake.
+                    cameraShake.ShakeCamera(0.1f, 0.1f);
+                }
             }
         }
 
