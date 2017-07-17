@@ -23,6 +23,7 @@ namespace Completed
 
         private Animator animator;                  //Used to store a reference to the Player's animator component.
         private int totalTurns;                     //Used to store player turns total during level.
+        public Vector2 old_Coordinate, new_Coordinate;
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
@@ -73,7 +74,7 @@ namespace Completed
 
                 //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
                 vertical = (int)(Input.GetAxisRaw("Vertical"));
-
+                old_Coordinate = this.transform.position;
                 //Check if moving horizontally, if so set vertical to zero.
                 if (horizontal != 0)
                 {
@@ -122,7 +123,7 @@ namespace Completed
 			
 #endif //End of mobile platform dependendent compilation section started above with #elif
                 //Check if we have a non-zero value for horizontal or vertical
-                if (horizontal != 0 || vertical != 0)
+               if (horizontal != 0 || vertical != 0)
                 {
                     bool isStillAlive = true;
 
@@ -148,7 +149,7 @@ namespace Completed
                 }
             }
         }
-
+       
         //AttemptMove overrides the AttemptMove function in the base class MovingObject
         //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
         protected override void AttemptMove<T>(int xDir, int yDir)
@@ -157,7 +158,7 @@ namespace Completed
             totalTurns++;
 
             //Update food text display to reflect current score.
-            foodText.text = "Food: " + totalTurns;
+            foodText.text = "Turni: " + totalTurns;
 
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
@@ -176,7 +177,7 @@ namespace Completed
                     StartCoroutine(SoundManager.instance.PlayNextStep(0.5f));//moveTime * 5));
                 }
             }
-
+            new_Coordinate = this.transform.position;
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
             GameManager.instance.playersTurn = false;
         }
