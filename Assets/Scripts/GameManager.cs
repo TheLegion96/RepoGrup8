@@ -11,6 +11,7 @@ namespace Completed
     {
         public enum State
         {
+            LevelStart,
             Play,
             Pause
         }
@@ -102,6 +103,8 @@ namespace Completed
         //Initializes the game for each level.
         void InitGame()
         {
+            state = State.LevelStart;
+
             //While doingSetup is true the player can't move, prevent player from moving while title card is up.
             doingSetup = true;
 
@@ -171,6 +174,8 @@ namespace Completed
 
             //Set doingSetup to false allowing player to move again.
             doingSetup = false;
+
+            state = State.Play;
         }
 
         //Update is called every frame.

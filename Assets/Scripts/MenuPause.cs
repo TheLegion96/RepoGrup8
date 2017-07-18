@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using Completed;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuPause : MonoBehaviour {
+public class MenuPause : MonoBehaviour
+{
 
     public Transform[] pause;
     public float bookSpeed;
@@ -10,16 +12,18 @@ public class MenuPause : MonoBehaviour {
     private int pauseIndex;
     //public GameObject obj;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
         transform.position = pause[0].position;
         pauseIndex = 0;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -27,16 +31,15 @@ public class MenuPause : MonoBehaviour {
             {
                 pauseIndex++;
                 GetComponent<AudioSource>().Play();
-                
+                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
             }
         }
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (pauseIndex >= pause.Length)
             {
                 pauseIndex = 0;
-                
+                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;
             }
         }
 
@@ -44,7 +47,7 @@ public class MenuPause : MonoBehaviour {
         {
             //Time.timeScale = 0;
         }
-        
+
 
         transform.position = Vector3.MoveTowards(transform.position, pause[pauseIndex].position, bookSpeed * Time.deltaTime); // Move the object to Arrays
 
@@ -63,6 +66,6 @@ public class MenuPause : MonoBehaviour {
         } /*else if(Input.GetKeyDown(KeyCode.P) && isPaused) {
             transform.position = new Vector3(0f, 10f, 0);
             isPaused = false;*/
-        
-	}
+
+    }
 }

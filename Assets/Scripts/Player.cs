@@ -66,7 +66,12 @@ namespace Completed
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
-            if (GameManager.instance.state == GameManager.State.Play && isStillAlive)
+            if (GameManager.instance.state == GameManager.State.Play && isStillAlive && (
+                Input.GetKeyDown(KeyCode.UpArrow) ||
+                Input.GetKeyDown(KeyCode.DownArrow) ||
+                Input.GetKeyDown(KeyCode.LeftArrow) ||
+                Input.GetKeyDown(KeyCode.RightArrow)
+                ))
             {
 
                 int horizontal = 0;     //Used to store the horizontal move direction.
