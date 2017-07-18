@@ -224,7 +224,7 @@ namespace Completed
                 totalTurns -= pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerFood + " Food: " + totalTurns;
+                foodText.text = "-" + pointsPerFood + " Turni: " + totalTurns;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -240,7 +240,7 @@ namespace Completed
                 totalTurns -= pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerSoda + " Food: " + totalTurns;
+                foodText.text = "-" + pointsPerSoda + " Turni: " + totalTurns;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);

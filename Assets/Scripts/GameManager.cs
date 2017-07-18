@@ -92,6 +92,10 @@ namespace Completed
         {
             instance.level = SceneManager.GetActiveScene().buildIndex + 1;
             instance.InitGame();
+            if (instance.level == 1)
+            {
+                instance.playerTotalTurns = 0;
+            }
         }
 
 
@@ -210,7 +214,7 @@ namespace Completed
         public void GameOver()
         {
             //Set levelText to display number of levels passed and game over message
-            levelText.text = "You Died in level: " + level;
+            levelText.text = "Sei morto nel livello " + level + "!";
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);
