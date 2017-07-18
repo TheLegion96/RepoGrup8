@@ -40,7 +40,7 @@ namespace Completed
             totalTurns = GameManager.instance.playerTotalTurns;
 
             //Set the foodText to reflect the current player food total.
-            foodText.text = "Turns: " + totalTurns;
+            foodText.text = "Turni: " + totalTurns;
 
             //Call the Start function of the MovingObject base class.
             base.Start();
