@@ -7,39 +7,54 @@ namespace Completed
     //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
     public class Enemy : MovingObject
     {
-        public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
-        public AudioClip attackSound1;                      //First of two audio clips to play when attacking the player.
-        public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
+        //public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
 
         private BoxCollider2D boxColliderEnemy;
         private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
-        private Transform target;                           //Transform to attempt to move toward each turn.
-        private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
-   
-        public enum enemyType { Horizzontal, Vertical, Ranged, Mimic, CustomPatrol };
+        //private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
 
-        public enemyType enemyTipe;                               // Indica il tipo di nemico
-        /*
-         0 Movimento A => B su Asse X
-         1 Movimento A => B su Asse Y
-         2 Movimento Doppleganger Comandi riflessi rispetto al player
-         3 Movimento Auto Rotativo Nemico Ranged
-         ...
-             */
+        // Enumeratori
+        public enum enemyType {
+            Horizontal,     // 0 Movimento A => B su Asse X
+            Vertical,       // 1 Movimento A => B su Asse Y
+            Ranged,         // 2 Movimento Auto Rotativo Nemico Ranged
+            /* Mimic, */    // 3 Movimento Doppleganger Comandi riflessi rispetto al player
+            CustomPatrol    // 4 Movimento custom definito da Unity
+        };
+        public enum AIMING {
+            up,
+            down,
+            left,
+            right
+        };
 
-        public float pA, pB;
-        private float step = 1f;
-        public bool wayOfMovement;
-        [SerializeField] private int tick;
-        public int maxTicks;
-        public int hp = 1;                          //hit points for the enemy.
-        public enum AIMING { up, down, left, right };
-        public AIMING EnemyAimingWay;
-        public Player PlayerInfo;
+        //Suoni di attacco
+        [Header("Sounds")]
+        public AudioClip attackSound1;                      //First of two audio clips to play when attacking the player.
+        public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
+
+        [Header("Enemy properties")]
+        public enemyType enemyTipe;                         // Indica il tipo di nemico
+        public int hp = 1;                                  //hit points for the enemy.
         public Vector2 start;
         public Vector2 end;
 
+        [Header("Horizontal/Vertical only")]
+        private float step = 1f;
+        public float pA;
+        public float pB;
+        public bool wayOfMovement;
+
+        [Header("Ranged only")]
+        public int maxTicks;
+        public AIMING EnemyAimingWay;
+        private int tick;
+
+        [Header("Mimic only (DON'T USE IT!)")]
+        public Player PlayerInfo;
+
         //Patrolling
+        [Header("Patrolling only")]
         public Transform[] patrolPoints;
         private int patrolIndex;
 
@@ -90,7 +105,7 @@ namespace Completed
                     yDir = (int)(patrolPoints[patrolIndex].position.y - transform.position.y);
                     break;
 
-                case enemyType.Horizzontal://Pattern AB_AsseX
+                case enemyType.Horizontal://Pattern AB_AsseX
 
                     if (wayOfMovement == true)
                     {
@@ -136,6 +151,7 @@ namespace Completed
                     break;
 
 
+                /*
                 case enemyType.Mimic: //Pattern Mimic
 
                     if (PlayerInfo.new_Coordinate.x > PlayerInfo.old_Coordinate.x)
@@ -156,77 +172,85 @@ namespace Completed
                     }
 
                     break;
+                */
+
                 case enemyType.Ranged:
                     //Pattern RangedEnemy
                     boxColliderEnemy.enabled = false;
-                    end = new Vector2(0, 0);
-                    switch (EnemyAimingWay)
-                    {
 
-                        case AIMING.down:
-                            end = -transform.up;
-                            break;
-                        case AIMING.up:
-                            end = transform.up;
-                            break;
-                        case AIMING.right:
-                            end = transform.right;
-                            break;
-                        case AIMING.left:
-                            end = -transform.right;
-                            break;
-                    }
+                    end = GetVectorDirection(EnemyAimingWay);
+                    
                     tick++;
                     if (tick == maxTicks)
-                    {/*
-                       // ChangeAwayAiming(ref EnemyAimingWay);
-                        RaycastHit2D CheckWall = new RaycastHit2D();
-                        CheckWall = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
-                        if (CheckWall)
-                        {
-                            ChangeAwayAiming(ref EnemyAimingWay);
-                            do
+                    {
+                        int i = 0;
+                        bool isStoneRaycasted;
+
+                        ChangeAimingDirection(ref EnemyAimingWay);
+                        end = GetVectorDirection(EnemyAimingWay);
+
+                        RaycastHit2D CheckBlockingLayerObject;
+                        do {
+                            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
+
+                            isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
+
+                            if (isStoneRaycasted)
                             {
-                                
-                                CheckWall = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);                               
-                                if(CheckWall)
+                                i++;
+
+                                ChangeAimingDirection(ref EnemyAimingWay);
+                                end = GetVectorDirection(EnemyAimingWay);
+
+                                // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
+                                if (i == 3)
                                 {
-                                    ChangeAwayAiming(ref EnemyAimingWay);
+                                    break;
                                 }
-                            } while (CheckWall.transform.tag == "Stone");
-                        }*/
+                            }
+                        } while (isStoneRaycasted);
+
                         tick = 0;
                     }
-                    ////DA CONTROLLARE 
-                
-                    end = new Vector2(0, 0);
-                    switch (EnemyAimingWay)
-                    {
-
-                        case AIMING.down:
-                            end = -transform.up;
-                            break;
-                        case AIMING.up:
-                            end = transform.up;
-                            break;
-                        case AIMING.right:
-                            end = transform.right;
-                            break;
-                        case AIMING.left:
-                            end = -transform.right;
-                            break;
-                    }
+                    
                     RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
-                    if (Bullet.collider == null) Bullet = Physics2D.Raycast(transform.position, end, 8f, exitLayer);
+                    if (Bullet.collider == null)
+                    { 
+                        // Check se sto beccando la porta.
+                        Bullet = Physics2D.Raycast(transform.position, end, 8f, exitLayer);
+                    }
 
-                    if (Bullet.transform.tag == "Player")
+                    if (Bullet.transform != null && Bullet.transform.tag == "Player")
                     {
                         Bullet.transform.GetComponent<Player>().ExecuteGameOver();
                     }
                     boxColliderEnemy.enabled = true;
                     break;
             }
-       }
+        }
+
+        private Vector2 GetVectorDirection(AIMING aimingDirection) {
+            Vector2 direction = new Vector2();
+
+            switch (aimingDirection)
+            {
+                case AIMING.down:
+                    direction = -transform.up;
+                    break;
+                case AIMING.up:
+                    direction = transform.up;
+                    break;
+                case AIMING.right:
+                    direction = transform.right;
+                    break;
+                case AIMING.left:
+                    direction = -transform.right;
+                    break;
+            }
+
+            return direction;
+        }
+
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void MoveEnemy()
         {
@@ -255,7 +279,7 @@ namespace Completed
             AttemptAttack(xDir, yDir, player, out isStillAlive);
         }
 
-        private void ChangeAwayAiming(ref AIMING posizione)
+        private void ChangeAimingDirection(ref AIMING posizione)
         {
             switch (posizione)
             {
@@ -310,10 +334,7 @@ namespace Completed
             //Get and store a reference to the attached Animator component.
             animator = GetComponent<Animator>();
 
-            //Find the Player GameObject using it's tag and store a reference to its transform component.
-            target = GameObject.FindGameObjectWithTag("Player").transform;
-
-            if (enemyTipe == enemyType.Horizzontal)
+            if (enemyTipe == enemyType.Horizontal)
             {
 
                 pA = this.transform.position.x + 3f;

@@ -60,7 +60,7 @@ namespace Completed
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
-            if (isStillAlive)
+            if (GameManager.instance.state == GameManager.State.Play && isStillAlive)
             {
 
                 int horizontal = 0;     //Used to store the horizontal move direction.
