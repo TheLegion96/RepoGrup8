@@ -9,7 +9,8 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        public enum State {
+        public enum State
+        {
             Play,
             Pause
         }
@@ -32,7 +33,7 @@ namespace Completed
 
         //[Verza] Added new property in order to change scene title.
         private string title;
-        private bool setRestartAvailable=false;
+        private bool setRestartAvailable = false;
 
         public string Title
         {
@@ -89,7 +90,7 @@ namespace Completed
         //This is called each time a scene is loaded.
         static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            instance.level++;
+            instance.level = SceneManager.GetActiveScene().buildIndex + 1;
             instance.InitGame();
         }
 
@@ -102,23 +103,30 @@ namespace Completed
 
             //Get a reference to our image LevelImage by finding it by name.
             levelImage = GameObject.Find("LevelImage");
+            if (levelImage != null)
+            {
+                GameObject leveTextGameObject = GameObject.Find("LevelText");
 
-            //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-            levelText = GameObject.Find("LevelText").GetComponent<Text>();
+                if (leveTextGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    levelText = leveTextGameObject.GetComponent<Text>();
 
-            //Set the text of levelText to the string "Day" and append the current level number.
-            //levelText.text = "Day " + level;
-            //[Verza] Added dynamic title.
-            UpdateSceneTitle(levelText);
+                    //Set the text of levelText to the string "Day" and append the current level number.
+                    //levelText.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    UpdateSceneTitle(levelText);
 
-            //[Verza] Moving title block.
-            StartCoroutine(MoveTitleBlock());
+                    //[Verza] Moving title block.
+                    StartCoroutine(MoveTitleBlock());
 
-            //Set levelImage to active blocking player's view of the game board during setup.
-            levelImage.SetActive(true);
+                    //Set levelImage to active blocking player's view of the game board during setup.
+                    levelImage.SetActive(true);
 
-            //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-            Invoke("HideLevelImage", levelStartDelay);
+                    //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
+                    Invoke("HideLevelImage", levelStartDelay);
+                }
+            }
 
             //Clear any Enemy objects in our List to prepare for next level.
             enemies.Clear();
@@ -180,7 +188,7 @@ namespace Completed
 
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
-           
+
         }
 
         //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -209,7 +217,7 @@ namespace Completed
 
             setRestartAvailable = true;
             //Disable this GameManager.
-           // enabled = false;
+            // enabled = false;
         }
 
         //Coroutine to move enemies in sequence.

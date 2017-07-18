@@ -57,6 +57,12 @@ namespace Completed
 
         private void Update()
         {
+            if (GameManager.instance == null)
+            {
+                Debug.LogError("Qualcosa si è rotto nel GameManager!");
+                return;
+            }
+
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
