@@ -32,6 +32,7 @@ namespace Completed
 
         //[Verza] Added new property in order to change scene title.
         private string title;
+        private bool setRestartAvailable=false;
 
         public string Title
         {
@@ -163,6 +164,14 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
+            if (setRestartAvailable == true)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+
+            }
             //Check that  or enemiesMoving or doingSetup are not currently true.
             if (playersTurn || enemiesMoving || doingSetup)
 
@@ -171,6 +180,7 @@ namespace Completed
 
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
+           
         }
 
         //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -192,13 +202,14 @@ namespace Completed
         public void GameOver()
         {
             //Set levelText to display number of levels passed and game over message
-            levelText.text = "After " + level + " days, you starved.";
+            levelText.text = "You Died in level: " + level;
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);
 
+            setRestartAvailable = true;
             //Disable this GameManager.
-            enabled = false;
+           // enabled = false;
         }
 
         //Coroutine to move enemies in sequence.
