@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Completed
 {
@@ -14,7 +15,7 @@ namespace Completed
         private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
         private Transform target;                           //Transform to attempt to move toward each turn.
         private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
-        public GameObject Aim;
+   
         public enum enemyType { Horizzontal, Vertical, Ranged, Mimic, CustomPatrol };
 
         public enemyType enemyTipe;                               // Indica il tipo di nemico
@@ -157,14 +158,47 @@ namespace Completed
                     break;
                 case enemyType.Ranged:
                     //Pattern RangedEnemy
+                    boxColliderEnemy.enabled = false;
+                    end = new Vector2(0, 0);
+                    switch (EnemyAimingWay)
+                    {
+
+                        case AIMING.down:
+                            end = -transform.up;
+                            break;
+                        case AIMING.up:
+                            end = transform.up;
+                            break;
+                        case AIMING.right:
+                            end = transform.right;
+                            break;
+                        case AIMING.left:
+                            end = -transform.right;
+                            break;
+                    }
                     tick++;
                     if (tick == maxTicks)
-                    {
-                        ChangeAwayAiming(ref EnemyAimingWay);
+                    {/*
+                       // ChangeAwayAiming(ref EnemyAimingWay);
+                        RaycastHit2D CheckWall = new RaycastHit2D();
+                        CheckWall = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
+                        if (CheckWall)
+                        {
+                            ChangeAwayAiming(ref EnemyAimingWay);
+                            do
+                            {
+                                
+                                CheckWall = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);                               
+                                if(CheckWall)
+                                {
+                                    ChangeAwayAiming(ref EnemyAimingWay);
+                                }
+                            } while (CheckWall.transform.tag == "Stone");
+                        }*/
                         tick = 0;
                     }
                     ////DA CONTROLLARE 
-                    boxColliderEnemy.enabled = false;
+                
                     end = new Vector2(0, 0);
                     switch (EnemyAimingWay)
                     {
@@ -189,22 +223,10 @@ namespace Completed
                     {
                         Bullet.transform.GetComponent<Player>().ExecuteGameOver();
                     }
-
-                    //if (Bullet.transform == null)
-                    //{
-                    //    hitPlayer.ExecuteGameOver();
-                    //}
-                    //else Debug.Log(Bullet.transform.name);
-
                     boxColliderEnemy.enabled = true;
                     break;
             }
-        }
-        public void getPlayerInfo(Player informazioni)
-        {
-
-
-        }
+       }
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void MoveEnemy()
         {
