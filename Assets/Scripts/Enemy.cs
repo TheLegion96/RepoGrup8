@@ -21,12 +21,6 @@ namespace Completed
             /* Mimic, */    // 3 Movimento Doppleganger Comandi riflessi rispetto al player
             CustomPatrol    // 4 Movimento custom definito da Unity
         };
-        public enum AIMING {
-            up,
-            down,
-            left,
-            right
-        };
 
         //Suoni di attacco
         [Header("Sounds")]
@@ -47,7 +41,7 @@ namespace Completed
 
         [Header("Ranged only")]
         public int maxTicks;
-        public AIMING EnemyAimingWay;
+        public LineOfSight EnemyAimingWay;
         private int tick;
 
         [Header("Mimic only (DON'T USE IT!)")]
@@ -79,6 +73,39 @@ namespace Completed
             //skipMove = true;
         }
         */
+
+
+        //Start overrides the virtual Start function of the base class. 
+        protected override void Start()
+        {
+            boxColliderEnemy = GetComponent<BoxCollider2D>();
+            //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
+            //This allows the GameManager to issue movement commands.
+            GameManager.instance.AddEnemyToList(this);
+
+            //Get and store a reference to the attached Animator component.
+            animator = GetComponent<Animator>();
+
+            if (enemyTipe == enemyType.Horizontal)
+            {
+
+                pA = this.transform.position.x + 3f;
+                pB = this.transform.position.x - 3f;
+            }
+            else if (enemyTipe == enemyType.Vertical)
+            {
+                pA = this.transform.position.y + 3f;
+                pB = this.transform.position.y - 3f;
+
+            }
+            //Call the start function of our base class MovingObject.
+            base.Start();
+
+            if (enemyTipe == enemyType.Ranged)
+            {
+                ChangeSightAnimation(EnemyAimingWay);
+            }
+        }
 
         public void CheckNextCell(out int xDir, out int yDir)
         {
@@ -210,9 +237,11 @@ namespace Completed
                             }
                         } while (isStoneRaycasted);
 
+                        ChangeSightAnimation(EnemyAimingWay);
                         tick = 0;
                     }
-                    
+
+
                     RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
                     if (Bullet.collider == null)
                     { 
@@ -229,21 +258,21 @@ namespace Completed
             }
         }
 
-        private Vector2 GetVectorDirection(AIMING aimingDirection) {
+        private Vector2 GetVectorDirection(LineOfSight aimingDirection) {
             Vector2 direction = new Vector2();
 
             switch (aimingDirection)
             {
-                case AIMING.down:
+                case LineOfSight.down:
                     direction = -transform.up;
                     break;
-                case AIMING.up:
+                case LineOfSight.up:
                     direction = transform.up;
                     break;
-                case AIMING.right:
+                case LineOfSight.right:
                     direction = transform.right;
                     break;
-                case AIMING.left:
+                case LineOfSight.left:
                     direction = -transform.right;
                     break;
             }
@@ -279,21 +308,21 @@ namespace Completed
             AttemptAttack(xDir, yDir, player, out isStillAlive);
         }
 
-        private void ChangeAimingDirection(ref AIMING posizione)
+        private void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
             {
-                case AIMING.down:
-                    posizione = AIMING.left;
+                case LineOfSight.down:
+                    posizione = LineOfSight.left;
                     break;
-                case AIMING.left:
-                    posizione = AIMING.up;
+                case LineOfSight.left:
+                    posizione = LineOfSight.up;
                     break;
-                case AIMING.up:
-                    posizione = AIMING.right;
+                case LineOfSight.up:
+                    posizione = LineOfSight.right;
                     break;
-                case AIMING.right:
-                    posizione = AIMING.down;
+                case LineOfSight.right:
+                    posizione = LineOfSight.down;
                     break;
             }
         }
@@ -323,32 +352,6 @@ namespace Completed
 
 
 
-        //Start overrides the virtual Start function of the base class. 
-        protected override void Start()
-        {
-            boxColliderEnemy = GetComponent<BoxCollider2D>();
-            //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
-            //This allows the GameManager to issue movement commands.
-            GameManager.instance.AddEnemyToList(this);
-
-            //Get and store a reference to the attached Animator component.
-            animator = GetComponent<Animator>();
-
-            if (enemyTipe == enemyType.Horizontal)
-            {
-
-                pA = this.transform.position.x + 3f;
-                pB = this.transform.position.x - 3f;
-            }
-            else if (enemyTipe == enemyType.Vertical)
-            {
-                pA = this.transform.position.y + 3f;
-                pB = this.transform.position.y - 3f;
-
-            }
-            //Call the start function of our base class MovingObject.
-            base.Start();
-        }
 
 
         //DamageWall is called when the player attacks a wall.
