@@ -7,6 +7,7 @@ public class MenuPause : MonoBehaviour
 {
 
     public Transform[] pause;
+    public Player player;
     public float bookSpeed;
     private bool isPaused = false;
     private int pauseIndex;
@@ -25,7 +26,7 @@ public class MenuPause : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
         {
             if (transform.position == pause[pauseIndex].position)
             {
@@ -34,13 +35,14 @@ public class MenuPause : MonoBehaviour
                 if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
             }
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
         {
             if (pauseIndex >= pause.Length)
             {
                 pauseIndex = 0;
-                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;
+                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;   
             }
+
         }
 
         if (transform.position == pause[1].position)
