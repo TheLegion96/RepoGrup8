@@ -139,5 +139,47 @@ namespace Completed
         //OnCantMove will be overriden by functions in the inheriting classes.
         protected abstract void OnCantMove<T>(T component)
             where T : Component;
+
+
+        //Prova Cambio Animazione Oggetto
+        //-----------------------------------------------FASE SPERIMENTALE NON TOCCARE, GRAZIE------------------------------------------------------------------------------------------
+        protected enum LineOfSight { up, left, down, right }
+        protected Animation _animation;
+
+        protected LineOfSight Sight;
+
+        protected void ChangeSightAnimation(ref LineOfSight sight)
+        {
+            _animation.GetComponent<Animation>();
+            switch (sight)
+            {
+                case LineOfSight.up:
+                    _animation.Play("Up");
+                    break;
+
+                case LineOfSight.right:
+                    _animation.Play("Right");
+                    break;
+
+                case LineOfSight.down:
+                    _animation.Play("Down");
+                    break;
+
+                case LineOfSight.left:
+                    _animation.Play("Left");
+                    break;
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

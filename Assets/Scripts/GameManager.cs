@@ -219,7 +219,7 @@ namespace Completed
         public void GameOver()
         {
             //Set levelText to display number of levels passed and game over message
-            levelText.text = "Sei morto nel livello " + level + "!";
+            levelText.text = "Sei morto nel livello " + level + "!\n Premi R per ricominciare il quadro";
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);

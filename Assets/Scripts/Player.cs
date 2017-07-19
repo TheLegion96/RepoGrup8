@@ -20,7 +20,7 @@ namespace Completed
         public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound;             //Audio clip to play when player dies.
-
+       
         private Animator animator;                  //Used to store a reference to the Player's animator component.
         private int totalTurns;                     //Used to store player turns total during level.
         public Vector2 old_Coordinate, new_Coordinate;
