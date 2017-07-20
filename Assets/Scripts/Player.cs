@@ -33,6 +33,7 @@ namespace Completed
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
+            this.GetComponent<BoxCollider2D>().enabled = true;
             //Get a component reference to the Player's animator component
             animator = GetComponent<Animator>();
 
@@ -146,7 +147,7 @@ namespace Completed
                     {
                         foreach (Enemy enemy in GameManager.instance.enemies)
                         {
-                            enemy.TryToKillPlayer(this, out isStillAlive);
+                             enemy.TryToKillPlayer(this, out isStillAlive);
                             if (!isStillAlive) break;
                         }
                     }
@@ -216,7 +217,9 @@ namespace Completed
             if (other.tag == "Exit")
             {
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+                this.GetComponent<BoxCollider2D>().enabled = false;
                 Invoke("Restart", restartLevelDelay);
+
 
                 //Disable the player object since level is over.
                 enabled = false;

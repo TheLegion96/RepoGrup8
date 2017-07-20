@@ -53,7 +53,7 @@ namespace Completed
 
             //Cast a line from start point to end point checking collision on blockingLayer.
             hit = Physics2D.Linecast(start, end, blockingLayer);
-
+          
             //Re-enable boxCollider after linecast
             boxCollider.enabled = true;
 
@@ -62,6 +62,10 @@ namespace Completed
             {
                 //Return true to say that Move was successful
                 return true;
+
+            }else
+            {
+                Debug.Log(hit.transform.tag);
             }
 
             //If something was hit, return false, Move was unsuccesful.

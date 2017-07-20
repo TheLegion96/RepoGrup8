@@ -79,6 +79,7 @@ namespace Completed
         //Start overrides the virtual Start function of the base class. 
         protected override void Start()
         {
+            
             boxColliderEnemy = GetComponent<BoxCollider2D>();
             //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
             //This allows the GameManager to issue movement commands.
@@ -101,7 +102,6 @@ namespace Completed
             }
             //Call the start function of our base class MovingObject.
             base.Start();
-
             if (enemyTipe == enemyType.Ranged)
             {
                 ChangeSightAnimation(EnemyAimingWay);
@@ -296,21 +296,9 @@ namespace Completed
 
             AttemptMove<Player>(xDir, yDir);
         }
-
-        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
-        public void TryToKillPlayer(Player player, out bool isStillAlive)
-        {
-
-            //Declare variables for X and Y axis move directions, these range from -1 to 1.
-            //These values allow us to choose between the cardinal directions: up, down, left and right.
-            int xDir = 0;
-            int yDir = 0;
-
-            CheckNextCell(out xDir, out yDir);
-
-            AttemptAttack(xDir, yDir, player, out isStillAlive);
-        }
-
+        
+      
+      
         private void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
@@ -343,7 +331,7 @@ namespace Completed
             //	hitPlayer.LoseFood (playerDamage);
 
             //Set the attack trigger of animator to trigger Enemy attack animation.
-            animator.SetTrigger("enemyAttack");
+          //  animator.SetTrigger("enemyAttack");
 
             //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
             SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
@@ -418,6 +406,23 @@ namespace Completed
                 //Call the OnCantMove function and pass it hitComponent as a parameter.
                 OnCantMove(player);
             }
+        }
+
+
+
+       //------------------------------------------------------DA FIXARE---------------------------------------------------------------
+        //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
+        public void TryToKillPlayer(Player player, out bool isStillAlive)
+        {
+
+            //Declare variables for X and Y axis move directions, these range from -1 to 1.
+            //These values allow us to choose between the cardinal directions: up, down, left and right.
+            int xDir = 0;
+            int yDir = 0;
+
+            CheckNextCell(out xDir, out yDir);
+
+            AttemptAttack(xDir, yDir, player, out isStillAlive);
         }
     }
 
