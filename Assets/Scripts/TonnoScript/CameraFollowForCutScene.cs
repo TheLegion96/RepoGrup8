@@ -7,7 +7,7 @@ public class CameraFollowForCutScene : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        transform.position = new Vector3(ImmaginiDellaScena[0].transform.position.x, ImmaginiDellaScena[0].transform.position.y,0);
+		transform.position = new Vector3 (ImmaginiDellaScena [0].transform.position.x, ImmaginiDellaScena [0].transform.position.y, -1);
             }
     int i = 0;
     int iNext;
