@@ -63,10 +63,10 @@ namespace Completed
                 //Return true to say that Move was successful
                 return true;
 
-            }else
+            }/*else
             {
                 Debug.Log(hit.transform.tag);
-            }
+            }*/
 
             //If something was hit, return false, Move was unsuccesful.
             return false;

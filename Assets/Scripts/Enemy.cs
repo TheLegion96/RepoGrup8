@@ -11,7 +11,7 @@ namespace Completed
 
         private BoxCollider2D boxColliderEnemy;
         private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
-        //private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
+        private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
 
         // Enumeratori
         public enum enemyType
@@ -73,7 +73,7 @@ namespace Completed
             //[Verza] We never skip movements maddaffakka!
             //skipMove = true;
         }
-        */
+*/        
 
 
         //Start overrides the virtual Start function of the base class. 
@@ -244,11 +244,11 @@ namespace Completed
                     }
 
 
-                    RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
+                    RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 9f, blockingLayer);
                     if (Bullet.collider == null)
                     {
                         // Check se sto beccando la porta.
-                        Bullet = Physics2D.Raycast(transform.position, end, 8f, exitLayer);
+                        Bullet = Physics2D.Raycast(transform.position, end, 9f, exitLayer);
                     }
 
                     if (Bullet.transform != null && Bullet.transform.tag == "Player")
@@ -267,7 +267,7 @@ namespace Completed
             switch (aimingDirection)
             {
                 case LineOfSight.down:
-                    direction = -transform.up;
+                    direction = -transform.up; 
                     break;
                 case LineOfSight.up:
                     direction = transform.up;
