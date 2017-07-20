@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PatrollingEnemy : Enemy
 {
-
+    [Header("Patrolling only")]
     public Transform[] patrolPoints;
     private int patrolIndex;
 
