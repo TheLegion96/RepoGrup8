@@ -14,7 +14,8 @@ namespace Completed
         //private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
 
         // Enumeratori
-        public enum enemyType {
+        public enum enemyType
+        {
             Horizontal,     // 0 Movimento A => B su Asse X
             Vertical,       // 1 Movimento A => B su Asse Y
             Ranged,         // 2 Movimento Auto Rotativo Nemico Ranged
@@ -206,7 +207,7 @@ namespace Completed
                     boxColliderEnemy.enabled = false;
 
                     end = GetVectorDirection(EnemyAimingWay);
-                    
+
                     tick++;
                     if (tick == maxTicks)
                     {
@@ -217,7 +218,8 @@ namespace Completed
                         end = GetVectorDirection(EnemyAimingWay);
 
                         RaycastHit2D CheckBlockingLayerObject;
-                        do {
+                        do
+                        {
                             CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
 
                             isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
@@ -244,7 +246,7 @@ namespace Completed
 
                     RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 8f, blockingLayer);
                     if (Bullet.collider == null)
-                    { 
+                    {
                         // Check se sto beccando la porta.
                         Bullet = Physics2D.Raycast(transform.position, end, 8f, exitLayer);
                     }
@@ -258,7 +260,8 @@ namespace Completed
             }
         }
 
-        private Vector2 GetVectorDirection(LineOfSight aimingDirection) {
+        private Vector2 GetVectorDirection(LineOfSight aimingDirection)
+        {
             Vector2 direction = new Vector2();
 
             switch (aimingDirection)
@@ -409,10 +412,12 @@ namespace Completed
 
             //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
             if (!canMove && object.Equals(hitComponent, player))
+            {
                 isStillAlive = false;
 
-            //Call the OnCantMove function and pass it hitComponent as a parameter.
-            OnCantMove(player);
+                //Call the OnCantMove function and pass it hitComponent as a parameter.
+                OnCantMove(player);
+            }
         }
     }
 
