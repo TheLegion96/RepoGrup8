@@ -9,7 +9,9 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        public enum State {
+        public enum State
+        {
+            LevelStart,
             Play,
             Pause
         }
@@ -32,7 +34,7 @@ namespace Completed
 
         //[Verza] Added new property in order to change scene title.
         private string title;
-        private bool setRestartAvailable=false;
+        private bool setRestartAvailable = false;
 
         public string Title
         {
@@ -89,36 +91,49 @@ namespace Completed
         //This is called each time a scene is loaded.
         static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            instance.level++;
+            instance.level = SceneManager.GetActiveScene().buildIndex + 1;
             instance.InitGame();
+            if (instance.level == 1)
+            {
+                instance.playerTotalTurns = 0;
+            }
         }
 
 
         //Initializes the game for each level.
         void InitGame()
         {
+            state = State.LevelStart;
+
             //While doingSetup is true the player can't move, prevent player from moving while title card is up.
             doingSetup = true;
 
             //Get a reference to our image LevelImage by finding it by name.
             levelImage = GameObject.Find("LevelImage");
+            if (levelImage != null)
+            {
+                GameObject leveTextGameObject = GameObject.Find("LevelText");
 
-            //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-            levelText = GameObject.Find("LevelText").GetComponent<Text>();
+                if (leveTextGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    levelText = leveTextGameObject.GetComponent<Text>();
 
-            //Set the text of levelText to the string "Day" and append the current level number.
-            //levelText.text = "Day " + level;
-            //[Verza] Added dynamic title.
-            UpdateSceneTitle(levelText);
+                    //Set the text of levelText to the string "Day" and append the current level number.
+                    //levelText.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    UpdateSceneTitle(levelText);
 
-            //[Verza] Moving title block.
-            StartCoroutine(MoveTitleBlock());
+                    //[Verza] Moving title block.
+                    StartCoroutine(MoveTitleBlock());
 
-            //Set levelImage to active blocking player's view of the game board during setup.
-            levelImage.SetActive(true);
+                    //Set levelImage to active blocking player's view of the game board during setup.
+                    levelImage.SetActive(true);
 
-            //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-            Invoke("HideLevelImage", levelStartDelay);
+                    //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
+                    Invoke("HideLevelImage", levelStartDelay);
+                }
+            }
 
             //Clear any Enemy objects in our List to prepare for next level.
             enemies.Clear();
@@ -159,6 +174,8 @@ namespace Completed
 
             //Set doingSetup to false allowing player to move again.
             doingSetup = false;
+
+            state = State.Play;
         }
 
         //Update is called every frame.
@@ -180,7 +197,7 @@ namespace Completed
 
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
-           
+
         }
 
         //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -202,14 +219,14 @@ namespace Completed
         public void GameOver()
         {
             //Set levelText to display number of levels passed and game over message
-            levelText.text = "You Died in level: " + level;
+            levelText.text = "Sei morto nel livello " + level + "!\n Premi R per ricominciare il quadro";
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);
 
             setRestartAvailable = true;
             //Disable this GameManager.
-           // enabled = false;
+            // enabled = false;
         }
 
         //Coroutine to move enemies in sequence.

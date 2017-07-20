@@ -6,6 +6,8 @@ namespace Completed
     //The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
     public abstract class MovingObject : MonoBehaviour
     {
+        public enum LineOfSight { up, left, down, right }
+
         public float moveTime = 0.1f;           //Time it will take object to move, in seconds.
         public LayerMask blockingLayer;         //Layer on which collision will be checked.
         public LayerMask exitLayer;             //Layer on which collision will be checked.
@@ -15,6 +17,9 @@ namespace Completed
         private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
         private float inverseMoveTime;          //Used to make movement more efficient.
 
+        protected Animator _animator;
+
+        protected LineOfSight Sight;
 
         //Protected, virtual functions can be overridden by inheriting classes.
         protected virtual void Start()
@@ -27,6 +32,9 @@ namespace Completed
 
             //By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
             inverseMoveTime = 1f / moveTime;
+
+            //Inizializziamo l'animator.
+            _animator = GetComponent<Animator>();
         }
 
 
@@ -72,7 +80,11 @@ namespace Completed
             if (CanMove(xDir, yDir, out hit, out end))
             {
                 //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
-                StartCoroutine(SmoothMovement(end));
+                if (xDir != 0 || yDir != 0)
+                {
+                    ChangeSightAnimation(xDir, yDir);
+                    StartCoroutine(SmoothMovement(end));
+                }
 
                 //Return true to say that Move was successful
                 return true;
@@ -139,5 +151,35 @@ namespace Completed
         //OnCantMove will be overriden by functions in the inheriting classes.
         protected abstract void OnCantMove<T>(T component)
             where T : Component;
+
+
+        //Cambio Lato Animazione Oggetto
+        protected void ChangeSightAnimation(LineOfSight sight)
+        {
+            switch (sight)
+            {
+                case LineOfSight.up:
+                    ChangeSightAnimation(0f, 1f);
+                    break;
+
+                case LineOfSight.right:
+                    ChangeSightAnimation(1f, 0f);
+                    break;
+
+                case LineOfSight.down:
+                    ChangeSightAnimation(0f, -1f);
+                    break;
+
+                case LineOfSight.left:
+                    ChangeSightAnimation(-1f, 0f);
+                    break;
+            }
+        }
+
+        protected void ChangeSightAnimation(float xDir, float yDir)
+        {
+            _animator.SetFloat("x", xDir);
+            _animator.SetFloat("y", yDir);
+        }
     }
 }

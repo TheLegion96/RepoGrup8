@@ -20,7 +20,7 @@ namespace Completed
         public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound;             //Audio clip to play when player dies.
-
+       
         private Animator animator;                  //Used to store a reference to the Player's animator component.
         private int totalTurns;                     //Used to store player turns total during level.
         public Vector2 old_Coordinate, new_Coordinate;
@@ -40,7 +40,7 @@ namespace Completed
             totalTurns = GameManager.instance.playerTotalTurns;
 
             //Set the foodText to reflect the current player food total.
-            foodText.text = "Turns: " + totalTurns;
+            foodText.text = "Turni: " + totalTurns;
 
             //Call the Start function of the MovingObject base class.
             base.Start();
@@ -57,10 +57,21 @@ namespace Completed
 
         private void Update()
         {
+            if (GameManager.instance == null)
+            {
+                Debug.LogError("Qualcosa si è rotto nel GameManager!");
+                return;
+            }
+
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 
-            if (GameManager.instance.state == GameManager.State.Play && isStillAlive)
+            if (GameManager.instance.state == GameManager.State.Play && isStillAlive && (
+                Input.GetKeyDown(KeyCode.UpArrow) ||
+                Input.GetKeyDown(KeyCode.DownArrow) ||
+                Input.GetKeyDown(KeyCode.LeftArrow) ||
+                Input.GetKeyDown(KeyCode.RightArrow)
+                ))
             {
 
                 int horizontal = 0;     //Used to store the horizontal move direction.
@@ -218,7 +229,7 @@ namespace Completed
                 totalTurns -= pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerFood + " Food: " + totalTurns;
+                foodText.text = "-" + pointsPerFood + " Turni: " + totalTurns;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -234,7 +245,7 @@ namespace Completed
                 totalTurns -= pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerSoda + " Food: " + totalTurns;
+                foodText.text = "-" + pointsPerSoda + " Turni: " + totalTurns;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
