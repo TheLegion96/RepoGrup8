@@ -8,11 +8,21 @@ namespace Completed
     //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
     public class Player : MovingObject
     {
+        // Enumeratori
+        public enum Gender
+        {
+            Male,
+            Female
+        };
+
+        [Header("Player Infos")]
         public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
         public Text foodText;                       //UI Text to display current player food total.
+        public Gender gender = Gender.Female;
+        [Header("Player Sounds")]
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
         public AudioClip eatSound1;                 //1 of 2 Audio clips to play when player collects a food object.
@@ -20,10 +30,16 @@ namespace Completed
         public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound;             //Audio clip to play when player dies.
-       
+
+        [Header("Animators")]
+        public RuntimeAnimatorController maleCharacterAnimator;
+        public RuntimeAnimatorController femaleCharacterAnimator;
         private Animator animator;                  //Used to store a reference to the Player's animator component.
+
         private int totalTurns;                     //Used to store player turns total during level.
-        public Vector2 old_Coordinate, new_Coordinate;
+        [Header("Turns and Moves")]
+        public Vector2 old_Coordinate;
+        public Vector2 new_Coordinate;
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
@@ -33,9 +49,18 @@ namespace Completed
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
-            this.GetComponent<BoxCollider2D>().enabled = true;
+            GetComponent<BoxCollider2D>().enabled = true;
             //Get a component reference to the Player's animator component
             animator = GetComponent<Animator>();
+
+            if (gender == Gender.Male)
+            {
+                animator.runtimeAnimatorController = maleCharacterAnimator;
+            }
+            else
+            {
+                animator.runtimeAnimatorController = femaleCharacterAnimator;
+            }
 
             //Get the current food point total stored in GameManager.instance between levels.
             totalTurns = GameManager.instance.playerTotalTurns;
@@ -135,7 +160,7 @@ namespace Completed
 			
 #endif //End of mobile platform dependendent compilation section started above with #elif
                 //Check if we have a non-zero value for horizontal or vertical
-               if (horizontal != 0 || vertical != 0)
+                if (horizontal != 0 || vertical != 0)
                 {
                     bool isStillAlive = true;
 
@@ -147,7 +172,7 @@ namespace Completed
                     {
                         foreach (Enemy enemy in GameManager.instance.enemies)
                         {
-                             enemy.TryToKillPlayer(this, out isStillAlive);
+                            enemy.TryToKillPlayer(this, out isStillAlive);
                             if (!isStillAlive) break;
                         }
                     }
@@ -161,7 +186,7 @@ namespace Completed
                 }
             }
         }
-       
+
         //AttemptMove overrides the AttemptMove function in the base class MovingObject
         //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
         protected override void AttemptMove<T>(int xDir, int yDir)
@@ -202,11 +227,11 @@ namespace Completed
             //Set hitWall to equal the component passed in as a parameter.
             Enemy hitEnemy = component as Enemy;
 
+            //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
+            animator.SetTrigger("Attack");
+
             //Call the DamageWall function of the Wall we are hitting.
             hitEnemy.DamageEnemy(attackDamage);
-
-            //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-            animator.SetTrigger("playerChop");
         }
 
 

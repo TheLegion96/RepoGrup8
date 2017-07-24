@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace Completed
 {
@@ -9,12 +10,12 @@ namespace Completed
     {
         //public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
 
-        private BoxCollider2D boxColliderEnemy;
-        private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
+        protected BoxCollider2D boxColliderEnemy;
+        protected Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
         private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
 
         // Enumeratori
-        public enum enemyType
+        public enum EnemyType
         {
             Horizontal,     // 0 Movimento A => B su Asse X
             Vertical,       // 1 Movimento A => B su Asse Y
@@ -29,7 +30,7 @@ namespace Completed
         public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
 
         [Header("Enemy properties")]
-        public enemyType enemyTipe;                         // Indica il tipo di nemico
+        public EnemyType enemyTipe;                         // Indica il tipo di nemico
         public int hp = 1;                                  //hit points for the enemy.
         public Vector2 start;
         public Vector2 end;
@@ -43,15 +44,17 @@ namespace Completed
         [Header("Ranged only")]
         public int maxTicks;
         public LineOfSight EnemyAimingWay;
-        private int tick;
-
-        [Header("Mimic only (DON'T USE IT!)")]
-        public Player PlayerInfo;
+        protected int tick;
+        [SerializeField] protected Transform Deadzone;
+        protected List<Transform> _DeadZone = new List<Transform>();
 
         //Patrolling
         [Header("Patrolling only")]
         public Transform[] patrolPoints;
-        private int patrolIndex;
+        protected int patrolIndex;
+
+        //Cose...
+        Player hitPlayer;
 
         /*
         //Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
@@ -73,13 +76,13 @@ namespace Completed
             //[Verza] We never skip movements maddaffakka!
             //skipMove = true;
         }
-*/        
+        */
 
 
         //Start overrides the virtual Start function of the base class. 
         protected override void Start()
         {
-            
+
             boxColliderEnemy = GetComponent<BoxCollider2D>();
             //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
             //This allows the GameManager to issue movement commands.
@@ -88,13 +91,13 @@ namespace Completed
             //Get and store a reference to the attached Animator component.
             animator = GetComponent<Animator>();
 
-            if (enemyTipe == enemyType.Horizontal)
+            if (enemyTipe == EnemyType.Horizontal)
             {
 
                 pA = this.transform.position.x + 3f;
                 pB = this.transform.position.x - 3f;
             }
-            else if (enemyTipe == enemyType.Vertical)
+            else if (enemyTipe == EnemyType.Vertical)
             {
                 pA = this.transform.position.y + 3f;
                 pB = this.transform.position.y - 3f;
@@ -102,23 +105,24 @@ namespace Completed
             }
             //Call the start function of our base class MovingObject.
             base.Start();
-            if (enemyTipe == enemyType.Ranged)
+            if (enemyTipe == EnemyType.Ranged)
             {
                 ChangeSightAnimation(EnemyAimingWay);
             }
         }
 
-        public void CheckNextCell(out int xDir, out int yDir)
+        public virtual void CheckNextCell(out int xDir, out int yDir)
         {
             xDir = 0;
             yDir = 0;
 
+            Vector3 _tempEnd = new Vector3();
             Vector2 newPos;
 
 
             switch (enemyTipe)
             {
-                case enemyType.CustomPatrol: //Patrol defined by level designers.
+                case EnemyType.CustomPatrol: //Patrol defined by level designers.
 
                     if (transform.position == patrolPoints[patrolIndex].position)
                     {
@@ -133,7 +137,7 @@ namespace Completed
                     yDir = (int)(patrolPoints[patrolIndex].position.y - transform.position.y);
                     break;
 
-                case enemyType.Horizontal://Pattern AB_AsseX
+                case EnemyType.Horizontal://Pattern AB_AsseX
 
                     if (wayOfMovement == true)
                     {
@@ -156,7 +160,7 @@ namespace Completed
                     break;
 
 
-                case enemyType.Vertical://Pattern AB_AsseY 
+                case EnemyType.Vertical://Pattern AB_AsseY 
 
                     if (wayOfMovement == true)
                     {
@@ -178,31 +182,7 @@ namespace Completed
                     }
                     break;
 
-
-                /*
-                case enemyType.Mimic: //Pattern Mimic
-
-                    if (PlayerInfo.new_Coordinate.x > PlayerInfo.old_Coordinate.x)
-                    {
-                        //MoveRight
-                    }
-                    else if (PlayerInfo.new_Coordinate.x < PlayerInfo.old_Coordinate.x)
-                    {
-                        //MoveLeft
-                    }
-                    else if (PlayerInfo.new_Coordinate.y > PlayerInfo.old_Coordinate.y)
-                    {
-                        //MoveDown
-                    }
-                    else if (PlayerInfo.new_Coordinate.y < PlayerInfo.old_Coordinate.y)
-                    {
-                        //MoveUp
-                    }
-
-                    break;
-                */
-
-                case enemyType.Ranged:
+                case EnemyType.Ranged:
                     //Pattern RangedEnemy
                     boxColliderEnemy.enabled = false;
 
@@ -216,6 +196,57 @@ namespace Completed
 
                         ChangeAimingDirection(ref EnemyAimingWay);
                         end = GetVectorDirection(EnemyAimingWay);
+
+                        /*
+                       
+                         */
+                        GameObject[] DestroyDeadZone;
+                        DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
+                        if (DestroyDeadZone.Length > 0)
+                        {
+                            for (int i1 = 0; i1 < DestroyDeadZone.Length - 1; i1++)
+                            {
+                                Destroy(DestroyDeadZone[i].gameObject);
+                            }
+
+                        }
+
+                        //TriggerOnce
+                        for (int i1 = 0; i1 < 9; i1++)
+                        {
+                            Transform _temp = Instantiate<Transform>(Deadzone, this.transform.position, Quaternion.identity);
+                            _tempEnd = new Vector3();
+                            switch (EnemyAimingWay)
+                            {
+                                case LineOfSight.down:
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y -= i1;
+
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.left:
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x -= i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.up:
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y += i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.right:
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x += i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                            }
+                            _DeadZone.Add(_temp);
+                        }
+
 
                         RaycastHit2D CheckBlockingLayerObject;
                         do
@@ -260,14 +291,14 @@ namespace Completed
             }
         }
 
-        private Vector2 GetVectorDirection(LineOfSight aimingDirection)
+        protected Vector2 GetVectorDirection(LineOfSight aimingDirection)
         {
             Vector2 direction = new Vector2();
 
             switch (aimingDirection)
             {
                 case LineOfSight.down:
-                    direction = -transform.up; 
+                    direction = -transform.up;
                     break;
                 case LineOfSight.up:
                     direction = transform.up;
@@ -296,10 +327,10 @@ namespace Completed
 
             AttemptMove<Player>(xDir, yDir);
         }
-        
-      
-      
-        private void ChangeAimingDirection(ref LineOfSight posizione)
+
+
+
+        protected void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
             {
@@ -318,7 +349,6 @@ namespace Completed
             }
         }
 
-        Player hitPlayer;
         //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject
         //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
         //Player hitPlayer;
@@ -331,7 +361,7 @@ namespace Completed
             //	hitPlayer.LoseFood (playerDamage);
 
             //Set the attack trigger of animator to trigger Enemy attack animation.
-          //  animator.SetTrigger("enemyAttack");
+            animator.SetTrigger("Attack");
 
             //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
             SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
@@ -410,7 +440,7 @@ namespace Completed
 
 
 
-       //------------------------------------------------------DA FIXARE---------------------------------------------------------------
+        //------------------------------------------------------DA FIXARE---------------------------------------------------------------
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void TryToKillPlayer(Player player, out bool isStillAlive)
         {
