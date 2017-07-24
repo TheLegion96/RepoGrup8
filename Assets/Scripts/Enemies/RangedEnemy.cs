@@ -120,6 +120,9 @@ public class RangedEnemy : Enemy
 
         if (Bullet.transform != null && Bullet.transform.tag == "Player")
         {
+            //Set the attack trigger of animator to trigger Enemy attack animation.
+            animator.SetTrigger("Attack");
+
             Bullet.transform.GetComponent<Player>().ExecuteGameOver();
         }
         boxColliderEnemy.enabled = true;
