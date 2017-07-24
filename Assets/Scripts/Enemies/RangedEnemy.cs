@@ -8,7 +8,7 @@ public class RangedEnemy : Enemy
     [SerializeField] protected GameObject Deadzone;
 
     public bool DoThisOnlyWhenAllDeadZoneAreON = false;
-    
+
     //Start overrides the virtual Start function of the base class. 
     protected override void Start()
     {
@@ -25,7 +25,7 @@ public class RangedEnemy : Enemy
         xDir = 0;
         yDir = 0;
 
-        Vector3 _tempEnd = new Vector3();
+
 
         //Pattern RangedEnemy
         boxColliderEnemy.enabled = false;
@@ -40,58 +40,6 @@ public class RangedEnemy : Enemy
 
             ChangeAimingDirection(ref EnemyAimingWay);
             end = GetVectorDirection(EnemyAimingWay);
-
-            //TriggerOnce
-            for (int i = 0; i < 9; i++)
-            {
-
-
-                Transform _temp = Instantiate<Transform>(Deadzone.transform, this.transform.position, Quaternion.identity);
-                _tempEnd = new Vector3();
-                switch (EnemyAimingWay)
-                {
-                    case LineOfSight.down:
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y -= i;
-
-                        break;
-                    case LineOfSight.left:
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x -= i;
-
-                        break;
-                    case LineOfSight.up:
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y += i;
-
-                        break;
-                    case LineOfSight.right:
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x += i;
-
-                        break;
-                }
-                RaycastHit2D _tempHit = new RaycastHit2D();
-                _tempHit = Physics2D.Raycast(_temp.position, _tempEnd, 1f);
-                if (_tempHit.transform != null)
-                {
-                    if (_tempHit.transform.gameObject.tag == "Stone" || _tempHit.transform.gameObject.tag != "Untagged")
-                    {
-                        Destroy(_temp);
-                    }
-                    else
-                    {
-                        _temp.position = _tempEnd;
-                        _DeadZone.Add(_temp);
-                    }
-                }
-            }
-
-     
 
             RaycastHit2D CheckBlockingLayerObject;
             int aimingDirectionCheck = 0;
@@ -119,42 +67,7 @@ public class RangedEnemy : Enemy
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
-      else
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                Transform _temp = Instantiate(Deadzone.transform, this.transform.position, Quaternion.identity);
-                _tempEnd = new Vector3();
-                switch (EnemyAimingWay)
-                {
-                    case LineOfSight.down:
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y -= i;
-                        _temp.position = _tempEnd;
-                        break;
-                    case LineOfSight.left:
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x -= i;
-                        _temp.position = _tempEnd;
-                        break;
-                    case LineOfSight.up:
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y += i;
-                        _temp.position = _tempEnd;
-                        break;
-                    case LineOfSight.right:
-                        _tempEnd.x = _temp.position.x;
-                        _tempEnd.y = _temp.position.y;
-                        _tempEnd.x += i;
-                        _temp.position = _tempEnd;
-                        break;
-                }
-                _DeadZone.Add(_temp);
-            }
-        }
+        InstanzaDeadZone();
         RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 9f, blockingLayer);
         if (Bullet.collider == null)
         {
@@ -171,4 +84,82 @@ public class RangedEnemy : Enemy
         }
         boxColliderEnemy.enabled = true;
     }
+
+
+    private void InstanzaDeadZone()
+    {
+        Vector3 _TempEndPosition = new Vector3();
+        for (int i = 1; i < 9; i++)
+        {
+
+            Transform _TempDeadZone = Instantiate(Deadzone.transform, this.transform.position, Quaternion.identity);
+            _TempEndPosition = new Vector3();
+            switch (EnemyAimingWay)
+            {
+                case LineOfSight.down:
+                    _TempEndPosition = _TempDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
+
+                    _TempEndPosition.y -= i;
+                    _TempDeadZone.position = _TempEndPosition;
+                    break;
+                case LineOfSight.left:
+
+                    _TempEndPosition = _TempDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
+                    _TempEndPosition.x -= i;
+                    _TempDeadZone.position = _TempEndPosition;
+                    break;
+                case LineOfSight.up:
+                    _TempEndPosition = _TempDeadZone.position;
+                    _TempEndPosition.y += i;
+                    //_TempEndPosition.y -= 0.35f;
+
+                    _TempDeadZone.position = _TempEndPosition;
+                    break;
+                case LineOfSight.right:
+                    _TempEndPosition = _TempDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
+                    _TempEndPosition.x += i;
+                    _TempDeadZone.position = _TempEndPosition;
+                    break;
+            }
+            RaycastHit2D checkCollision;
+            checkCollision = Physics2D.Linecast(_TempDeadZone.position, _TempDeadZone.position);
+            if (checkCollision.transform != null)
+            {
+                if (checkCollision.transform.tag == "Stone")
+                {
+                    Destroy(_TempDeadZone.gameObject);
+                    break;
+                }
+                else if (checkCollision.transform.tag == "DeadZone")
+                {
+                    Destroy(_TempDeadZone.gameObject);
+                }
+                else
+                {
+                    _TempDeadZone.GetComponent<BoxCollider2D>().enabled = true;
+                }
+            }
+
+            if (_TempDeadZone != null)
+            {
+                _TempDeadZone.position = _TempEndPosition;
+                _DeadZone.Add(_TempDeadZone);
+            }
+
+        }
+
+
+    }
+    //void CheckIfStone()
+    //{
+
+    //  
+
+    //}
+
+
+
 }
