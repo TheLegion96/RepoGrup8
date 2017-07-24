@@ -46,14 +46,15 @@ namespace Completed
         public LineOfSight EnemyAimingWay;
         protected int tick;
         [SerializeField] protected Transform Deadzone;
-
-        [Header("Mimic only (DON'T USE IT!)")]
-        public Player PlayerInfo;
+        protected List<Transform> _DeadZone = new List<Transform>();
 
         //Patrolling
         [Header("Patrolling only")]
         public Transform[] patrolPoints;
         protected int patrolIndex;
+
+        //Cose...
+        Player hitPlayer;
 
         /*
         //Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
@@ -75,9 +76,8 @@ namespace Completed
             //[Verza] We never skip movements maddaffakka!
             //skipMove = true;
         }
-*/
+        */
 
-        protected List<Transform> _DeadZone = new List<Transform>();
 
         //Start overrides the virtual Start function of the base class. 
         protected override void Start()
@@ -181,30 +181,6 @@ namespace Completed
                         wayOfMovement = true;
                     }
                     break;
-
-
-                /*
-                case enemyType.Mimic: //Pattern Mimic
-
-                    if (PlayerInfo.new_Coordinate.x > PlayerInfo.old_Coordinate.x)
-                    {
-                        //MoveRight
-                    }
-                    else if (PlayerInfo.new_Coordinate.x < PlayerInfo.old_Coordinate.x)
-                    {
-                        //MoveLeft
-                    }
-                    else if (PlayerInfo.new_Coordinate.y > PlayerInfo.old_Coordinate.y)
-                    {
-                        //MoveDown
-                    }
-                    else if (PlayerInfo.new_Coordinate.y < PlayerInfo.old_Coordinate.y)
-                    {
-                        //MoveUp
-                    }
-
-                    break;
-                */
 
                 case EnemyType.Ranged:
                     //Pattern RangedEnemy
@@ -373,7 +349,6 @@ namespace Completed
             }
         }
 
-        Player hitPlayer;
         //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject
         //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
         //Player hitPlayer;
