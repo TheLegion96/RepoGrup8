@@ -5,6 +5,17 @@ using UnityEngine;
 
 public class PatrollingEnemy : Enemy
 {
+    //Start overrides the virtual Start function of the base class. 
+    protected override void Start()
+    {
+        //Force Enemy Type.
+        enemyTipe = EnemyType.CustomPatrol;
+        //Call the start function of our base class Enemy.
+        base.Start();
+        //Call custom code for this type.
+        //(...)
+    }
+
     public override void CheckNextCell(out int xDir, out int yDir)
     {
         if (transform.position == patrolPoints[patrolIndex].position)
