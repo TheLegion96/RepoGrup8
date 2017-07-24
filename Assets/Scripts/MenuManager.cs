@@ -66,7 +66,7 @@ public class MenuManager : MonoBehaviour
             }
             else if (index == 1)
             {
-                SceneManager.LoadScene("");
+                //SceneManager.LoadScene("");
             }
             else if (index == 2)
             {

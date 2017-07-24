@@ -223,10 +223,11 @@ namespace Completed
             {
                 //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
                 //SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
-                if (SoundManager.instance)
+
+                /*if (SoundManager.instance)
                 {
                     StartCoroutine(SoundManager.instance.PlayNextStep(0.5f));//moveTime * 5));
-                }
+                }*/
             }
             new_Coordinate = this.transform.position;
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
@@ -260,8 +261,8 @@ namespace Completed
             {
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
                 this.GetComponent<BoxCollider2D>().enabled = false;
-                Invoke("Restart", restartLevelDelay);
 
+                GameManager.instance.GoToNextScene(restartLevelDelay);
 
                 //Disable the player object since level is over.
                 enabled = false;
@@ -309,16 +310,6 @@ namespace Completed
              
              */
         }
-
-
-        //Restart reloads the scene when called.
-        private void Restart()
-        {
-            //Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
-            //and not load all the scene object in the current scene.
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
-        }
-
 
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
         private void CheckIfGameOver()

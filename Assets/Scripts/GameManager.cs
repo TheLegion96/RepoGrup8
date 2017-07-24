@@ -257,7 +257,8 @@ namespace Completed
             yield return new WaitForSeconds(0.1f);
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (enemies[i] is RangedEnemy) {
+                if (enemies[i] is RangedEnemy)
+                {
                     ((RangedEnemy)enemies[i]).InstanceDeadZone();
 
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
@@ -269,6 +270,24 @@ namespace Completed
             //Enemies are done moving, set enemiesMoving to false.
             enemiesMoving = false;
         }
+
+        #region Go To Next Scene
+        //Goes to next scene when called.
+        public void GoToNextScene(float delay)
+        {
+            Invoke("GoToNextScene_Invoked", delay);
+        }
+        private void GoToNextScene_Invoked()
+        {
+            GoToScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        public void GoToScene(int buildIndex)
+        {
+            //Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
+            //and not load all the scene object in the current scene.
+            SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
+        }
+        #endregion
     }
 }
 
