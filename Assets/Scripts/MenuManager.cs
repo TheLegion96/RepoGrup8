@@ -62,7 +62,7 @@ public class MenuManager : MonoBehaviour
         {
             if (index == 0)
             {
-                SceneManager.LoadScene("TUTORIAL - Livello1");
+                SceneManager.LoadScene("0_TUTORIAL - Scene 1");
             }
             else if (index == 1)
             {
