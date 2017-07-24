@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class PatrollingEnemy : Enemy
 {
-    [Header("Patrolling only")]
-    public Transform[] patrolPoints;
-    private int patrolIndex;
-
-    public void CheckNextCell(out int xDir, out int yDir)
+    public override void CheckNextCell(out int xDir, out int yDir)
     {
         if (transform.position == patrolPoints[patrolIndex].position)
         {

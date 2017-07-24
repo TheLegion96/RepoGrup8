@@ -45,7 +45,7 @@ namespace Completed
         public int maxTicks;
         public LineOfSight EnemyAimingWay;
         private int tick;
-       [SerializeField]  private Transform Deadzone;
+        [SerializeField] private Transform Deadzone;
 
         [Header("Mimic only (DON'T USE IT!)")]
         public Player PlayerInfo;
@@ -53,7 +53,7 @@ namespace Completed
         //Patrolling
         [Header("Patrolling only")]
         public Transform[] patrolPoints;
-        private int patrolIndex;
+        protected int patrolIndex;
 
         /*
         //Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
@@ -75,9 +75,9 @@ namespace Completed
             //[Verza] We never skip movements maddaffakka!
             //skipMove = true;
         }
-*/        
+*/
 
-        Vector3 _tempEnd = new Vector3();             
+        Vector3 _tempEnd = new Vector3();
         List<Transform> _DeadZone = new List<Transform>();
 
         //Start overrides the virtual Start function of the base class. 
@@ -112,7 +112,7 @@ namespace Completed
             }
         }
 
-        public void CheckNextCell(out int xDir, out int yDir)
+        public virtual void CheckNextCell(out int xDir, out int yDir)
         {
             xDir = 0;
             yDir = 0;
@@ -228,14 +228,14 @@ namespace Completed
                         DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
                         if (DestroyDeadZone.Length > 0)
                         {
-                            for (int i1 = 0; i1 < DestroyDeadZone.Length-1; i1++)
+                            for (int i1 = 0; i1 < DestroyDeadZone.Length - 1; i1++)
                             {
                                 Destroy(DestroyDeadZone[i].gameObject);
                             }
-                          
+
                         }
-                     
-                      //TriggerOnce
+
+                        //TriggerOnce
                         for (int i1 = 0; i1 < 9; i1++)
                         {
                             Transform _temp = Instantiate<Transform>(Deadzone, this.transform.position, Quaternion.identity);
@@ -246,13 +246,13 @@ namespace Completed
                                     _tempEnd.y = _temp.position.y;
                                     _tempEnd.x = _temp.position.x;
                                     _tempEnd.y -= i1;
-                                 
+
                                     _temp.position = _tempEnd;
                                     break;
                                 case LineOfSight.left:
                                     _tempEnd.x = _temp.position.x;
                                     _tempEnd.y = _temp.position.y;
-                                    _tempEnd.x -= i1; 
+                                    _tempEnd.x -= i1;
                                     _temp.position = _tempEnd;
                                     break;
                                 case LineOfSight.up:
@@ -270,8 +270,8 @@ namespace Completed
                             }
                             _DeadZone.Add(_temp);
                         }
-                        
-                
+
+
                         RaycastHit2D CheckBlockingLayerObject;
                         do
                         {
@@ -322,7 +322,7 @@ namespace Completed
             switch (aimingDirection)
             {
                 case LineOfSight.down:
-                    direction = -transform.up; 
+                    direction = -transform.up;
                     break;
                 case LineOfSight.up:
                     direction = transform.up;
@@ -351,9 +351,9 @@ namespace Completed
 
             AttemptMove<Player>(xDir, yDir);
         }
-        
-      
-      
+
+
+
         private void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
@@ -386,7 +386,7 @@ namespace Completed
             //	hitPlayer.LoseFood (playerDamage);
 
             //Set the attack trigger of animator to trigger Enemy attack animation.
-          //  animator.SetTrigger("enemyAttack");
+            //  animator.SetTrigger("enemyAttack");
 
             //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
             SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
@@ -465,7 +465,7 @@ namespace Completed
 
 
 
-       //------------------------------------------------------DA FIXARE---------------------------------------------------------------
+        //------------------------------------------------------DA FIXARE---------------------------------------------------------------
         //MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
         public void TryToKillPlayer(Player player, out bool isStillAlive)
         {
