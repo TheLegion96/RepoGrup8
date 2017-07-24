@@ -11,7 +11,7 @@ namespace Completed
         //public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
 
         protected BoxCollider2D boxColliderEnemy;
-        private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
+        protected Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
         private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
 
         // Enumeratori
@@ -361,7 +361,7 @@ namespace Completed
             //	hitPlayer.LoseFood (playerDamage);
 
             //Set the attack trigger of animator to trigger Enemy attack animation.
-            //  animator.SetTrigger("enemyAttack");
+            animator.SetTrigger("Attack");
 
             //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
             SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
