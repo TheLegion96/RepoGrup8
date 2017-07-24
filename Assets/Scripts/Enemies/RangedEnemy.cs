@@ -77,7 +77,7 @@ public class RangedEnemy : Enemy
                 }
                 RaycastHit2D _tempHit = new RaycastHit2D();
                 _tempHit = Physics2D.Raycast(_temp.position, _tempEnd, 1f);
-              /*  if (_tempHit != null)
+                if (_tempHit.transform != null)
                 {
                     if (_tempHit.transform.gameObject.tag == "Stone" || _tempHit.transform.gameObject.tag != "Untagged")
                     {
@@ -88,7 +88,7 @@ public class RangedEnemy : Enemy
                         _temp.position = _tempEnd;
                         _DeadZone.Add(_temp);
                     }
-                }*/
+                }
             }
 
      
