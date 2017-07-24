@@ -252,7 +252,16 @@ namespace Completed
                 enemies[i].MoveEnemy();
 
                 //Wait for Enemy's moveTime before moving next Enemy, 
-                yield return new WaitForSeconds(enemies[i].moveTime);
+                yield return new WaitForSeconds(enemies[i].moveTime / 100);
+            }
+            yield return new WaitForSeconds(0.1f);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i] is RangedEnemy) {
+                    ((RangedEnemy)enemies[i]).InstanceDeadZone();
+
+                    //yield return new WaitForSeconds(enemies[i].moveTime / 100);
+                }
             }
             //Once Enemies are done moving, set playersTurn to true so player can move.
             playersTurn = true;

@@ -18,7 +18,7 @@ public class RangedEnemy : Enemy
         base.Start();
         //Call custom code for this type.
         ChangeSightAnimation(EnemyAimingWay);
-        InstanzaDeadZone();
+        InstanceDeadZone();
     }
 
     public override void CheckNextCell(out int xDir, out int yDir)
@@ -68,7 +68,10 @@ public class RangedEnemy : Enemy
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
-        InstanzaDeadZone();
+        
+        //[Verza] Spostato nel Game Manager.
+        //InstanceDeadZone();
+
         RaycastHit2D Bullet = Physics2D.Raycast(transform.position, end, 9f, blockingLayer);
         if (Bullet.collider == null)
         {
@@ -87,7 +90,7 @@ public class RangedEnemy : Enemy
     }
 
 
-    private void InstanzaDeadZone()
+    public void InstanceDeadZone()
     {
         Vector3 _TempEndPosition = new Vector3();
         for (int i = 1; i < 9; i++)
