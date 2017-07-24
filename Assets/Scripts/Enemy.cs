@@ -224,34 +224,46 @@ namespace Completed
                         /*
                        
                          */
-                        if(_DeadZone.Count>0)
+                        GameObject[] DestroyDeadZone;
+                        DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
+                        if (DestroyDeadZone.Length > 0)
                         {
-                           
-                            _DeadZone.Clear();
+                            for (int i1 = 0; i1 < DestroyDeadZone.Length-1; i1++)
+                            {
+                                Destroy(DestroyDeadZone[i].gameObject);
+                            }
+                          
                         }
+                     
                       //TriggerOnce
                         for (int i1 = 0; i1 < 9; i1++)
                         {
                             Transform _temp = Instantiate<Transform>(Deadzone, this.transform.position, Quaternion.identity);
+                            _tempEnd = new Vector3();
                             switch (EnemyAimingWay)
                             {
                                 case LineOfSight.down:
                                     _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x = _temp.position.x;
                                     _tempEnd.y -= i1;
+                                 
                                     _temp.position = _tempEnd;
                                     break;
                                 case LineOfSight.left:
                                     _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y = _temp.position.y;
                                     _tempEnd.x -= i1; 
                                     _temp.position = _tempEnd;
                                     break;
                                 case LineOfSight.up:
                                     _tempEnd.y = _temp.position.y;
+                                    _tempEnd.x = _temp.position.x;
                                     _tempEnd.y += i1;
                                     _temp.position = _tempEnd;
                                     break;
                                 case LineOfSight.right:
                                     _tempEnd.x = _temp.position.x;
+                                    _tempEnd.y = _temp.position.y;
                                     _tempEnd.x += i1;
                                     _temp.position = _tempEnd;
                                     break;
@@ -259,7 +271,7 @@ namespace Completed
                             _DeadZone.Add(_temp);
                         }
                         
-                       // Instantiate(Deadzone, Quaternion.identity);
+                
                         RaycastHit2D CheckBlockingLayerObject;
                         do
                         {
