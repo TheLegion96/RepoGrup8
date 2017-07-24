@@ -45,7 +45,7 @@ namespace Completed
         public int maxTicks;
         public LineOfSight EnemyAimingWay;
         protected int tick;
-        [SerializeField] protected Transform Deadzone;
+
         protected List<Transform> _DeadZone = new List<Transform>();
 
         //Patrolling
@@ -181,7 +181,7 @@ namespace Completed
                         wayOfMovement = true;
                     }
                     break;
-
+/*
                 case EnemyType.Ranged:
                     //Pattern RangedEnemy
                     boxColliderEnemy.enabled = false;
@@ -199,7 +199,6 @@ namespace Completed
 
                         /*
                        
-                         */
                         GameObject[] DestroyDeadZone;
                         DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
                         if (DestroyDeadZone.Length > 0)
@@ -247,7 +246,6 @@ namespace Completed
                             _DeadZone.Add(_temp);
                         }
 
-
                         RaycastHit2D CheckBlockingLayerObject;
                         do
                         {
@@ -288,6 +286,8 @@ namespace Completed
                     }
                     boxColliderEnemy.enabled = true;
                     break;
+                         */
+
             }
         }
 

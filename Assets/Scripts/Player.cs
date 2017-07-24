@@ -154,6 +154,20 @@ namespace Completed
 
                     if (isStillAlive)
                     {
+                        /**/
+
+                        GameObject[] DestroyDeadZone;
+                        DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
+                        if (DestroyDeadZone.Length > 0)
+                        {
+                            for (int i1 = 0; i1 < DestroyDeadZone.Length; i1++)
+                            {
+                                Destroy(DestroyDeadZone[i1].gameObject);
+                            }
+                        }
+                       // DoThisOnlyWhenAllDeadZoneAreON = false;
+
+                        /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
                         //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
                         AttemptMove<Enemy>(horizontal, vertical);
