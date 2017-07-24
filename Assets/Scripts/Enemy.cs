@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace Completed
 {
@@ -44,6 +45,7 @@ namespace Completed
         public int maxTicks;
         public LineOfSight EnemyAimingWay;
         private int tick;
+       [SerializeField]  private Transform Deadzone;
 
         [Header("Mimic only (DON'T USE IT!)")]
         public Player PlayerInfo;
@@ -75,11 +77,13 @@ namespace Completed
         }
 */        
 
+        Vector3 _tempEnd = new Vector3();             
+        List<Transform> _DeadZone = new List<Transform>();
 
         //Start overrides the virtual Start function of the base class. 
         protected override void Start()
         {
-            
+
             boxColliderEnemy = GetComponent<BoxCollider2D>();
             //Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
             //This allows the GameManager to issue movement commands.
@@ -217,6 +221,45 @@ namespace Completed
                         ChangeAimingDirection(ref EnemyAimingWay);
                         end = GetVectorDirection(EnemyAimingWay);
 
+                        /*
+                       
+                         */
+                        if(_DeadZone.Count>0)
+                        {
+                           
+                            _DeadZone.Clear();
+                        }
+                      //TriggerOnce
+                        for (int i1 = 0; i1 < 9; i1++)
+                        {
+                            Transform _temp = Instantiate<Transform>(Deadzone, this.transform.position, Quaternion.identity);
+                            switch (EnemyAimingWay)
+                            {
+                                case LineOfSight.down:
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.y -= i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.left:
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.x -= i1; 
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.up:
+                                    _tempEnd.y = _temp.position.y;
+                                    _tempEnd.y += i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                                case LineOfSight.right:
+                                    _tempEnd.x = _temp.position.x;
+                                    _tempEnd.x += i1;
+                                    _temp.position = _tempEnd;
+                                    break;
+                            }
+                            _DeadZone.Add(_temp);
+                        }
+                        
+                       // Instantiate(Deadzone, Quaternion.identity);
                         RaycastHit2D CheckBlockingLayerObject;
                         do
                         {
