@@ -190,7 +190,7 @@ namespace Completed
                                 Destroy(DestroyDeadZone[i1].gameObject);
                             }
                         }
-                       // DoThisOnlyWhenAllDeadZoneAreON = false;
+                        // DoThisOnlyWhenAllDeadZoneAreON = false;
 
                         /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
@@ -238,14 +238,17 @@ namespace Completed
         //It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
         protected override void OnCantMove<T>(T component)
         {
-            //Set hitWall to equal the component passed in as a parameter.
-            Enemy hitEnemy = component as Enemy;
+            if (isStillAlive)
+            {
+                //Set hitWall to equal the component passed in as a parameter.
+                Enemy hitEnemy = component as Enemy;
 
-            //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-            animator.SetTrigger("Attack");
+                //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
+                animator.SetTrigger("Attack");
 
-            //Call the DamageWall function of the Wall we are hitting.
-            hitEnemy.DamageEnemy(attackDamage);
+                //Call the DamageWall function of the Wall we are hitting.
+                hitEnemy.DamageEnemy(attackDamage);
+            }
         }
 
 

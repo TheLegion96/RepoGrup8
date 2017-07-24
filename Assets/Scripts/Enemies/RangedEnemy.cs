@@ -18,6 +18,7 @@ public class RangedEnemy : Enemy
         base.Start();
         //Call custom code for this type.
         ChangeSightAnimation(EnemyAimingWay);
+        InstanzaDeadZone();
     }
 
     public override void CheckNextCell(out int xDir, out int yDir)
@@ -128,7 +129,7 @@ public class RangedEnemy : Enemy
             checkCollision = Physics2D.Linecast(_TempDeadZone.position, _TempDeadZone.position);
             if (checkCollision.transform != null)
             {
-                if (checkCollision.transform.tag == "Stone")
+                if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
                 {
                     Destroy(_TempDeadZone.gameObject);
                     break;
