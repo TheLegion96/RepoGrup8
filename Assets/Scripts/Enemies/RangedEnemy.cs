@@ -34,7 +34,12 @@ public class RangedEnemy : Enemy
         end = GetVectorDirection(EnemyAimingWay);
 
         tick++;
+        //int tickBeforeMax = maxTicks - 1;
+        //if(tick==tickBeforeMax)
+        //{
+        //    InstanceDeadZone();
 
+        //}
         if (tick == maxTicks)
         {
             bool isStoneRaycasted;
@@ -68,6 +73,7 @@ public class RangedEnemy : Enemy
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
+        
         
         //[Verza] Spostato nel Game Manager.
         //InstanceDeadZone();

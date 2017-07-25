@@ -44,7 +44,7 @@ namespace Completed
         [Header("Ranged only")]
         public int maxTicks;
         public LineOfSight EnemyAimingWay;
-        protected int tick;
+        public int tick;
 
         protected List<Transform> _DeadZone = new List<Transform>();
 
@@ -116,7 +116,7 @@ namespace Completed
             xDir = 0;
             yDir = 0;
 
-            Vector3 _tempEnd = new Vector3();
+          //  Vector3 _tempEnd = new Vector3();
             Vector2 newPos;
 
 
@@ -330,7 +330,7 @@ namespace Completed
 
 
 
-        protected void ChangeAimingDirection(ref LineOfSight posizione)
+        public void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
             {

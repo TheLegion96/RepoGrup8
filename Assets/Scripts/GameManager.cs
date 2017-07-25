@@ -255,22 +255,33 @@ namespace Completed
                 yield return new WaitForSeconds(enemies[i].moveTime / 100);
             }
             yield return new WaitForSeconds(0.1f);
+     
             for (int i = 0; i < enemies.Count; i++)
             {
                 if (enemies[i] is RangedEnemy)
                 {
-                    ((RangedEnemy)enemies[i]).InstanceDeadZone();
-
+                    int tickBeforeChange = enemies[i].maxTicks - 1;
+                    if (enemies[i].tick == tickBeforeChange)
+                    {
+                        enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
+                        ((RangedEnemy)enemies[i]).InstanceDeadZone();
+                        for (int j = 0; j < 3; j++)
+                        {
+                            enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
+                        }
+                    }
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
                 }
             }
-            //Once Enemies are done moving, set playersTurn to true so player can move.
-            playersTurn = true;
+        
+   
+        //Once Enemies are done moving, set playersTurn to true so player can move.
+        playersTurn = true;
 
             //Enemies are done moving, set enemiesMoving to false.
             enemiesMoving = false;
         }
-
+        int actualTick;
         #region Go To Next Scene
         //Goes to next scene when called.
         public void GoToNextScene(float delay)

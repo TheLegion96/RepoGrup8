@@ -31,4 +31,14 @@ public class PatrollingEnemy : Enemy
         yDir = (int)(patrolPoints[patrolIndex].position.y - transform.position.y);
 
     }
+
+    //Overridare attempt move, quindi lui osserva se la prossima cella si deve girare, e allora cambia la direzione
+/*
+    public override void AttemptMove<T>(int xDir, int yDir)
+         where T : Component
+    {
+
+    }
+   */
+         
 }
