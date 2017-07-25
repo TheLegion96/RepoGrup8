@@ -14,8 +14,8 @@ namespace Completed
 
 
         private BoxCollider2D boxCollider;      //The BoxCollider2D component attached to this object.
-        private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
-        private float inverseMoveTime;          //Used to make movement more efficient.
+        protected Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
+        protected float inverseMoveTime;          //Used to make movement more efficient.
 
         protected Animator _animator;
 
@@ -100,7 +100,7 @@ namespace Completed
 
 
         //Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
-        protected IEnumerator SmoothMovement(Vector3 end)
+        protected virtual IEnumerator SmoothMovement(Vector3 end)
         {
             //Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
             //Square magnitude is used instead of magnitude because it's computationally cheaper.
