@@ -48,33 +48,13 @@ public class RangedEnemy : Enemy
             end = GetVectorDirection(EnemyAimingWay);
 
             RaycastHit2D CheckBlockingLayerObject;
-            int aimingDirectionCheck = 0;
-            do
-            {
-                CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
-
-                isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
-
-                if (isStoneRaycasted)
-                {
-                    aimingDirectionCheck++;
-
-                    ChangeAimingDirection(ref EnemyAimingWay);
-                    end = GetVectorDirection(EnemyAimingWay);
-
-                    // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
-                    if (aimingDirectionCheck == 3)
-                    {
-                        break;
-                    }
-                }
-            } while (isStoneRaycasted);
+            CheckStoneRaycast();
 
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
-        
-        
+
+
         //[Verza] Spostato nel Game Manager.
         //InstanceDeadZone();
 
@@ -94,7 +74,64 @@ public class RangedEnemy : Enemy
         }
         boxColliderEnemy.enabled = true;
     }
+    bool isStoneRaycasted;
+    RaycastHit2D CheckBlockingLayerObject;
+    int aimingDirectionCheck;
 
+    /*
+    public void CheckStoneRaycast()
+    {
+        do
+        {
+            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
+
+            isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
+
+            if (isStoneRaycasted)
+            {
+                aimingDirectionCheck++;
+
+                ChangeAimingDirection(ref EnemyAimingWay);
+                end = GetVectorDirection(EnemyAimingWay);
+
+                // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
+                if (aimingDirectionCheck == 3)
+                {
+                    break;
+                }
+            }
+        } while (isStoneRaycasted);
+
+    }*/
+    public bool CheckStoneRaycast()
+    {
+        bool result = false;
+        do
+        {
+            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
+
+            isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
+            result = true;
+            if (isStoneRaycasted)
+            {
+                result = false;
+                aimingDirectionCheck++;
+
+                ChangeAimingDirection(ref EnemyAimingWay);
+                end = GetVectorDirection(EnemyAimingWay);
+
+                // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
+                if (aimingDirectionCheck == 3)
+                {
+                    break;
+                }
+            }
+
+        } while (isStoneRaycasted);
+        return result;
+
+
+    }
 
     public void InstanceDeadZone()
     {
