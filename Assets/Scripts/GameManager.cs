@@ -234,6 +234,11 @@ namespace Completed
         //Coroutine to move enemies in sequence.
         IEnumerator MoveEnemies()
         {
+            RangedEnemy tempRangedEnemy;
+            Vector2 tempEnd;
+            Completed.Enemy.LineOfSight tempEnemyAimingWay;
+            int tempTickBeforeChange;
+
             //While enemiesMoving is true player is unable to move.
             enemiesMoving = true;
 
@@ -257,19 +262,26 @@ namespace Completed
                 yield return new WaitForSeconds(enemies[i].moveTime / 100);
             }
             yield return new WaitForSeconds(0.1f);
-     
+
+            //Loop per cast linea di fuoco
             for (int i = 0; i < enemies.Count; i++)
             {
+                tempRangedEnemy = null;
+                
                 if (enemies[i] is RangedEnemy)
                 {
-                    int tickBeforeChange = enemies[i].maxTicks - 1;
-                    if (enemies[i].tick == tickBeforeChange)
+                    tempRangedEnemy = ((RangedEnemy)enemies[i]);
+
+                    tempTickBeforeChange = tempRangedEnemy.maxTicks - 1;
+
+                    if (tempRangedEnemy.tick == tempTickBeforeChange)
                     {
-                        enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
-                        if (((RangedEnemy)enemies[i]).CheckStoneRaycast())
-                        {
-                            ((RangedEnemy)enemies[i]).InstanceDeadZone();
-                        }
+                        tempEnemyAimingWay = tempRangedEnemy.EnemyAimingWay;
+
+                        Enemy.ChangeAimingDirection(ref tempEnemyAimingWay);
+                        tempEnd = tempRangedEnemy.GetVectorDirection(tempEnemyAimingWay);
+                        tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
+                        tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
                      /*   do
                         {
                  

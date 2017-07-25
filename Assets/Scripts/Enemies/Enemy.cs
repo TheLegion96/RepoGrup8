@@ -185,7 +185,7 @@ namespace Completed
             }
         }
 
-        protected Vector2 GetVectorDirection(LineOfSight aimingDirection)
+        public Vector2 GetVectorDirection(LineOfSight aimingDirection)
         {
             Vector2 direction = new Vector2();
 
@@ -224,7 +224,7 @@ namespace Completed
 
 
 
-        public void ChangeAimingDirection(ref LineOfSight posizione)
+        public static void ChangeAimingDirection(ref LineOfSight posizione)
         {
             switch (posizione)
             {

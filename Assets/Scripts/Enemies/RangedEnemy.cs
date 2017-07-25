@@ -18,15 +18,13 @@ public class RangedEnemy : Enemy
         base.Start();
         //Call custom code for this type.
         ChangeSightAnimation(EnemyAimingWay);
-        InstanceDeadZone();
+        InstanceDeadZone(EnemyAimingWay);
     }
 
     public override void CheckNextCell(out int xDir, out int yDir)
     {
         xDir = 0;
         yDir = 0;
-
-
 
         //Pattern RangedEnemy
         boxColliderEnemy.enabled = false;
@@ -42,13 +40,10 @@ public class RangedEnemy : Enemy
         //}
         if (tick == maxTicks)
         {
-            bool isStoneRaycasted;
-
             ChangeAimingDirection(ref EnemyAimingWay);
             end = GetVectorDirection(EnemyAimingWay);
 
-            RaycastHit2D CheckBlockingLayerObject;
-            CheckStoneRaycast();
+            CheckStoneRaycast(ref end, ref EnemyAimingWay);
 
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
@@ -74,51 +69,32 @@ public class RangedEnemy : Enemy
         }
         boxColliderEnemy.enabled = true;
     }
-    bool isStoneRaycasted;
-    RaycastHit2D CheckBlockingLayerObject;
-    int aimingDirectionCheck;
 
-    /*
-    public void CheckStoneRaycast()
+    public void CheckStoneRaycast(ref Vector2 parEnd, ref LineOfSight parEnemyAimingWay)
     {
+        //Check se devo disabilitare e riattivare il box collider o, se è già spento, lasciarlo così perché se ne occupa qualcun altro.
+        bool isBoxColliderToManageHere = boxColliderEnemy.enabled;
+
+        bool isStoneRaycasted;
+        RaycastHit2D CheckBlockingLayerObject;
+        int aimingDirectionCheck = 0;
+
+        if (isBoxColliderToManageHere)
+        {
+            boxColliderEnemy.enabled = false;
+        }
+
         do
         {
-            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
+            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, parEnd, 1f, blockingLayer);
 
             isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
-
             if (isStoneRaycasted)
             {
                 aimingDirectionCheck++;
 
-                ChangeAimingDirection(ref EnemyAimingWay);
-                end = GetVectorDirection(EnemyAimingWay);
-
-                // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
-                if (aimingDirectionCheck == 3)
-                {
-                    break;
-                }
-            }
-        } while (isStoneRaycasted);
-
-    }*/
-    public bool CheckStoneRaycast()
-    {
-        bool result = false;
-        do
-        {
-            CheckBlockingLayerObject = Physics2D.Raycast(transform.position, end, 1f, blockingLayer);
-
-            isStoneRaycasted = CheckBlockingLayerObject && CheckBlockingLayerObject.transform.tag == "Stone";
-            result = true;
-            if (isStoneRaycasted)
-            {
-                result = false;
-                aimingDirectionCheck++;
-
-                ChangeAimingDirection(ref EnemyAimingWay);
-                end = GetVectorDirection(EnemyAimingWay);
+                ChangeAimingDirection(ref parEnemyAimingWay);
+                parEnd = GetVectorDirection(parEnemyAimingWay);
 
                 // Ha fatto il giro completo e ha trovato solo muri. Cattivi level designers!
                 if (aimingDirectionCheck == 3)
@@ -128,12 +104,14 @@ public class RangedEnemy : Enemy
             }
 
         } while (isStoneRaycasted);
-        return result;
 
-
+        if (isBoxColliderToManageHere)
+        {
+            boxColliderEnemy.enabled = true;
+        }
     }
 
-    public void InstanceDeadZone()
+    public void InstanceDeadZone(LineOfSight parEnemyAimingWay)
     {
         Vector3 _TempEndPosition = new Vector3();
         for (int i = 1; i < 9; i++)
@@ -141,7 +119,7 @@ public class RangedEnemy : Enemy
 
             Transform _TempDeadZone = Instantiate(Deadzone.transform, this.transform.position, Quaternion.identity);
             _TempEndPosition = new Vector3();
-            switch (EnemyAimingWay)
+            switch (parEnemyAimingWay)
             {
                 case LineOfSight.down:
                     _TempEndPosition = _TempDeadZone.position;
