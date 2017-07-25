@@ -52,6 +52,8 @@ namespace Completed
             }
         }
 
+        private bool Saved = false;
+
 
 
         //Awake is always called before any Start functions
@@ -264,12 +266,20 @@ namespace Completed
                     if (enemies[i].tick == tickBeforeChange)
                     {
                         enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
-                        ((RangedEnemy)enemies[i]).InstanceDeadZone();
-                        for (int j = 0; j < 3; j++)
+                        if (((RangedEnemy)enemies[i]).CheckStoneRaycast())
                         {
-                            enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
+                            ((RangedEnemy)enemies[i]).InstanceDeadZone();
                         }
+                     /*   do
+                        {
+                 
+                            enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
+                            currentaim = enemies[i].EnemyAimingWay.ToString();
+                        } while (currentaim != aimsaved);
+*/
+
                     }
+                    Saved = false;
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
                 }
             }
@@ -281,7 +291,10 @@ namespace Completed
             //Enemies are done moving, set enemiesMoving to false.
             enemiesMoving = false;
         }
+        GameObject[] CheckDeadZone;
         int actualTick;
+        int NDeadZone;
+        int NPreveousDZ;
         #region Go To Next Scene
         //Goes to next scene when called.
         public void GoToNextScene(float delay)
