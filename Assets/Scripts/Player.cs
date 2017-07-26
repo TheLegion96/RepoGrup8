@@ -66,7 +66,7 @@ namespace Completed
             totalTurns = GameManager.instance.playerTotalTurns;
 
             //Set the foodText to reflect the current player food total.
-            foodText.text = "Turni: " + totalTurns;
+          //  foodText.text = "Turni: " + totalTurns;
 
             //Call the Start function of the MovingObject base class.
             base.Start();
@@ -195,7 +195,7 @@ namespace Completed
                         /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
                         //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-                        AttemptMove<Enemy>(horizontal, vertical);
+                AttemptMove<Enemy>(horizontal, vertical);
                     }
                 }
             }

@@ -6,9 +6,9 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [SerializeField] protected GameObject Deadzone;
-
+    [SerializeField] private TextMesh CountDownMesh;
     public bool DoThisOnlyWhenAllDeadZoneAreON = false;
-
+    private int CDTick;
     //Start overrides the virtual Start function of the base class. 
     protected override void Start()
     {
@@ -32,12 +32,14 @@ public class RangedEnemy : Enemy
         end = GetVectorDirection(EnemyAimingWay);
 
         tick++;
-        //int tickBeforeMax = maxTicks - 1;
-        //if(tick==tickBeforeMax)
-        //{
-        //    InstanceDeadZone();
-
-        //}
+   
+       CDTick = maxTicks - tick;
+      
+        if(CDTick==0)
+        {
+            CDTick = maxTicks;
+        }
+        CountDownMesh.text = CDTick.ToString();
         if (tick == maxTicks)
         {
             ChangeAimingDirection(ref EnemyAimingWay);
@@ -178,13 +180,7 @@ public class RangedEnemy : Enemy
 
 
     }
-    //void CheckIfStone()
-    //{
-
-    //  
-
-    //}
-
+  
 
 
 }
