@@ -20,15 +20,17 @@ namespace Completed
 
         public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
         public float turnDelay = 0.1f;                          //Delay between each Player turn.
-        public int playerTotalTurns = 0;                        //Starting value for Player Turns.
+        public int playerTotalMoney = 0;                        //Starting value for Player Money.
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
         [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
 
 
         private Text levelText;                                 //Text to display current level number.
+        private TextMesh bookTitleTextMesh;
         private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
         private int level = 1;                                  //Current level number, expressed in game as "Day 1".
         public List<Enemy> enemies;                             //List of all Enemy units, used to issue them move commands.
+        private bool enemiesDying;                              //Boolean to check if enemies are dying.
         private bool enemiesMoving;                             //Boolean to check if enemies are moving.
         private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 
@@ -49,6 +51,9 @@ namespace Completed
 
                 if (levelText != null)
                     UpdateSceneTitle(levelText);
+
+                if (bookTitleTextMesh != null)
+                    UpdateSceneTitle(bookTitleTextMesh);
             }
         }
 
@@ -97,7 +102,7 @@ namespace Completed
             instance.InitGame();
             if (instance.level == 1)
             {
-                instance.playerTotalTurns = 0;
+                instance.playerTotalMoney = 0;
             }
         }
 
@@ -115,16 +120,31 @@ namespace Completed
             if (levelImage != null)
             {
                 GameObject leveTextGameObject = GameObject.Find("LevelText");
+                GameObject bookTitleGameObject = GameObject.Find("BookTitle");
 
-                if (leveTextGameObject != null)
+                if (leveTextGameObject != null || bookTitleGameObject != null)
                 {
-                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                    levelText = leveTextGameObject.GetComponent<Text>();
+                    if (leveTextGameObject != null)
+                    {
+                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                        levelText = leveTextGameObject.GetComponent<Text>();
 
-                    //Set the text of levelText to the string "Day" and append the current level number.
-                    //levelText.text = "Day " + level;
-                    //[Verza] Added dynamic title.
-                    UpdateSceneTitle(levelText);
+                        //Set the text of levelText to the string "Day" and append the current level number.
+                        //levelText.text = "Day " + level;
+                        //[Verza] Added dynamic title.
+                        UpdateSceneTitle(levelText);
+                    }
+
+                    if (bookTitleGameObject != null)
+                    {
+                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                        bookTitleTextMesh = bookTitleGameObject.GetComponent<TextMesh>();
+
+                        //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
+                        //bookTitleTextMesh.text = "Day " + level;
+                        //[Verza] Added dynamic title.
+                        UpdateSceneTitle(bookTitleTextMesh);
+                    }
 
                     //[Verza] Moving title block.
                     StartCoroutine(MoveTitleBlock());
@@ -142,9 +162,13 @@ namespace Completed
 
         }
 
-        void UpdateSceneTitle(Text levelText)
+        void UpdateSceneTitle(Text textObj)
         {
-            levelText.text = title;
+            textObj.text = title;
+        }
+        void UpdateSceneTitle(TextMesh textObj)
+        {
+            textObj.text = title;
         }
 
         IEnumerator MoveTitleBlock()
@@ -191,8 +215,8 @@ namespace Completed
                 }
 
             }
-            //Check that  or enemiesMoving or doingSetup are not currently true.
-            if (playersTurn || enemiesMoving || doingSetup)
+            //Check that  or enemiesMoving or enemiesDying or doingSetup are not currently true.
+            if (playersTurn || enemiesMoving || enemiesDying || doingSetup)
 
                 //If any of these are true, return and do not start MoveEnemies.
                 return;
@@ -212,8 +236,12 @@ namespace Completed
         //Call this to remove the passed in Enemy from the List of Enemy objects.
         public void RemoveEnemyFromList(Enemy script)
         {
+            enemiesDying = true;
+
             //Remove Enemy from List enemies.
             enemies.Remove(script);
+
+            enemiesDying = false;
         }
 
 
@@ -267,7 +295,7 @@ namespace Completed
             for (int i = 0; i < enemies.Count; i++)
             {
                 tempRangedEnemy = null;
-                
+
                 if (enemies[i] is RangedEnemy)
                 {
                     tempRangedEnemy = ((RangedEnemy)enemies[i]);
@@ -282,23 +310,23 @@ namespace Completed
                         tempEnd = tempRangedEnemy.GetVectorDirection(tempEnemyAimingWay);
                         tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
                         tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
-                     /*   do
-                        {
-                 
-                            enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
-                            currentaim = enemies[i].EnemyAimingWay.ToString();
-                        } while (currentaim != aimsaved);
-*/
+                        /*   do
+                           {
+
+                               enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
+                               currentaim = enemies[i].EnemyAimingWay.ToString();
+                           } while (currentaim != aimsaved);
+   */
 
                     }
                     Saved = false;
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
                 }
             }
-        
-   
-        //Once Enemies are done moving, set playersTurn to true so player can move.
-        playersTurn = true;
+
+
+            //Once Enemies are done moving, set playersTurn to true so player can move.
+            playersTurn = true;
 
             //Enemies are done moving, set enemiesMoving to false.
             enemiesMoving = false;

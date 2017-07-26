@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Completed
 {
@@ -8,6 +9,9 @@ namespace Completed
         public GameObject gameManager;          //GameManager prefab to instantiate.
         public GameObject soundManager;         //SoundManager prefab to instantiate.
         public string sceneTitle;
+
+        [Header("NON ANCORA IMPLEMENTATO ma potete riempirlo")]
+        public Vector2[] minimumSteps;
 
         void Awake()
         {

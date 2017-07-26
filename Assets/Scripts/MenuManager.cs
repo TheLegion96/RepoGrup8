@@ -9,6 +9,9 @@ public class MenuManager : MonoBehaviour
 
     private int index = 0;
 
+    //public Animator openMap;
+    //private float delay = 1f;
+
     public Sprite map_1;
     public Sprite map_2;
     public Sprite map_3;
@@ -19,6 +22,9 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        //openMap = GetComponent<Animator>();
+        //openMap.Play("OpenMenuTitle");
+        //Destroy (gameObject, this.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + delay);
         this.gameObject.GetComponent<SpriteRenderer>().sprite = map_1;
         transform.position = position;
         transform.localScale = scale;
@@ -57,7 +63,7 @@ public class MenuManager : MonoBehaviour
             }
             else if (index == 2)
             {
-                //Credits
+                SceneManager.LoadScene("Credits_simone");
             }
             else if (index == 3)
             {
