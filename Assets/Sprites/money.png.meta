@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a6296c71bb2d4504f8cd1ed074452b83
-timeCreated: 1501071880
+guid: 0d5e9925568d3da4785e6fa56897a85b
+timeCreated: 1501073243
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: circle_empty_0
+    21300000: money_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -41,7 +41,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 305
+  spritePixelsToUnits: 365
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -87,48 +87,19 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: circle_empty_0
+      name: money_0
       rect:
         serializedVersion: 2
-        x: 105
-        y: 92
-        width: 303
-        height: 305
+        x: 46
+        y: 97
+        width: 365
+        height: 278
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
-    outline:
-    - - {x: 123, y: -109}
-      - {x: 141, y: -84}
-      - {x: 149, y: -65}
-      - {x: 157, y: -44}
-      - {x: 160, y: -25}
-      - {x: 160, y: 21}
-      - {x: 150, y: 55}
-      - {x: 137, y: 78}
-      - {x: 121, y: 99}
-      - {x: 102, y: 117}
-      - {x: 79, y: 133}
-      - {x: 41, y: 149}
-      - {x: -23, y: 149}
-      - {x: -56, y: 139}
-      - {x: -90, y: 118}
-      - {x: -117, y: 92}
-      - {x: -140, y: 50}
-      - {x: -145, y: 30}
-      - {x: -147, y: 16}
-      - {x: -147, y: -30}
-      - {x: -144, y: -49}
-      - {x: -124, y: -93}
-      - {x: -96, y: -125}
-      - {x: -48, y: -153}
-      - {x: -21, y: -160}
-      - {x: 27, y: -160}
-      - {x: 58, y: -153}
-      - {x: 82, y: -142}
-      - {x: 104, y: -127}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

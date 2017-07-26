@@ -20,7 +20,6 @@ namespace Completed
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
-        public Text foodText;                       //UI Text to display current player food total.
         public Gender gender = Gender.Female;
         [Header("Player Sounds")]
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
@@ -30,13 +29,16 @@ namespace Completed
         public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound;             //Audio clip to play when player dies.
+        private TextMesh moneyText;                 //UI Text to display current player money total.
+        private TextMesh stepsText;                 //UI Text to display current player steps total.
 
         [Header("Animators")]
         public RuntimeAnimatorController maleCharacterAnimator;
         public RuntimeAnimatorController femaleCharacterAnimator;
         private Animator animator;                  //Used to store a reference to the Player's animator component.
 
-        private int totalTurns;                     //Used to store player turns total during level.
+        private int totalMoney;                     //Used to store player turns total during level.
+        private int levelSteps;                     //Used to store player steps during level.
         [Header("Turns and Moves")]
         public Vector2 old_Coordinate;
         public Vector2 new_Coordinate;
@@ -63,22 +65,34 @@ namespace Completed
             }
 
             //Get the current food point total stored in GameManager.instance between levels.
-            totalTurns = GameManager.instance.playerTotalTurns;
+            totalMoney = GameManager.instance.playerTotalMoney;
+            levelSteps = 0;
 
-            //Set the foodText to reflect the current player food total.
-          //  foodText.text = "Turni: " + totalTurns;
+            GameObject moneyGameObject = GameObject.Find("MoneyText");
+            if (moneyGameObject != null)
+            {
+                moneyText = moneyGameObject.GetComponent<TextMesh>();
+                moneyText.text = totalMoney.ToString();
+            }
+
+            GameObject stepsGameObject = GameObject.Find("StepsText");
+            if (stepsGameObject != null)
+            {
+                stepsText = stepsGameObject.GetComponent<TextMesh>();
+                stepsText.text = levelSteps.ToString();
+            }
 
             //Call the Start function of the MovingObject base class.
             base.Start();
         }
 
 
-        //This function is called when the behaviour becomes disabled or inactive.
-        private void OnDisable()
-        {
-            //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-            GameManager.instance.playerTotalTurns = totalTurns;
-        }
+        ////This function is called when the behaviour becomes disabled or inactive.
+        //private void OnDisable()
+        //{
+        //    //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
+        //    GameManager.instance.playerTotalMoney = totalMoney;
+        //}
 
 
         private void Update()
@@ -195,7 +209,7 @@ namespace Completed
                         /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
                         //Pass in horizontal and vertical as parameters to specify the direction to move Player in.
-                AttemptMove<Enemy>(horizontal, vertical);
+                        AttemptMove<Enemy>(horizontal, vertical);
                     }
                 }
             }
@@ -206,10 +220,10 @@ namespace Completed
         protected override void AttemptMove<T>(int xDir, int yDir)
         {
             //Every time player moves, subtract from food points total.
-            totalTurns++;
+            levelSteps++;
 
             //Update food text display to reflect current score.
-            foodText.text = "Turni: " + totalTurns;
+            stepsText.text = levelSteps.ToString();
 
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
@@ -262,6 +276,8 @@ namespace Completed
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
                 this.GetComponent<BoxCollider2D>().enabled = false;
 
+                GameManager.instance.playerTotalMoney += (100 - levelSteps);
+
                 GameManager.instance.GoToNextScene(restartLevelDelay);
 
                 //Disable the player object since level is over.
@@ -272,10 +288,10 @@ namespace Completed
             else if (other.tag == "Food")
             {
                 //Add pointsPerFood to the players current food total.
-                totalTurns -= pointsPerFood;
+                levelSteps -= pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerFood + " Turni: " + totalTurns;
+                stepsText.text = "(-" + pointsPerFood + ") " + levelSteps;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -288,10 +304,10 @@ namespace Completed
             else if (other.tag == "Soda")
             {
                 //Add pointsPerSoda to players food points total
-                totalTurns -= pointsPerSoda;
+                levelSteps -= pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "-" + pointsPerSoda + " Turni: " + totalTurns;
+                moneyText.text = "(-" + pointsPerSoda + ") " + levelSteps;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
@@ -315,7 +331,7 @@ namespace Completed
         private void CheckIfGameOver()
         {
             //Check if food point total is less than or equal to zero.
-            if (totalTurns >= 100)
+            if (levelSteps >= 100)
             {
                 ExecuteGameOver();
             }
