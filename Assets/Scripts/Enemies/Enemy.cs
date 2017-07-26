@@ -217,7 +217,7 @@ namespace Completed
             int xDir = 0;
             int yDir = 0;
 
-            CheckNextCell(out xDir, out yDir);
+           CheckNextCell(out xDir, out yDir);
 
             AttemptMove<Player>(xDir, yDir);
         }
@@ -345,7 +345,7 @@ namespace Completed
             int yDir = 0;
 
             CheckNextCell(out xDir, out yDir);
-
+           
             AttemptAttack(xDir, yDir, player, out isStillAlive);
         }
     }

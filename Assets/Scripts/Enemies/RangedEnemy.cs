@@ -9,6 +9,8 @@ public class RangedEnemy : Enemy
     [SerializeField] private TextMesh CountDownMesh;
     public bool DoThisOnlyWhenAllDeadZoneAreON = false;
     private int CDTick;
+  
+
     //Start overrides the virtual Start function of the base class. 
     protected override void Start()
     {
@@ -30,10 +32,9 @@ public class RangedEnemy : Enemy
         boxColliderEnemy.enabled = false;
 
         end = GetVectorDirection(EnemyAimingWay);
-
-        tick++;
-   
-       CDTick = maxTicks - tick;
+       
+        tick++;            
+        CDTick = maxTicks - tick;
       
         if(CDTick==0)
         {
