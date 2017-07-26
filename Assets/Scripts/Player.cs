@@ -228,21 +228,21 @@ namespace Completed
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
 
-            //Hit allows us to reference the result of the Linecast done in Move.
-            RaycastHit2D hit;
+            ////Hit allows us to reference the result of the Linecast done in Move.
+            //RaycastHit2D hit;
 
-            //If Move returns true, meaning Player was able to move into an empty space.
-            Vector2 end;
-            if (CanMove(xDir, yDir, out hit, out end))
-            {
-                //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
-                //SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
-
-                /*if (SoundManager.instance)
-                {
-                    StartCoroutine(SoundManager.instance.PlayNextStep(0.5f));//moveTime * 5));
-                }*/
-            }
+            ////If Move returns true, meaning Player was able to move into an empty space.
+            //Vector2 end;
+            //if (CanMove(xDir, yDir, out hit, out end))
+            //{
+            //    //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
+            //    //SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+            //
+            //    /*if (SoundManager.instance)
+            //    {
+            //        StartCoroutine(SoundManager.instance.PlayNextStep(0.5f));//moveTime * 5));
+            //    }*/
+            //}
             new_Coordinate = this.transform.position;
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
             GameManager.instance.playersTurn = false;

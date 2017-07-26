@@ -30,6 +30,7 @@ namespace Completed
         private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
         private int level = 1;                                  //Current level number, expressed in game as "Day 1".
         public List<Enemy> enemies;                             //List of all Enemy units, used to issue them move commands.
+        private bool enemiesDying;                              //Boolean to check if enemies are dying.
         private bool enemiesMoving;                             //Boolean to check if enemies are moving.
         private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
 
@@ -214,8 +215,8 @@ namespace Completed
                 }
 
             }
-            //Check that  or enemiesMoving or doingSetup are not currently true.
-            if (playersTurn || enemiesMoving || doingSetup)
+            //Check that  or enemiesMoving or enemiesDying or doingSetup are not currently true.
+            if (playersTurn || enemiesMoving || enemiesDying || doingSetup)
 
                 //If any of these are true, return and do not start MoveEnemies.
                 return;
@@ -235,8 +236,12 @@ namespace Completed
         //Call this to remove the passed in Enemy from the List of Enemy objects.
         public void RemoveEnemyFromList(Enemy script)
         {
+            enemiesDying = true;
+
             //Remove Enemy from List enemies.
             enemies.Remove(script);
+
+            enemiesDying = false;
         }
 
 
