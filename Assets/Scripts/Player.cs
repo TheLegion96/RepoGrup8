@@ -172,7 +172,10 @@ namespace Completed
                     {
                         foreach (Enemy enemy in GameManager.instance.enemies)
                         {
-                            enemy.TryToKillPlayer(this, out isStillAlive);
+                            if (enemy is PatrollingEnemy)
+                            {
+                                enemy.TryToKillPlayer(this, out isStillAlive);
+                            }
                             if (!isStillAlive) break;
                         }
                     }

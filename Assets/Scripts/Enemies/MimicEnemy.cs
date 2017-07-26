@@ -20,7 +20,7 @@ public class MimicEnemy : Enemy
         //(...)
     }
 
-    public override void CheckNextCell(out int xDir, out int yDir)
+  /*  public override void CheckNextCell(out int xDir, out int yDir)
     {
         xDir = 0;
         yDir = 0;
@@ -44,5 +44,5 @@ public class MimicEnemy : Enemy
         }
 
         */
-    }
+    //}*/
 }

@@ -41,8 +41,7 @@ public class PatrollingEnemy : Enemy
     //    //Finished the default function, rotate the enemy towards the next position.
     //    RotateTowardsNextCell();
     //}
-
-
+  
     protected override IEnumerator SmoothMovement(Vector3 end) {
         // Copy of default code.
 
