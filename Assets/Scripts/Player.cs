@@ -20,7 +20,7 @@ namespace Completed
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
-        public Gender gender = Gender.Female;
+        public Gender gender;
         [Header("Player Sounds")]
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
@@ -373,6 +373,19 @@ namespace Completed
 
             yield return null;
         }
+        public void GetGender(bool SelectedGender)
+         {
+            if (SelectedGender)
+            {
+                gender = Gender.Female;
+            }
+            else
+            {
+                gender = Gender.Male;
+            }
+
+         }
     }
+   
 }
 
