@@ -304,7 +304,7 @@ namespace Completed
 
         //The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.
         //AttemptMove takes a generic parameter T to specify the type of component we expect our unit to interact with if blocked (Player for Enemies, Wall for Player).
-        private void AttemptAttack(int xDir, int yDir, Player player, out bool isStillAlive)
+        public void AttemptAttack(int xDir, int yDir, Player player, out bool isStillAlive)
         {
             //Hit will store whatever our linecast hits when Move is called.
             RaycastHit2D hit;
@@ -345,8 +345,15 @@ namespace Completed
             int yDir = 0;
 
             CheckNextCell(out xDir, out yDir);
-           
-            AttemptAttack(xDir, yDir, player, out isStillAlive);
+
+            if (this is PatrollingEnemy)
+            {
+                AttemptAttack(xDir, yDir, player, out isStillAlive);
+            }
+            else
+            {
+                isStillAlive = player.isStillAlive;
+            }
         }
     }
 

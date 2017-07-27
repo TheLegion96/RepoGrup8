@@ -13,7 +13,8 @@ namespace Completed
         {
             LevelStart,
             Play,
-            Pause
+            Pause,
+            RunningAnimation
         }
 
         public State state = State.Play;
@@ -216,7 +217,7 @@ namespace Completed
 
             }
             //Check that  or enemiesMoving or enemiesDying or doingSetup are not currently true.
-            if (playersTurn || enemiesMoving || enemiesDying || doingSetup)
+            if (playersTurn || enemiesMoving || enemiesDying || doingSetup || !GameObject.Find("Player").GetComponent<Player>().isStillAlive)
 
                 //If any of these are true, return and do not start MoveEnemies.
                 return;

@@ -20,7 +20,16 @@ namespace Completed
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
+<<<<<<< HEAD
         public Gender gender;
+=======
+        public Gender gender = Gender.Female;
+        private bool hasSword = true;               //Check if the player has a sword.
+        private float swordDestroyMinScale = 1f;
+        private float swordDestroyMaxScale = 4f;
+        private float swordDestroyAnimationTime = 2f;
+
+>>>>>>> fd50464869f4f52db0efb10738fee5b4e7c1ad9a
         [Header("Player Sounds")]
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
@@ -33,8 +42,10 @@ namespace Completed
         private TextMesh stepsText;                 //UI Text to display current player steps total.
 
         [Header("Animators")]
-        public RuntimeAnimatorController maleCharacterAnimator;
-        public RuntimeAnimatorController femaleCharacterAnimator;
+        public RuntimeAnimatorController maleCharacterWithSwordAnimator;
+        public RuntimeAnimatorController maleCharacterWithoutSwordAnimator;
+        public RuntimeAnimatorController femaleCharacterWithSwordAnimator;
+        public RuntimeAnimatorController femaleCharacterWithoutSwordAnimator;
         private Animator animator;                  //Used to store a reference to the Player's animator component.
 
         private int totalMoney;                     //Used to store player turns total during level.
@@ -57,11 +68,11 @@ namespace Completed
 
             if (gender == Gender.Male)
             {
-                animator.runtimeAnimatorController = maleCharacterAnimator;
+                animator.runtimeAnimatorController = maleCharacterWithSwordAnimator;
             }
             else
             {
-                animator.runtimeAnimatorController = femaleCharacterAnimator;
+                animator.runtimeAnimatorController = femaleCharacterWithSwordAnimator;
             }
 
             //Get the current food point total stored in GameManager.instance between levels.
@@ -261,12 +272,103 @@ namespace Completed
                 //Set hitWall to equal the component passed in as a parameter.
                 Enemy hitEnemy = component as Enemy;
 
-                //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-                animator.SetTrigger("Attack");
+                hitEnemy.TryToKillPlayer(this, out isStillAlive);
 
-                //Call the DamageWall function of the Wall we are hitting.
-                hitEnemy.DamageEnemy(attackDamage);
+                if (isStillAlive) { 
+                    if (hasSword)
+                    {
+                        //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
+                        animator.SetTrigger("Attack");
+
+                        //Call the DamageWall function of the Wall we are hitting.
+                        hitEnemy.DamageEnemy(attackDamage);
+
+                        //Remove the sword.
+                        RemoveSword();
+                    }
+                    else
+                    {
+                        Vector2 newEnemySight = transform.position - hitEnemy.transform.position;
+
+                        ChangeSightAnimation((int)newEnemySight.x, (int)newEnemySight.y);
+                        hitEnemy.AttemptAttack((int)newEnemySight.x, (int)newEnemySight.y, this, out isStillAlive);
+                    }
+                }
             }
+        }
+
+        private void RemoveSword()
+        {
+            GameManager.instance.state = GameManager.State.RunningAnimation;
+            //Remove the sword.
+            hasSword = false;
+
+            //Change Animator Controller
+            if (gender == Gender.Male)
+            {
+                animator.runtimeAnimatorController = maleCharacterWithoutSwordAnimator;
+            }
+            else
+            {
+                animator.runtimeAnimatorController = femaleCharacterWithoutSwordAnimator;
+            }
+
+            StartCoroutine(RemoveSword_CoRoutine());
+        }
+        private IEnumerator RemoveSword_CoRoutine()
+        {
+            if (isStillAlive)
+            {
+                GameObject spadaInteraGameObject = GameObject.Find("SpadaIntera");
+                GameObject spadaRottaGameObject = GameObject.Find("SpadaRotta");
+                Image spadaInteraImage = null, spadaRottaImage = null;
+
+                if (spadaInteraGameObject != null)
+                {
+                    spadaInteraImage = spadaInteraGameObject.GetComponent<Image>();
+
+                    if (spadaRottaGameObject != null)
+                    {
+                        spadaRottaImage = spadaRottaGameObject.GetComponent<Image>();
+                    }
+                }
+
+                if (spadaInteraImage != null && spadaRottaImage != null)
+                {
+                    Vector3 initialPosition, finalPosition;
+
+                    //Spada intera
+                    initialPosition = new Vector3(swordDestroyMaxScale, swordDestroyMaxScale, spadaInteraImage.rectTransform.localScale.z);
+                    finalPosition = new Vector3(swordDestroyMinScale, swordDestroyMinScale, spadaInteraImage.rectTransform.localScale.z);
+
+                    spadaInteraImage.rectTransform.localScale = initialPosition;
+                    spadaInteraImage.enabled = true;
+
+                    for (float elapsedTime = 0f; spadaInteraImage.rectTransform.localScale.x > finalPosition.x; elapsedTime += Time.deltaTime)
+                    {
+                        spadaInteraImage.rectTransform.localScale = Vector3.Lerp(initialPosition, finalPosition, (elapsedTime / (swordDestroyAnimationTime / 2)));
+                        yield return null;
+                    }
+                    spadaInteraImage.enabled = false;
+
+                    //Spada rotta
+                    initialPosition = new Vector3(swordDestroyMinScale, swordDestroyMinScale, spadaRottaImage.rectTransform.localScale.z);
+                    finalPosition = new Vector3(swordDestroyMaxScale, swordDestroyMaxScale, spadaRottaImage.rectTransform.localScale.z);
+
+                    spadaRottaImage.rectTransform.localScale = (initialPosition);
+                    spadaRottaImage.enabled = true;
+                    for (float elapsedTime = 0f; spadaRottaImage.rectTransform.localScale.x < finalPosition.x; elapsedTime += Time.deltaTime)
+                    {
+                        spadaRottaImage.rectTransform.localScale = Vector3.Lerp(initialPosition, finalPosition, (elapsedTime / (swordDestroyAnimationTime / 2)));
+                        yield return null;
+                    }
+                    spadaRottaImage.enabled = false;
+                }
+
+                GameManager.instance.state = GameManager.State.Play;
+            }
+
+            yield return null;
         }
 
 
