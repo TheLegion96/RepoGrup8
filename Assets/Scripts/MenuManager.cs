@@ -7,25 +7,13 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
 
-    private int index = 0;
-
-    //public Animator openMap;
-    //private float delay = 1f;
-
-    public Sprite map_1;
-    public Sprite map_2;
-    public Sprite map_3;
-    public Sprite map_4;
+    public Animator openMap;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0);
 
     void Start()
     {
-        //openMap = GetComponent<Animator>();
-        //openMap.Play("OpenMenuTitle");
-        //Destroy (gameObject, this.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + delay);
-        this.gameObject.GetComponent<SpriteRenderer>().sprite = map_1;
         transform.position = position;
         transform.localScale = scale;
     }
@@ -36,57 +24,33 @@ public class MenuManager : MonoBehaviour
         // Navigation
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (index < 3)
-            {
-                index++;
-            }
+            openMap.SetTrigger("Next");
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (index > 0)
-            {
-                index--;
-            }
+            openMap.SetTrigger("Previous");
         }
 
         // Load levels
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (index == 0)
+            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map1Anim"))
             {
-                SceneManager.LoadScene("0_TUTORIAL - Scene 1");
+                SceneManager.LoadScene("0_TUTORIAL - Scene 1"); 
             }
-            else if (index == 1)
+            else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map2Anim"))
             {
                 SceneManager.LoadScene("Select_level_simone");
             }
-            else if (index == 2)
+            else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map3Anim"))
             {
                 SceneManager.LoadScene("Credits_simone");
             }
-            else if (index == 3)
+            else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map4Anim"))
             {
                 Application.Quit();
             }
-        }
-
-        // Background changes
-        if (index == 0)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = map_1;
-        }
-        else if (index == 1)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = map_2;     
-        }
-        else if (index == 2)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = map_3;
-        }
-        else if (index == 3)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = map_4;
         }
 
     }
