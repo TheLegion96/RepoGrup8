@@ -10,7 +10,7 @@ public class MenuManager : MonoBehaviour
     public Animator openMap;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
-    private Vector3 scale = new Vector3(0.56f, 0.56f, 0);
+    private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
 
     void Start()
     {
