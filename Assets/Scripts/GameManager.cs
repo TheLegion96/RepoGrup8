@@ -58,7 +58,7 @@ namespace Completed
             }
         }
 
-        private bool Saved = false;
+        //private bool saved = false;
 
 
 
@@ -320,7 +320,7 @@ namespace Completed
    */
 
                     }
-                    Saved = false;
+                    //saved = false;
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
                 }
             }

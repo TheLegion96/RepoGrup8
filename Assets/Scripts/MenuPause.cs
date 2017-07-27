@@ -9,7 +9,7 @@ public class MenuPause : MonoBehaviour
     public Transform[] pause;
     public Player player;
     public float bookSpeed;
-    private bool isPaused = false;
+    //private bool isPaused = false;
     private int pauseIndex;
     //public GameObject obj;
 
