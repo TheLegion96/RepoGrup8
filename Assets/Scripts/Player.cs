@@ -21,7 +21,7 @@ namespace Completed
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
         public static Gender gender = Gender.Female;
-        private bool hasSword = true;               //Check if the player has a sword.
+        private bool hasSword = false;              //Check if the player has a sword. (REMOVED)
         private float swordDestroyMinScale = 1f;
         private float swordDestroyMaxScale = 4f;
         private float swordDestroyAnimationTime = 1.5f;
@@ -34,8 +34,8 @@ namespace Completed
         public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound;             //Audio clip to play when player dies.
-        private TextMesh moneyText;                 //UI Text to display current player money total.
-        private TextMesh stepsText;                 //UI Text to display current player steps total.
+        private TextMesh totalStepsText;                 //UI Text to display current player money total.
+        private TextMesh levelStepsText;                 //UI Text to display current player steps total.
 
         [Header("Animators")]
         public RuntimeAnimatorController maleCharacterWithSwordAnimator;
@@ -44,7 +44,7 @@ namespace Completed
         public RuntimeAnimatorController femaleCharacterWithoutSwordAnimator;
         private Animator animator;                  //Used to store a reference to the Player's animator component.
 
-        private int totalMoney;                     //Used to store player turns total during level.
+        private int totalSteps;                     //Used to store player turns total during level.
         private int levelSteps;                     //Used to store player steps during level.
         [Header("Turns and Moves")]
         public Vector2 old_Coordinate;
@@ -64,29 +64,29 @@ namespace Completed
 
             if (gender == Gender.Male)
             {
-                animator.runtimeAnimatorController = maleCharacterWithSwordAnimator;
+                animator.runtimeAnimatorController = (hasSword ? maleCharacterWithSwordAnimator : maleCharacterWithoutSwordAnimator);
             }
             else
             {
-                animator.runtimeAnimatorController = femaleCharacterWithSwordAnimator;
+                animator.runtimeAnimatorController = (hasSword ? femaleCharacterWithSwordAnimator : femaleCharacterWithoutSwordAnimator);
             }
 
             //Get the current food point total stored in GameManager.instance between levels.
-            totalMoney = GameManager.instance.playerTotalMoney;
+            totalSteps = GameManager.instance.playerTotalMoney;
             levelSteps = 0;
 
-            GameObject moneyGameObject = GameObject.Find("MoneyText");
-            if (moneyGameObject != null)
+            GameObject totalStepsGameObject = GameObject.Find("TotalStepsText");
+            if (totalStepsGameObject != null)
             {
-                moneyText = moneyGameObject.GetComponent<TextMesh>();
-                moneyText.text = totalMoney.ToString();
+                totalStepsText = totalStepsGameObject.GetComponent<TextMesh>();
+                totalStepsText.text = totalSteps.ToString();
             }
 
-            GameObject stepsGameObject = GameObject.Find("StepsText");
-            if (stepsGameObject != null)
+            GameObject levelStepsGameObject = GameObject.Find("LevelStepsText");
+            if (levelStepsGameObject != null)
             {
-                stepsText = stepsGameObject.GetComponent<TextMesh>();
-                stepsText.text = levelSteps.ToString();
+                levelStepsText = levelStepsGameObject.GetComponent<TextMesh>();
+                levelStepsText.text = levelSteps.ToString();
             }
 
             //Call the Start function of the MovingObject base class.
@@ -233,7 +233,7 @@ namespace Completed
             levelSteps++;
 
             //Update food text display to reflect current score.
-            stepsText.text = levelSteps.ToString();
+            levelStepsText.text = levelSteps.ToString();
 
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
@@ -307,20 +307,6 @@ namespace Completed
             else
             {
                 animator.runtimeAnimatorController = femaleCharacterWithoutSwordAnimator;
-            }
-
-            GameObject bookSpadaInteraGameObject = GameObject.Find("BookSpadaIntera");
-            GameObject bookSpadaRottaGameObject = GameObject.Find("BookSpadaRotta");
-
-            if (bookSpadaInteraGameObject != null )
-            {
-                SpriteRenderer bookSpadaInteraSpriteRenderer = bookSpadaInteraGameObject.GetComponent<SpriteRenderer>();
-                if (bookSpadaInteraSpriteRenderer != null) bookSpadaInteraSpriteRenderer.enabled = false;
-            }
-            if (bookSpadaRottaGameObject != null)
-            {
-                SpriteRenderer bookSpadaRottaSpriteRenderer = bookSpadaRottaGameObject.GetComponent<SpriteRenderer>();
-                if (bookSpadaRottaSpriteRenderer != null) bookSpadaRottaSpriteRenderer.enabled = true;
             }
 
             StartCoroutine(RemoveSword_CoRoutine());
@@ -406,7 +392,7 @@ namespace Completed
                 levelSteps -= pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
-                stepsText.text = "(-" + pointsPerFood + ") " + levelSteps;
+                levelStepsText.text = "(-" + pointsPerFood + ") " + levelSteps;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -422,7 +408,7 @@ namespace Completed
                 levelSteps -= pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
-                moneyText.text = "(-" + pointsPerSoda + ") " + levelSteps;
+                totalStepsText.text = "(-" + pointsPerSoda + ") " + levelSteps;
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);

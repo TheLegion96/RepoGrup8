@@ -12,6 +12,7 @@ public class MenuPause : MonoBehaviour
     //private bool isPaused = false;
     private int pauseIndex;
     //public GameObject obj;
+    private MeshRenderer bookClosedMenuSubtitleMeshRenderer;
 
     // Use this for initialization
     void Start()
@@ -20,31 +21,35 @@ public class MenuPause : MonoBehaviour
         transform.position = pause[0].position;
         pauseIndex = 0;
 
+        bookClosedMenuSubtitleMeshRenderer = GameObject.Find("BookClosedMenuSubtitle").GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (GameManager.instance.state == GameManager.State.Play || GameManager.instance.state == GameManager.State.Pause) { 
-        if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
+        if (GameManager.instance.state == GameManager.State.Play || GameManager.instance.state == GameManager.State.Pause)
         {
-            if (transform.position == pause[pauseIndex].position)
+            if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
             {
-                pauseIndex++;
-                GetComponent<AudioSource>().Play();
-                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
+                if (transform.position == pause[pauseIndex].position)
+                {
+                    bookClosedMenuSubtitleMeshRenderer.enabled = false;
+                    pauseIndex++;
+                    GetComponent<AudioSource>().Play();
+                    if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
-        {
-            if (pauseIndex >= pause.Length)
+            if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
             {
-                pauseIndex = 0;
-                if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;   
-            }
+                if (pauseIndex >= pause.Length)
+                {
+                    bookClosedMenuSubtitleMeshRenderer.enabled = false;
+                    pauseIndex = 0;
+                    if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;
+                }
 
-        }
+            }
         }
 
         //if (transform.position == pause[1].position)
