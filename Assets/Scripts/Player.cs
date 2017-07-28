@@ -20,7 +20,7 @@ namespace Completed
         public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
         public int attackDamage = 1;                //How much damage a player does to a wall when chopping it.
-        public Gender gender = Gender.Female;
+        public static Gender gender = Gender.Female;
         private bool hasSword = true;               //Check if the player has a sword.
         private float swordDestroyMinScale = 1f;
         private float swordDestroyMaxScale = 4f;
