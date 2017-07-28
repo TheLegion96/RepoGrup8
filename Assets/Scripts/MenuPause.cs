@@ -14,6 +14,10 @@ public class MenuPause : MonoBehaviour
     //public GameObject obj;
     private MeshRenderer bookClosedMenuSubtitleMeshRenderer;
 
+    [Header("MenuVoices")]
+    public GameObject[] MenuVoices;
+    public GameObject MenuPointer;
+
     // Use this for initialization
     void Start()
     {
