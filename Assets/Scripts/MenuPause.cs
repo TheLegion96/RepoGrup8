@@ -26,6 +26,7 @@ public class MenuPause : MonoBehaviour
     void Update()
     {
 
+        if (GameManager.instance.state == GameManager.State.Play || GameManager.instance.state == GameManager.State.Pause) { 
         if (Input.GetKeyDown(KeyCode.P) && player.isStillAlive)
         {
             if (transform.position == pause[pauseIndex].position)
@@ -44,11 +45,12 @@ public class MenuPause : MonoBehaviour
             }
 
         }
-
-        if (transform.position == pause[1].position)
-        {
-            //Time.timeScale = 0;
         }
+
+        //if (transform.position == pause[1].position)
+        //{
+        //    Time.timeScale = 0;
+        //}
 
 
         transform.position = Vector3.MoveTowards(transform.position, pause[pauseIndex].position, bookSpeed * Time.deltaTime); // Move the object to Arrays

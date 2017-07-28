@@ -24,7 +24,7 @@ namespace Completed
         private bool hasSword = true;               //Check if the player has a sword.
         private float swordDestroyMinScale = 1f;
         private float swordDestroyMaxScale = 4f;
-        private float swordDestroyAnimationTime = 2f;
+        private float swordDestroyAnimationTime = 1.5f;
 
         [Header("Player Sounds")]
         public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
@@ -309,6 +309,20 @@ namespace Completed
                 animator.runtimeAnimatorController = femaleCharacterWithoutSwordAnimator;
             }
 
+            GameObject bookSpadaInteraGameObject = GameObject.Find("BookSpadaIntera");
+            GameObject bookSpadaRottaGameObject = GameObject.Find("BookSpadaRotta");
+
+            if (bookSpadaInteraGameObject != null )
+            {
+                SpriteRenderer bookSpadaInteraSpriteRenderer = bookSpadaInteraGameObject.GetComponent<SpriteRenderer>();
+                if (bookSpadaInteraSpriteRenderer != null) bookSpadaInteraSpriteRenderer.enabled = false;
+            }
+            if (bookSpadaRottaGameObject != null)
+            {
+                SpriteRenderer bookSpadaRottaSpriteRenderer = bookSpadaRottaGameObject.GetComponent<SpriteRenderer>();
+                if (bookSpadaRottaSpriteRenderer != null) bookSpadaRottaSpriteRenderer.enabled = true;
+            }
+
             StartCoroutine(RemoveSword_CoRoutine());
         }
         private IEnumerator RemoveSword_CoRoutine()
@@ -377,7 +391,7 @@ namespace Completed
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
                 this.GetComponent<BoxCollider2D>().enabled = false;
 
-                GameManager.instance.playerTotalMoney += (100 - levelSteps);
+                GameManager.instance.playerTotalMoney += levelSteps;
 
                 GameManager.instance.GoToNextScene(restartLevelDelay);
 
