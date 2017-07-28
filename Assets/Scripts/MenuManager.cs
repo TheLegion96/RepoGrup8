@@ -41,7 +41,8 @@ public class MenuManager : MonoBehaviour
             }
             else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map2Anim"))
             {
-                SceneManager.LoadScene("Select_level_simone");
+                openMap.SetTrigger("Enter");
+                //SceneManager.LoadScene("Select_level_simone");
             }
             else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map3Anim"))
             {
