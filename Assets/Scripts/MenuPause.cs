@@ -34,7 +34,7 @@ public class MenuPause : MonoBehaviour
             {
                 if (transform.position == pause[pauseIndex].position)
                 {
-                    bookClosedMenuSubtitleMeshRenderer.enabled = false;
+                    //bookClosedMenuSubtitleMeshRenderer.enabled = false;
                     pauseIndex++;
                     GetComponent<AudioSource>().Play();
                     if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
@@ -44,7 +44,7 @@ public class MenuPause : MonoBehaviour
             {
                 if (pauseIndex >= pause.Length)
                 {
-                    bookClosedMenuSubtitleMeshRenderer.enabled = false;
+                    //bookClosedMenuSubtitleMeshRenderer.enabled = true;
                     pauseIndex = 0;
                     if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Play;
                 }
@@ -57,8 +57,17 @@ public class MenuPause : MonoBehaviour
         //    Time.timeScale = 0;
         //}
 
-
-        transform.position = Vector3.MoveTowards(transform.position, pause[pauseIndex].position, bookSpeed * Time.deltaTime); // Move the object to Arrays
+        if (transform.position != pause[pauseIndex].position)
+        { 
+            transform.position = Vector3.MoveTowards(transform.position, pause[pauseIndex].position, bookSpeed * Time.deltaTime); // Move the object to Arrays
+        }
+        if (transform.position == pause[0].position)
+        {
+            bookClosedMenuSubtitleMeshRenderer.enabled = true;
+        }
+        else {
+            bookClosedMenuSubtitleMeshRenderer.enabled = false;
+        }
 
         /*if (Input.GetKeyDown(KeyCode.P) && isPaused)
         {
