@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class PlayerSelection : MonoBehaviour
 {
-   // [SerializeField] private SpriteRenderer Maschio, Femmina;
+   [SerializeField] private SpriteRenderer Maschio, Femmina;
     private bool Selected = false;
     private Color Enabled = new Color(47, 47, 47);
     private Color Disabled = new Color(255, 255, 255);
-    public Completed.Player Test;
+
     public GameObject gO;
     private Text gOText;
     // Use this for initialization
@@ -33,30 +33,43 @@ public class PlayerSelection : MonoBehaviour
             if (Selected)
             {
                 Selected = false;
-                gOText.text = "MASCHIO";
+                gOText.text = "Femmina";
+              
+               
+                for (int i = 0; i < 10; i++)
+                {
+                    Femmina.transform.localScale += new Vector3(0.1F, 0.1f, 0);
+                    Maschio.transform.localScale -= new Vector3(0.1F, 0.1f, 0);
+                }
+
             }
             else
-            {
+                {
                 Selected = true;
-                gOText.text = "Femmina";
-
+                gOText.text = "MASCHIO";
+               
+                for (int i = 0; i < 10; i++)
+                {                 
+                 Maschio.transform.localScale += new Vector3(0.1F, 0.1f, 0);
+                    Femmina.transform.localScale -= new Vector3(0.1F, 0.1f, 0);
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Selected)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             float restartLevelDelay = 1f;
 
             if (Selected)
             {
-             Player.gender=Player.Gender.Male;
+                Player.gender = Player.Gender.Male;
             }
             else
             {
-
                 Player.gender = Player.Gender.Female;
             }
             GameManager.instance.GoToNextScene(restartLevelDelay);
         }
     }
+   
 }
