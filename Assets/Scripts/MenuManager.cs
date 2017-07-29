@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
         {
             if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map1Anim"))
             {
-                SceneManager.LoadScene("0_TUTORIAL - Scene 1"); 
+                SceneManager.LoadScene("Character_Selection"); 
             }
             else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map2Anim"))
             {
