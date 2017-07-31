@@ -6,6 +6,7 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [SerializeField] protected GameObject Deadzone;
+    [SerializeField] protected GameObject LaserDeadzone;
     [SerializeField] private TextMesh CountDownMesh;
     public bool DoThisOnlyWhenAllDeadZoneAreON = false;
     private int CDTick;
@@ -20,6 +21,7 @@ public class RangedEnemy : Enemy
         base.Start();
         //Call custom code for this type.
         ChangeSightAnimation(EnemyAimingWay);
+        InstanceLaserDeadZone(EnemyAimingWay);
         InstanceDeadZone(EnemyAimingWay);
     }
 
@@ -71,6 +73,7 @@ public class RangedEnemy : Enemy
             Bullet.transform.GetComponent<Player>().ExecuteGameOver();
         }
         boxColliderEnemy.enabled = true;
+        InstanceLaserDeadZone(EnemyAimingWay);
     }
 
     public void CheckStoneRaycast(ref Vector2 parEnd, ref LineOfSight parEnemyAimingWay)
@@ -114,12 +117,47 @@ public class RangedEnemy : Enemy
         }
     }
 
+    public void InstanceLaserDeadZone(LineOfSight parEnemyAimingWay)
+    {
+
+        Transform _TempLaserDeadZone;
+        float newY;
+        switch (parEnemyAimingWay)
+        {
+                case LineOfSight.down:
+              _TempLaserDeadZone  = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x , this.transform.position.y - 4f), Quaternion.identity);
+
+              newY= _TempLaserDeadZone.position.y + 0.35f;
+                _TempLaserDeadZone.position = new Vector3(_TempLaserDeadZone.position.x, newY, _TempLaserDeadZone.position.z);
+                _TempLaserDeadZone.Rotate(0, 0, 90);
+                break;
+                case LineOfSight.left:
+                _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x -4, this.transform.position.y), Quaternion.identity);
+
+                break;
+                case LineOfSight.up:
+                 _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x , this.transform.position.y + 4f), Quaternion.identity);      
+                newY = _TempLaserDeadZone.position.y + 0.35f;
+                _TempLaserDeadZone.position = new Vector3(_TempLaserDeadZone.position.x, newY, _TempLaserDeadZone.position.z);
+                _TempLaserDeadZone.Rotate(0, 0, 90);
+                break;
+                case LineOfSight.right:
+                 _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x + 4, this.transform.position.y), Quaternion.identity);
+
+                break;
+        }
+    }
+
+
+
+
     public void InstanceDeadZone(LineOfSight parEnemyAimingWay)
     {
+       // Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x + 4, this.transform.position.y), Quaternion.identity);
+  
         Vector3 _TempEndPosition = new Vector3();
         for (int i = 1; i < 9; i++)
         {
-
             Transform _TempDeadZone = Instantiate(Deadzone.transform, this.transform.position, Quaternion.identity);
             _TempEndPosition = new Vector3();
             switch (parEnemyAimingWay)
@@ -173,6 +211,7 @@ public class RangedEnemy : Enemy
 
             if (_TempDeadZone != null)
             {
+              
                 _TempDeadZone.position = _TempEndPosition;
                 _DeadZone.Add(_TempDeadZone);
             }

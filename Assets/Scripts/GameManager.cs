@@ -422,10 +422,6 @@ namespace Completed
             // enabled = false;
         }
 
-        GameObject[] CheckDeadZone;
-        int actualTick;
-        int NDeadZone;
-        int NPreveousDZ;
         #region Go To Next Scene
         //Goes to next scene when called.
         public void GoToNextScene(float delay)
