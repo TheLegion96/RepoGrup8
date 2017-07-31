@@ -47,6 +47,7 @@ namespace Completed
         private int totalSteps;                     //Used to store player turns total during level.
         private int levelSteps;                     //Used to store player steps during level.
         [Header("Turns and Moves")]
+        public KeyCode turnJumper = KeyCode.Space;
         public Vector2 old_Coordinate;
         public Vector2 new_Coordinate;
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -117,7 +118,8 @@ namespace Completed
                 Input.GetKeyDown(KeyCode.UpArrow) ||
                 Input.GetKeyDown(KeyCode.DownArrow) ||
                 Input.GetKeyDown(KeyCode.LeftArrow) ||
-                Input.GetKeyDown(KeyCode.RightArrow)
+                Input.GetKeyDown(KeyCode.RightArrow) ||
+                Input.GetKeyDown(turnJumper)
                 ))
             {
 
@@ -181,7 +183,7 @@ namespace Completed
 			
 #endif //End of mobile platform dependendent compilation section started above with #elif
                 //Check if we have a non-zero value for horizontal or vertical
-                if (horizontal != 0 || vertical != 0)
+                if (horizontal != 0 || vertical != 0 || Input.GetKeyDown(turnJumper))
                 {
                     bool isStillAlive = true;
 
