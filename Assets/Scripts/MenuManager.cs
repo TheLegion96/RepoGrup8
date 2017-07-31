@@ -14,10 +14,14 @@ public class MenuManager : MonoBehaviour
 
     private float textsOpacity = 0;
 
+    private TextMesh[] textMeshes;
+
     void Start()
     {
         transform.position = position;
         transform.localScale = scale;
+
+        textMeshes = openMap.GetComponentsInChildren<TextMesh>();
     }
 
     void Update()
@@ -37,7 +41,7 @@ public class MenuManager : MonoBehaviour
                 {
                     textsOpacity = Mathf.Clamp(textsOpacity + Time.deltaTime, 0, 1);
 
-                    foreach (TextMesh item in openMap.GetComponentsInChildren<TextMesh>())
+                    foreach (TextMesh item in textMeshes)
                     {
                         item.color = new Color(item.color.r, item.color.g, item.color.b, textsOpacity);
                     }
@@ -47,7 +51,7 @@ public class MenuManager : MonoBehaviour
             {
                 textsOpacity = 0;
 
-                foreach (TextMesh item in openMap.GetComponentsInChildren<TextMesh>())
+                foreach (TextMesh item in textMeshes)
                 {
                     item.color = new Color(item.color.r, item.color.g, item.color.b, textsOpacity);
                 }
