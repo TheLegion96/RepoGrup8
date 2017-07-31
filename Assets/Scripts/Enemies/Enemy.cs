@@ -20,14 +20,14 @@ namespace Completed
             Horizontal,     // 0 Movimento A => B su Asse X
             Vertical,       // 1 Movimento A => B su Asse Y
             Ranged,         // 2 Movimento Auto Rotativo Nemico Ranged
-            /* Mimic, */    // 3 Movimento Doppleganger Comandi riflessi rispetto al player
+          
             CustomPatrol    // 4 Movimento custom definito da Unity
         };
 
         //Suoni di attacco
         [Header("Sounds")]
         public AudioClip attackSound1;                      //First of two audio clips to play when attacking the player.
-        public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
+
 
         [Header("Enemy properties")]
         public EnemyType enemyTipe;                         // Indica il tipo di nemico
@@ -259,7 +259,7 @@ namespace Completed
             animator.SetTrigger("Attack");
 
             //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
-            SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
+            SoundManager.instance.RandomizeSfx(attackSound1);
 
             hitPlayer.ExecuteGameOver();
 
