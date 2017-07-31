@@ -216,7 +216,7 @@ namespace Completed
                         //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
                         //bookTitleTextMesh.text = "Day " + level;
                         //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(BookClosedMenuSubtitleTextMesh, title);
+                        UpdateSceneBookProperty(BookClosedMenuSubtitleTextMesh, subtitle);
                     }
 
                     if (bookChapterTextGameObject != null)
