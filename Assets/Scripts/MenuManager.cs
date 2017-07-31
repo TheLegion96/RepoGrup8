@@ -22,11 +22,30 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        if (!openMap.GetCurrentAnimatorStateInfo(0).IsName("OpenMap"))
+        AnimatorStateInfo animatorStateInfo = openMap.GetCurrentAnimatorStateInfo(0);
+
+        if (!animatorStateInfo.IsName("OpenMap"))
         {
-            if (textsOpacity < 1)
+            if (
+                animatorStateInfo.IsName("Map1Anim") ||
+                animatorStateInfo.IsName("Map2Anim") ||
+                animatorStateInfo.IsName("Map3Anim") ||
+                animatorStateInfo.IsName("Map4Anim")
+                )
             {
-                textsOpacity += Time.deltaTime;
+                if (textsOpacity < 1)
+                {
+                    textsOpacity = Mathf.Clamp(textsOpacity + Time.deltaTime, 0, 1);
+
+                    foreach (TextMesh item in openMap.GetComponentsInChildren<TextMesh>())
+                    {
+                        item.color = new Color(item.color.r, item.color.g, item.color.b, textsOpacity);
+                    }
+                }
+            }
+            else if (textsOpacity > 0)
+            {
+                textsOpacity = 0;
 
                 foreach (TextMesh item in openMap.GetComponentsInChildren<TextMesh>())
                 {
@@ -48,67 +67,67 @@ public class MenuManager : MonoBehaviour
             // Load levels
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map1Anim"))
+                if (animatorStateInfo.IsName("Map1Anim"))
                 {
                     SceneManager.LoadScene("Character_Selection");
                 }
-                else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map2Anim"))
+                else if (animatorStateInfo.IsName("Map2Anim"))
                 {
                     openMap.SetTrigger("Enter");
                     //SceneManager.LoadScene("Select_level_simone");
                 }
-                else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map3Anim"))
+                else if (animatorStateInfo.IsName("Map3Anim"))
                 {
                     SceneManager.LoadScene("Credits_simone");
                 }
-                else if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Map4Anim"))
+                else if (animatorStateInfo.IsName("Map4Anim"))
                 {
                     Application.Quit();
                 }
             }
 
             // Open Levels
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level1") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level1") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello1_Stanza1");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level2") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level2") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello1_Stanza2");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level3") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level3") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello1_Stanza3");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level4") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level4") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello2_Stanza1");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level5") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level5") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello2_Stanza2");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level6") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level6") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello2_Stanza3");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level7") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level7") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello3_Stanza1");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level8") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level8") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello3_Stanza2");
             }
 
-            if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level9") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level9") && Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("Livello3_Stanza3");
             }
