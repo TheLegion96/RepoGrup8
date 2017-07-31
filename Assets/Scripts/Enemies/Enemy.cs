@@ -47,6 +47,7 @@ namespace Completed
         public int tick;
 
         protected List<Transform> _DeadZone = new List<Transform>();
+        protected List<Transform> _LaserDeadZone = new List<Transform>();
 
         //Patrolling
         [Header("Patrolling only")]

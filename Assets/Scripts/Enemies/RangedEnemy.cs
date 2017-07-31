@@ -22,7 +22,7 @@ public class RangedEnemy : Enemy
         //Call custom code for this type.
         ChangeSightAnimation(EnemyAimingWay);
         InstanceLaserDeadZone(EnemyAimingWay);
-        InstanceDeadZone(EnemyAimingWay);
+        //InstanceDeadZone(EnemyAimingWay);
     }
 
     public override void CheckNextCell(out int xDir, out int yDir)
@@ -116,40 +116,70 @@ public class RangedEnemy : Enemy
             boxColliderEnemy.enabled = true;
         }
     }
-
+  
     public void InstanceLaserDeadZone(LineOfSight parEnemyAimingWay)
     {
 
-        Transform _TempLaserDeadZone;
-        float newY;
-        switch (parEnemyAimingWay)
+        for (int i = 1; i < 9; i++)
         {
+        Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, this.transform.position, Quaternion.identity); 
+       Vector3 _TempEndPosition = new Vector3();
+            switch (parEnemyAimingWay)
+            {
                 case LineOfSight.down:
-              _TempLaserDeadZone  = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x , this.transform.position.y - 4f), Quaternion.identity);
+                    _TempEndPosition = _TempLaserDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
 
-              newY= _TempLaserDeadZone.position.y + 0.35f;
-                _TempLaserDeadZone.position = new Vector3(_TempLaserDeadZone.position.x, newY, _TempLaserDeadZone.position.z);
-                _TempLaserDeadZone.Rotate(0, 0, 90);
-                break;
+                    _TempEndPosition.y -= i;
+                    _TempLaserDeadZone.position = _TempEndPosition;
+                    _TempLaserDeadZone.GetChild(0).GetChild(0).Rotate(0, 0, 90);
+                    break;
                 case LineOfSight.left:
-                _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x -4, this.transform.position.y), Quaternion.identity);
 
-                break;
+                    _TempEndPosition = _TempLaserDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
+                    _TempEndPosition.x -= i;
+                    _TempLaserDeadZone.position = _TempEndPosition;
+                    break;
                 case LineOfSight.up:
-                 _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x , this.transform.position.y + 4f), Quaternion.identity);      
-                newY = _TempLaserDeadZone.position.y + 0.35f;
-                _TempLaserDeadZone.position = new Vector3(_TempLaserDeadZone.position.x, newY, _TempLaserDeadZone.position.z);
-                _TempLaserDeadZone.Rotate(0, 0, 90);
-                break;
+                    _TempEndPosition = _TempLaserDeadZone.position;
+                    _TempEndPosition.y += i;
+                    //_TempEndPosition.y -= 0.35f;
+                    _TempLaserDeadZone.GetChild(0).GetChild(0).Rotate(0, 0, 90);
+                    _TempLaserDeadZone.position = _TempEndPosition;
+                    break;
                 case LineOfSight.right:
-                 _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x + 4, this.transform.position.y), Quaternion.identity);
+                    _TempEndPosition = _TempLaserDeadZone.position;
+                    //_TempEndPosition.y -= 0.35f;
+                    _TempEndPosition.x += i;
+                    _TempLaserDeadZone.position = _TempEndPosition;
+                    break;
+            }
+        RaycastHit2D checkCollision;
+            checkCollision = Physics2D.Linecast(_TempLaserDeadZone.position, _TempLaserDeadZone.position);
+            if (checkCollision.transform != null)
+            {
+                if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
+                {
+                    Destroy(_TempLaserDeadZone.gameObject);
+                    break;
+                }
+                else
+                {
+                    _TempLaserDeadZone.GetComponent<BoxCollider2D>().enabled = true;
+                }
+            }
 
-                break;
+            if (_TempLaserDeadZone != null)
+            {
+
+                _TempLaserDeadZone.position = _TempEndPosition;
+                _LaserDeadZone.Add(_TempLaserDeadZone);
+            }
+            
         }
     }
-
-
-
+  
 
     public void InstanceDeadZone(LineOfSight parEnemyAimingWay)
     {

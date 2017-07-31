@@ -208,12 +208,18 @@ namespace Completed
                         /**/
 
                         GameObject[] DestroyDeadZone;
+                        GameObject[] DestroyLaserDeadZone;
                         DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
-                        if (DestroyDeadZone.Length > 0)
+                        DestroyLaserDeadZone = GameObject.FindGameObjectsWithTag("LaserDeadZone");
+                        if (DestroyDeadZone.Length > 0&&DestroyLaserDeadZone.Length>0)
                         {
                             for (int i1 = 0; i1 < DestroyDeadZone.Length; i1++)
                             {
                                 Destroy(DestroyDeadZone[i1].gameObject);
+                            }
+                            for (int i1 = 0; i1 < DestroyLaserDeadZone.Length; i1++)
+                            {
+                                Destroy(DestroyLaserDeadZone[i1].gameObject);
                             }
                         }
                         // DoThisOnlyWhenAllDeadZoneAreON = false;
