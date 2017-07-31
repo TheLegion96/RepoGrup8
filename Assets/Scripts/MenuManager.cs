@@ -54,5 +54,51 @@ public class MenuManager : MonoBehaviour
             }
         }
 
+        // Open Levels
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level1") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello1_Stanza1");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level2") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello1_Stanza2");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level3") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello1_Stanza3");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level4") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello2_Stanza1");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level5") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello2_Stanza2");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level6") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello2_Stanza3");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level7") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello3_Stanza1");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level8") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello3_Stanza2");
+        }
+
+        if (openMap.GetCurrentAnimatorStateInfo(0).IsName("Level9") && Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("Livello3_Stanza3");
+        }
+
     }
 }
