@@ -53,6 +53,10 @@ public class RangedEnemy : Enemy
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
+        int tickbeforechange = maxTicks - 1;
+       if(tick!=tickbeforechange)
+            InstanceLaserDeadZone(EnemyAimingWay);
+        
 
 
         //[Verza] Spostato nel Game Manager.
@@ -73,7 +77,7 @@ public class RangedEnemy : Enemy
             Bullet.transform.GetComponent<Player>().ExecuteGameOver();
         }
         boxColliderEnemy.enabled = true;
-        InstanceLaserDeadZone(EnemyAimingWay);
+      
     }
 
     public void CheckStoneRaycast(ref Vector2 parEnd, ref LineOfSight parEnemyAimingWay)

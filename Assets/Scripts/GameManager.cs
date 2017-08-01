@@ -385,13 +385,7 @@ namespace Completed
                         tempEnd = tempRangedEnemy.GetVectorDirection(tempEnemyAimingWay);
                         tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
                         tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
-                        /*   do
-                           {
-
-                               enemies[i].ChangeAimingDirection(ref enemies[i].EnemyAimingWay);
-                               currentaim = enemies[i].EnemyAimingWay.ToString();
-                           } while (currentaim != aimsaved);
-   */
+                       
 
                     }
                     //saved = false;
