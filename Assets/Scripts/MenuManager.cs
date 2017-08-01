@@ -9,6 +9,9 @@ public class MenuManager : MonoBehaviour
 
     public Animator openMap;
 
+    private SpriteRenderer lvl1Enabled;
+
+
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
 
@@ -16,12 +19,15 @@ public class MenuManager : MonoBehaviour
 
     private TextMesh[] textMeshes;
 
+
     void Start()
     {
         transform.position = position;
         transform.localScale = scale;
 
         textMeshes = openMap.GetComponentsInChildren<TextMesh>();
+        lvl1Enabled = GameObject.Find("blucube").GetComponent<SpriteRenderer>();
+
     }
 
     void Update()
@@ -78,7 +84,6 @@ public class MenuManager : MonoBehaviour
                 else if (animatorStateInfo.IsName("Map2Anim"))
                 {
                     openMap.SetTrigger("Enter");
-                    //SceneManager.LoadScene("Select_level_simone");
                 }
                 else if (animatorStateInfo.IsName("Map3Anim"))
                 {
@@ -90,15 +95,29 @@ public class MenuManager : MonoBehaviour
                 }
             }
 
-            // Open Levels
-            if (animatorStateInfo.IsName("Level1") && Input.GetKeyDown(KeyCode.Return))
+            // Navigate Levels
+            if (animatorStateInfo.IsName("Level1"))
             {
-                SceneManager.LoadScene("Livello1_Stanza1");
+                lvl1Enabled.enabled = true;
+
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    SceneManager.LoadScene("Livello1_Stanza1");
+                }
+            }
+            else
+            {
+                lvl1Enabled.enabled = false;
             }
 
-            if (animatorStateInfo.IsName("Level2") && Input.GetKeyDown(KeyCode.Return))
+            if (animatorStateInfo.IsName("Level2"))
             {
-                SceneManager.LoadScene("Livello1_Stanza2");
+                
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    SceneManager.LoadScene("Livello1_Stanza2");
+                }
+                
             }
 
             if (animatorStateInfo.IsName("Level3") && Input.GetKeyDown(KeyCode.Return))
@@ -136,5 +155,6 @@ public class MenuManager : MonoBehaviour
                 SceneManager.LoadScene("Livello3_Stanza3");
             }
         }
+
     }
 }
