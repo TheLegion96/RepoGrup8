@@ -16,6 +16,9 @@ public class PlayerSelection : MonoBehaviour
     private Text gOText;
     private Player.Gender tmpGender;
 
+    private Vector3 defaultScale = new Vector3(5, 5, 1);
+    private Vector3 finalScale = new Vector3(6, 6, 1);
+
     // Use this for initialization
     void Start()
     {
@@ -56,8 +59,8 @@ public class PlayerSelection : MonoBehaviour
 
             for (int i = 0; i < 10; i++)
             {
-                Femmina.transform.localScale += new Vector3(0.1f, 0.1f, 0);
-                Maschio.transform.localScale -= new Vector3(0.1f, 0.1f, 0);
+                Femmina.transform.localScale = finalScale;
+                Maschio.transform.localScale = defaultScale;
             }
         }
         else {
@@ -66,8 +69,8 @@ public class PlayerSelection : MonoBehaviour
 
             for (int i = 0; i < 10; i++)
             {
-                Maschio.transform.localScale += new Vector3(0.1f, 0.1f, 0);
-                Femmina.transform.localScale -= new Vector3(0.1f, 0.1f, 0);
+                Maschio.transform.localScale = finalScale;
+                Femmina.transform.localScale = defaultScale;
             }
         }
     }
