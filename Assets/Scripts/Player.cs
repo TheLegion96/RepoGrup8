@@ -220,7 +220,7 @@ namespace Completed
                         GameObject[] DestroyLaserDeadZone;
                         DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
                         DestroyLaserDeadZone = GameObject.FindGameObjectsWithTag("LaserDeadZone");
-                        if (DestroyDeadZone.Length > 0&&DestroyLaserDeadZone.Length>0)
+                        if ((DestroyDeadZone.Length > 0&&DestroyLaserDeadZone.Length>0)|| DestroyDeadZone.Length > 0)
                         {
                             for (int i1 = 0; i1 < DestroyDeadZone.Length; i1++)
                             {

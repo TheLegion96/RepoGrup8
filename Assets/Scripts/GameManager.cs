@@ -42,7 +42,7 @@ namespace Completed
         private string title;
         private string subtitle;
         private string chapterText;
-        private bool setRestartAvailable = false;
+        public static bool setRestartAvailable = false;
 
         public string Title
         {
@@ -410,14 +410,14 @@ namespace Completed
 
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
-        {
+        {    setRestartAvailable = true;
             //Set levelText to display number of levels passed and game over message
             levelTitleText.text = "Sei morto nel livello " + level + "!\n Premi R per ricominciare il quadro";
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);
 
-            setRestartAvailable = true;
+        
             //Disable this GameManager.
             // enabled = false;
         }

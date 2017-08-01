@@ -24,7 +24,7 @@ namespace Completed
             GameManager.instance.Title = (sceneTitle != null && sceneTitle != string.Empty ? sceneTitle : "Unnamed Level");
             GameManager.instance.Subtitle = (sceneSubtitle != null && sceneSubtitle != string.Empty ? sceneSubtitle : "Unnamed Room");
             GameManager.instance.ChapterText = (sceneChapterText != null && sceneChapterText != string.Empty ? sceneChapterText : "Untold Story.");
-
+            GameManager.setRestartAvailable = false;
             //Check if a SoundManager has already been assigned to static variable GameManager.instance or if it's still null
             if (SoundManager.instance == null)
 
