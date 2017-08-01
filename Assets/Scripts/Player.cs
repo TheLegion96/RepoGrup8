@@ -122,6 +122,10 @@ namespace Completed
                 Input.GetKeyDown(turnJumper)
                 ))
             {
+                if (Input.GetKeyDown(turnJumper))
+                {
+                    animator.SetTrigger("LongIdle");
+                }
 
                 int horizontal = 0;     //Used to store the horizontal move direction.
                 int vertical = 0;       //Used to store the vertical move direction.
@@ -136,7 +140,12 @@ namespace Completed
                 vertical = (int)(Input.GetAxisRaw("Vertical"));
                 old_Coordinate = this.transform.position;
                 //Check if moving horizontally, if so set vertical to zero.
-                if (horizontal != 0)
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("LongIdle"))
+                {
+                    horizontal = 0;
+                    vertical = 0;
+                }
+                else if (horizontal != 0)
                 {
                     vertical = 0;
                 }
@@ -205,7 +214,7 @@ namespace Completed
 
                     if (isStillAlive)
                     {
-                        /**/
+                        /* È giusto che sia qui dentro. */
 
                         GameObject[] DestroyDeadZone;
                         GameObject[] DestroyLaserDeadZone;
@@ -222,7 +231,7 @@ namespace Completed
                                 Destroy(DestroyLaserDeadZone[i1].gameObject);
                             }
                         }
-                        // DoThisOnlyWhenAllDeadZoneAreON = false;
+                        
 
                         /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
