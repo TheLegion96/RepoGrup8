@@ -1,9 +1,15 @@
 fileFormatVersion: 2
-guid: c6f4ae49242b51441a715ece13ccd60a
-timeCreated: 1501509907
+guid: 8ec5bca7fa24a1c40a89cd8c7cb0ae8f
+timeCreated: 1501678591
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: ATK RANGED 1 DX_0
+    21300002: ATK RANGED 1 DX_1
+    21300004: ATK RANGED 1 DX_2
+    21300006: ATK RANGED 1 DX_3
+    21300008: ATK RANGED 1 DX_4
+    21300010: ATK RANGED 1 DX_5
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -40,7 +46,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 3000
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -84,9 +90,87 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 5042
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_1
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 5042
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_2
+      rect:
+        serializedVersion: 2
+        x: 6250
+        y: 5042
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_3
+      rect:
+        serializedVersion: 2
+        x: 9350
+        y: 5042
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_4
+      rect:
+        serializedVersion: 2
+        x: 12450
+        y: 5042
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ATK RANGED 1 DX_5
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 1942
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
-  spritePackingTag: Enemy
+  spritePackingTag: R1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

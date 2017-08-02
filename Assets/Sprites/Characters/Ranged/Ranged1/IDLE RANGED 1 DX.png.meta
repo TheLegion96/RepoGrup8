@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 93102508ad1b0514395e949d659c07ac
-timeCreated: 1501509874
+guid: d5b857586d12a864aa4fd9f3506ec9e4
+timeCreated: 1501679018
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: IDLE RANGED 1 DX_0
+    21300002: IDLE RANGED 1 DX_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -40,7 +42,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 3000
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -84,9 +86,35 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: IDLE RANGED 1 DX_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 946
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: IDLE RANGED 1 DX_1
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 946
+        width: 3100
+        height: 3100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
-  spritePackingTag: Enemy
+  spritePackingTag: R1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
