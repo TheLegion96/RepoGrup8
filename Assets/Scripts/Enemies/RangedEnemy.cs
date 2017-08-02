@@ -37,12 +37,13 @@ public class RangedEnemy : Enemy
        
         tick++;            
         CDTick = maxTicks - tick;
-      
-        if(CDTick==0)
+        int tickbeforechange = maxTicks - 1;
+        if (CDTick==0)
         {
             CDTick = maxTicks;
         }
         CountDownMesh.text = CDTick.ToString();
+       
         if (tick == maxTicks)
         {
             ChangeAimingDirection(ref EnemyAimingWay);
@@ -53,9 +54,11 @@ public class RangedEnemy : Enemy
             ChangeSightAnimation(EnemyAimingWay);
             tick = 0;
         }
-        int tickbeforechange = maxTicks - 1;
-       if(tick!=tickbeforechange)
-            InstanceLaserDeadZone(EnemyAimingWay);
+     if (tick != tickbeforechange)
+        {
+           InstanceLaserDeadZone(EnemyAimingWay);
+        }
+        
         
 
 

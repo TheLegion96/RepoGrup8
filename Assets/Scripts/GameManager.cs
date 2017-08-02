@@ -385,7 +385,7 @@ namespace Completed
                         tempEnd = tempRangedEnemy.GetVectorDirection(tempEnemyAimingWay);
                         tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
                         tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
-                       
+                        //tempRangedEnemy.InstanceLaserDeadZone(tempEnemyAimingWay);
 
                     }
                     //saved = false;
