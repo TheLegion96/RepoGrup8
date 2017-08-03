@@ -272,6 +272,7 @@ namespace Completed
             //}
             new_Coordinate = this.transform.position;
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
+            TestScript.Go = true;
             GameManager.instance.playersTurn = false;
         }
 
@@ -384,7 +385,8 @@ namespace Completed
             yield return null;
         }
 
-
+        //TNT =GameObject.FindGameObjectsWithTag("Soda");
+       // MaxCounter = TNT.Length;
         //OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -421,9 +423,10 @@ namespace Completed
             //Check if the tag of the trigger collided with is Soda.
             /*else*/ if (other.tag == "Soda")
             {
+                //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
                 Destroy(other.gameObject);
                 Debug.Log("NEMICO DANNEGGIATO");
-              
+
                 #region Old SodaScript (no need to open Clear after)
                 /* 
                 //Add pointsPerSoda to players food points total
@@ -443,7 +446,7 @@ namespace Completed
 
             
         }
-
+   
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
         private void CheckIfGameOver()
         {
