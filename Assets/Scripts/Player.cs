@@ -396,7 +396,7 @@ namespace Completed
 
                 GameManager.instance.playerTotalMoney += levelSteps;
 
-                GameManager.instance.GoToNextScene(restartLevelDelay);
+                GameManager.instance.GoToNextScene(restartLevelDelay, levelSteps);
 
                 //Disable the player object since level is over.
                 enabled = false;
@@ -419,8 +419,13 @@ namespace Completed
             }
 
             //Check if the tag of the trigger collided with is Soda.
-            else if (other.tag == "Soda")
+            /*else*/ if (other.tag == "Soda")
             {
+                Destroy(other.gameObject);
+                Debug.Log("NEMICO DANNEGGIATO");
+              
+                #region Old SodaScript (no need to open Clear after)
+                /* 
                 //Add pointsPerSoda to players food points total
                 levelSteps -= pointsPerSoda;
 
@@ -432,17 +437,11 @@ namespace Completed
 
                 //Disable the soda object the player collided with.
                 other.gameObject.SetActive(false);
+            */
+                #endregion
             }
 
-            //Aggiungere 
-            /*
-             else if (other.tag=="Enemy")
-             {
-            Destroy(other); 
             
-            }
-             
-             */
         }
 
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
