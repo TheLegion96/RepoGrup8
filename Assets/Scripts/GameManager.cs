@@ -454,6 +454,11 @@ namespace Completed
             if (playerSteps <= maxStepsForToken)
             {
                 // BRAVO! SETTARE IL TOKEN.
+                Debug.Log("Bravo!");
+            }
+            else
+            {
+                Debug.Log("Pippa!");
             }
         }
         #endregion
