@@ -119,6 +119,7 @@ namespace Completed
             }
         }
 
+
         //private bool saved = false;
 
 
@@ -279,7 +280,7 @@ namespace Completed
             /*Vector3 startPosition = new Vector3(0, 305, 0);
             Vector3 endPosition = new Vector3(0, 5, 0);
             float movingSeconds = 2f;
-            
+
             levelImage.GetComponent<RectTransform>().position = startPosition;
 
             while (movingSeconds > 0)
