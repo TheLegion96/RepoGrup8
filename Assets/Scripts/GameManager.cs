@@ -42,6 +42,7 @@ namespace Completed
         private string title;
         private string subtitle;
         private string chapterText;
+        private int maxStepsForToken;
         public static bool setRestartAvailable = false;
 
         public string Title
@@ -104,6 +105,20 @@ namespace Completed
                 }
             }
         }
+
+        public int MaxStepsForToken
+        {
+            get
+            {
+                return maxStepsForToken;
+            }
+
+            set
+            {
+                maxStepsForToken = value;
+            }
+        }
+
 
         //private bool saved = false;
 
@@ -265,7 +280,7 @@ namespace Completed
             /*Vector3 startPosition = new Vector3(0, 305, 0);
             Vector3 endPosition = new Vector3(0, 5, 0);
             float movingSeconds = 2f;
-            
+
             levelImage.GetComponent<RectTransform>().position = startPosition;
 
             while (movingSeconds > 0)
@@ -404,22 +419,24 @@ namespace Completed
 
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
-        {    setRestartAvailable = true;
+        {
+            setRestartAvailable = true;
             //Set levelText to display number of levels passed and game over message
             levelTitleText.text = "Sei morto nel livello " + level + "!\n Premi R per ricominciare il quadro";
 
             //Enable black background image gameObject.
             levelImage.SetActive(true);
 
-        
+
             //Disable this GameManager.
             // enabled = false;
         }
 
         #region Go To Next Scene
         //Goes to next scene when called.
-        public void GoToNextScene(float delay)
+        public void GoToNextScene(float delay, int playerSteps)
         {
+            SetTokenInfo(playerSteps);
             Invoke("GoToNextScene_Invoked", delay);
         }
         private void GoToNextScene_Invoked()
@@ -431,6 +448,19 @@ namespace Completed
             //Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
             //and not load all the scene object in the current scene.
             SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
+        }
+
+        public void SetTokenInfo(int playerSteps)
+        {
+            if (playerSteps <= maxStepsForToken)
+            {
+                // BRAVO! SETTARE IL TOKEN.
+                Debug.Log("Bravo!");
+            }
+            else
+            {
+                Debug.Log("Pippa!");
+            }
         }
         #endregion
     }

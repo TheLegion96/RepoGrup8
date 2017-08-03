@@ -396,7 +396,7 @@ namespace Completed
 
                 GameManager.instance.playerTotalMoney += levelSteps;
 
-                GameManager.instance.GoToNextScene(restartLevelDelay);
+                GameManager.instance.GoToNextScene(restartLevelDelay, levelSteps);
 
                 //Disable the player object since level is over.
                 enabled = false;

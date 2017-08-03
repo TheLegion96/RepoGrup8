@@ -11,6 +11,9 @@ namespace Completed
         public string sceneTitle;
         public string sceneSubtitle;
         public string sceneChapterText;
+        public int maxStepsForToken;           //Steps necessary to collect the level token.
+        [Tooltip("Default: 0.1")]
+        public float turnDelay = 0.1f;          //Delay between each Player turn. Default: 0.1f.
 
         void Awake()
         {
@@ -24,6 +27,8 @@ namespace Completed
             GameManager.instance.Title = (sceneTitle != null && sceneTitle != string.Empty ? sceneTitle : "Unnamed Level");
             GameManager.instance.Subtitle = (sceneSubtitle != null && sceneSubtitle != string.Empty ? sceneSubtitle : "Unnamed Room");
             GameManager.instance.ChapterText = (sceneChapterText != null && sceneChapterText != string.Empty ? sceneChapterText : "Untold Story.");
+            GameManager.instance.MaxStepsForToken = maxStepsForToken;
+            GameManager.instance.turnDelay = turnDelay;
             GameManager.setRestartAvailable = false;
             //Check if a SoundManager has already been assigned to static variable GameManager.instance or if it's still null
             if (SoundManager.instance == null)
