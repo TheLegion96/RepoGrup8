@@ -161,11 +161,28 @@ namespace Completed
         //This is called each time a scene is loaded.
         static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            instance.level = SceneManager.GetActiveScene().buildIndex + 1;
-            instance.InitGame();
-            if (instance.level == 1)
+            if (instance != null)
             {
-                instance.playerTotalMoney = 0;
+                instance.level = SceneManager.GetActiveScene().buildIndex + 1;
+                instance.InitGame();
+                switch (SceneManager.GetActiveScene().name) {
+                    case "0_TUTORIAL - Scene 1":
+                    case "0_TUTORIAL - Scene 2":
+                    case "0_TUTORIAL - Scene 3":
+                    case "Livello1_Stanza1":
+                    case "Livello1_Stanza2":
+                    case "Livello1_Stanza3":
+                    case "Livello2_Stanza1":
+                    case "Livello2_Stanza2":
+                    case "Livello2_Stanza3":
+                    case "Livello3_Stanza1":
+                    case "Livello3_Stanza2":
+                    case "Livello3_Stanza3":
+                        break;
+                    default:
+                        instance.playerTotalMoney = 0;
+                        break;
+                }
             }
         }
 
