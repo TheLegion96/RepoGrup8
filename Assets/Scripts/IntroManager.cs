@@ -31,7 +31,7 @@ public class IntroManager : MonoBehaviour {
 
         yield return new WaitForSeconds(2);
 
-        SceneManager.LoadScene("MainMenu_simone");
+        SceneManager.LoadScene("MainMenu_simone", LoadSceneMode.Single);
 
         yield return null;
     }

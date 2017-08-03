@@ -195,24 +195,32 @@ namespace Completed
                 if (horizontal != 0 || vertical != 0 || Input.GetKeyDown(turnJumper))
                 {
                     bool isStillAlive = true;
+                    bool proceedWithTheTurn = true;
 
                     //[Verza] Add check on enemies that can kill the player.
                     RaycastHit2D hit;
                     Vector2 end;
                     CanMove(horizontal, vertical, out hit, out end);
-                    if (hit.transform != null && hit.transform.GetComponent<Enemy>() != null)
+                    if (hit.transform != null)
                     {
-                        foreach (Enemy enemy in GameManager.instance.enemies)
+                        if (hit.transform.GetComponent<Enemy>() != null)
                         {
-                            if (enemy is PatrollingEnemy)
+                            foreach (Enemy enemy in GameManager.instance.enemies)
                             {
-                                enemy.TryToKillPlayer(this, out isStillAlive);
+                                if (enemy is PatrollingEnemy)
+                                {
+                                    enemy.TryToKillPlayer(this, out isStillAlive);
+                                }
+                                if (!isStillAlive) break;
                             }
-                            if (!isStillAlive) break;
+                        }
+                        else if (hit.transform.CompareTag("Stone"))
+                        {
+                            proceedWithTheTurn = false;
                         }
                     }
 
-                    if (isStillAlive)
+                    if (isStillAlive && proceedWithTheTurn)
                     {
                         /* È giusto che sia qui dentro. */
 
@@ -220,7 +228,7 @@ namespace Completed
                         GameObject[] DestroyLaserDeadZone;
                         DestroyDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
                         DestroyLaserDeadZone = GameObject.FindGameObjectsWithTag("LaserDeadZone");
-                        if (DestroyLaserDeadZone.Length>0|| DestroyDeadZone.Length > 0)
+                        if (DestroyLaserDeadZone.Length > 0 || DestroyDeadZone.Length > 0)
                         {
                             for (int i1 = 0; i1 < DestroyDeadZone.Length; i1++)
                             {
@@ -231,7 +239,7 @@ namespace Completed
                                 Destroy(DestroyLaserDeadZone[i1].gameObject);
                             }
                         }
-                        
+
 
                         /**/
                         //Call AttemptMove passing in the generic parameter Enemy, since that is what Player may interact with if they encounter one (by attacking it)
@@ -281,14 +289,15 @@ namespace Completed
         //It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
         protected override void OnCantMove<T>(T component)
         {
-            if (isStillAlive)
+            if (isStillAlive && component is Enemy)
             {
                 //Set hitWall to equal the component passed in as a parameter.
                 Enemy hitEnemy = component as Enemy;
 
                 hitEnemy.TryToKillPlayer(this, out isStillAlive);
 
-                if (isStillAlive) { 
+                if (isStillAlive)
+                {
                     if (hasSword)
                     {
                         //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
@@ -386,7 +395,7 @@ namespace Completed
         }
 
         //TNT =GameObject.FindGameObjectsWithTag("Soda");
-       // MaxCounter = TNT.Length;
+        // MaxCounter = TNT.Length;
         //OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -421,7 +430,8 @@ namespace Completed
             }
 
             //Check if the tag of the trigger collided with is Soda.
-            /*else*/ if (other.tag == "Soda")
+            /*else*/
+            if (other.tag == "Soda")
             {
                 //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
                 Destroy(other.gameObject);
@@ -444,9 +454,9 @@ namespace Completed
                 #endregion
             }
 
-            
+
         }
-   
+
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
         private void CheckIfGameOver()
         {
@@ -476,6 +486,7 @@ namespace Completed
                 // Call al metodo di Shake.
                 cameraShake.ShakeCamera(1f, 0.1f);
             }
+            animator.SetTrigger("Die");
 
             yield return new WaitForSeconds(2f);
 
@@ -491,7 +502,7 @@ namespace Completed
             yield return null;
         }
         public void GetGender(bool SelectedGender)
-         {
+        {
             if (SelectedGender)
             {
                 gender = Gender.Male;
@@ -501,8 +512,8 @@ namespace Completed
                 gender = Gender.Female;
             }
 
-         }
+        }
     }
-   
+
 }
 
