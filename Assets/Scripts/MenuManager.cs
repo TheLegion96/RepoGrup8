@@ -9,6 +9,20 @@ public class MenuManager : MonoBehaviour
 
     public Animator openMap;
 
+    private bool isToken_1 = false;
+    private bool isToken_2 = false;
+    private bool isToken_3 = false;
+    private bool isToken_4 = true;
+    private bool isToken_5 = false;
+    private bool isToken_6 = false;
+    private bool isToken_7 = false;
+    private bool isToken_8 = false;
+    private bool isToken_9 = false;
+    private bool isToken_10 = false;
+
+
+
+    // Level Icons
     private SpriteRenderer lvl1Enabled;
     private SpriteRenderer lvl2Enabled;
     private SpriteRenderer lvl3Enabled;
@@ -20,6 +34,19 @@ public class MenuManager : MonoBehaviour
     private SpriteRenderer lvl9Enabled;
     private SpriteRenderer lvl10Enabled;
 
+    // Tokens Render
+    private SpriteRenderer Token_1;
+    private SpriteRenderer Token_2;
+    private SpriteRenderer Token_3;
+    private SpriteRenderer Token_4;
+    private SpriteRenderer Token_5;
+    private SpriteRenderer Token_6;
+    private SpriteRenderer Token_7;
+    private SpriteRenderer Token_8;
+    private SpriteRenderer Token_9;
+    private SpriteRenderer Token_10;
+
+    private SpriteRenderer TokenGrey;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
@@ -46,6 +73,22 @@ public class MenuManager : MonoBehaviour
         lvl8Enabled = GameObject.Find("Selezione8").GetComponent<SpriteRenderer>();
         lvl9Enabled = GameObject.Find("Selezione9").GetComponent<SpriteRenderer>();
         lvl10Enabled = GameObject.Find("Selezione10").GetComponent<SpriteRenderer>();
+
+        Token_1 = GameObject.Find("Token_1").GetComponent<SpriteRenderer>();
+        Token_2 = GameObject.Find("Token_2").GetComponent<SpriteRenderer>();
+        Token_3 = GameObject.Find("Token_3").GetComponent<SpriteRenderer>();
+        Token_4 = GameObject.Find("Token_4").GetComponent<SpriteRenderer>();
+        Token_5 = GameObject.Find("Token_5").GetComponent<SpriteRenderer>();
+        Token_6 = GameObject.Find("Token_6").GetComponent<SpriteRenderer>();
+        Token_7 = GameObject.Find("Token_7").GetComponent<SpriteRenderer>();
+        Token_8 = GameObject.Find("Token_8").GetComponent<SpriteRenderer>();
+        Token_9 = GameObject.Find("Token_9").GetComponent<SpriteRenderer>();
+        Token_10 = GameObject.Find("Token_10").GetComponent<SpriteRenderer>();
+
+        TokenGrey = GameObject.Find("TokenGrey").GetComponent<SpriteRenderer>();
+
+
+
 
 
     }
@@ -121,6 +164,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl1Enabled.enabled = true;
 
+                if (isToken_1)
+                {
+                    Token_1.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("Livello1_Stanza1");
@@ -128,12 +176,17 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                lvl1Enabled.enabled = false;
+                lvl1Enabled.enabled = false;                
             }
 
             if (animatorStateInfo.IsName("Level2"))
             {
                 lvl2Enabled.enabled = true;
+
+                if (isToken_2)
+                {
+                    Token_2.enabled = true;
+                }
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -149,6 +202,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl3Enabled.enabled = true;
 
+                if (isToken_3)
+                {
+                    Token_3.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("Livello1_Stanza3");
@@ -162,6 +220,11 @@ public class MenuManager : MonoBehaviour
             if (animatorStateInfo.IsName("Level4"))
             {
                 lvl4Enabled.enabled = true;
+
+                if (isToken_4)
+                {
+                    Token_4.enabled = true;
+                }
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -177,6 +240,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl5Enabled.enabled = true;
 
+                if (isToken_5)
+                {
+                    Token_5.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("Livello2_Stanza2");
@@ -190,6 +258,11 @@ public class MenuManager : MonoBehaviour
             if (animatorStateInfo.IsName("Level6"))
             {
                 lvl6Enabled.enabled = true;
+
+                if (isToken_6)
+                {
+                    Token_6.enabled = true;
+                }
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -205,6 +278,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl7Enabled.enabled = true;
 
+                if (isToken_7)
+                {
+                    Token_7.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("Livello3_Stanza1");
@@ -218,6 +296,11 @@ public class MenuManager : MonoBehaviour
             if (animatorStateInfo.IsName("Level8"))
             {
                 lvl8Enabled.enabled = true;
+
+                if (isToken_8)
+                {
+                    Token_8.enabled = true;
+                }
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -233,6 +316,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl9Enabled.enabled = true;
 
+                if (isToken_9)
+                {
+                    Token_9.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("Livello3_Stanza3");
@@ -247,6 +335,11 @@ public class MenuManager : MonoBehaviour
             {
                 lvl10Enabled.enabled = true;
 
+                if (isToken_10)
+                {
+                    Token_10.enabled = true;
+                }
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SceneManager.LoadScene("");
@@ -256,7 +349,47 @@ public class MenuManager : MonoBehaviour
             {
                 lvl10Enabled.enabled = false;
             }
-        }
 
+            // Grey Token
+
+            if (animatorStateInfo.IsName("OpenLevels"))
+            {
+                TokenGrey.enabled = true;
+            }
+
+            if (!animatorStateInfo.IsName("Level1"))
+                Token_1.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level2"))
+                Token_2.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level3"))
+                Token_3.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level4"))
+                Token_4.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level5"))
+                Token_5.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level6"))
+                Token_6.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level7"))
+                Token_7.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level8"))
+                Token_8.enabled = false;
+
+            if (!animatorStateInfo.IsName("Level9"))
+                Token_9.enabled = false;
+
+            if (!animatorStateInfo.IsName("Boss"))
+                Token_10.enabled = false;
+
+        }
     }
+
+
+        
 }
