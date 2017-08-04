@@ -6,10 +6,12 @@ using UnityEngine;
 public class TestScript : MonoBehaviour {
 
     public static bool Go = false;
-    public GameObject DeadZone;
+    [Header("IMPOSTARE I VALORI A n.5")]
     public CustomVector2[] Proiettile;
-    public GameObject PlayerREF;
+    [Header("NON TOCCATE")]
+    [SerializeField]private GameObject DeadZone;
     private Player player;
+    [SerializeField]private GameObject PlayerREF;
     [SerializeField] private GameObject Object;
     [System.Serializable]
     public struct CustomVector2
@@ -29,7 +31,7 @@ public class TestScript : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        #region Instanziazione Casuale Proiettili Disabilitiata (Abilitare solo in casi estremi togliendo i commenti   
+        #region Instanziazione Casuale Proiettili Disabilitiata (Abilitare solo in casi estremi togliendo i commenti)   
         //for (int i = 0; i < Proiettile.Length; i++)
         //{
         //    Proiettile[i].x = Mathf.Round(Random.Range(10, 130) / 10);
@@ -77,20 +79,13 @@ public class TestScript : MonoBehaviour {
                         {
                             player.ExecuteGameOver();
                         }
-                        //GameObject[] AllDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
-                        //for (int i1 = 0; i1 < AllDeadZone.Length; i1++)
-                        //{
-                        //    Destroy(AllDeadZone[i1].gameObject);
-                        //}
+                       
                         Proiettile[i].Turni -= 1; break;
                     case 1:
                         Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                         _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
                         Proiettile[i].Turni -= 1; break;
-                    //  if (_TempTentacle.position == PlayerREF.transform.position)
-                    // {
-                    //   player.ExecuteGameOver();
-                    //}
+                  
                     default: Proiettile[i].Turni -= 1; break;
 
                 }
