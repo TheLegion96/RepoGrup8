@@ -1,10 +1,16 @@
-﻿using System.Collections;
+﻿using Completed;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestScript : MonoBehaviour {
 
-   public static bool Go = false;
+    public static bool Go = false;
+    public GameObject DeadZone;
+    public CustomVector2[] Proiettile;
+    public GameObject PlayerREF;
+    private Player player;
+    [SerializeField] private GameObject Object;
     [System.Serializable]
     public struct CustomVector2
     {
@@ -22,32 +28,24 @@ public class TestScript : MonoBehaviour {
    
     // Use this for initialization
     void Start() {
-        for (int i = 0; i < Proiettile.Length; i++)
-        {
-            Proiettile[i].x = Mathf.Round(Random.Range(10, 130)/10);
-            Proiettile[i].x = Mathf.Round(Proiettile[i].x );
-            Proiettile[i].x += 0.5f;
 
-            Proiettile[i].y = Mathf.Round(Random.Range(10, 70));
-            Proiettile[i].y= Mathf.Round(Proiettile[i].y /= 10);
-            Proiettile[i].y += 0.5f;
+        #region Instanziazione Casuale Proiettili Disabilitiata (Abilitare solo in casi estremi togliendo i commenti   
+        //for (int i = 0; i < Proiettile.Length; i++)
+        //{
+        //    Proiettile[i].x = Mathf.Round(Random.Range(10, 130) / 10);
+        //    Proiettile[i].x = Mathf.Round(Proiettile[i].x);
+        //    Proiettile[i].x += 0.5f;
 
-            Proiettile[i].Turni = Mathf.Round(Random.Range(0, 15));
+        //    Proiettile[i].y = Mathf.Round(Random.Range(10, 70));
+        //    Proiettile[i].y = Mathf.Round(Proiettile[i].y /= 10);
+        //    Proiettile[i].y += 0.5f;
 
-            //while((Proiettile[i].x == BossLevel.TNT[i].transform.position.x) && (Proiettile[i].y == BossLevel.TNT[i].transform.position.y))      
-            // if((Proiettile[i].x == BossLevel.TNT[i].transform.position.x) && (Proiettile[i].y == BossLevel.TNT[i].transform.position.y))
-            // {
-            //    Proiettile[i].x = Mathf.Round(Random.Range(10, 130) / 10);
-            //    Proiettile[i].x = Mathf.Round(Proiettile[i].x);
-            //    Proiettile[i].x += 0.5f;
+        //    Proiettile[i].Turni = Mathf.Round(Random.Range(2, 15));
 
-            //    Proiettile[i].y = Mathf.Round(Random.Range(10, 70));
-            //    Proiettile[i].y = Mathf.Round(Proiettile[i].y /= 10);
-            //    Proiettile[i].y += 0.5f;
-            //}
+        //}
 
-        }
-
+        #endregion
+        Go = false;
 
     }
     public void OnCollisionEnter(Collision collision)
@@ -56,10 +54,12 @@ public class TestScript : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        if (collision.gameObject.tag == "Player")
+        {
+            player.ExecuteGameOver();
+        }
+
     }
-    public GameObject DeadZone;
-    public CustomVector2[] Proiettile;
-    [SerializeField] private GameObject Object;
 
     // Update is called once per frame
     void Update() {
@@ -68,19 +68,31 @@ public class TestScript : MonoBehaviour {
         {
             for (int i = 0; i < Proiettile.Length; i++)
             {
-                if (Proiettile[i].Turni != 0)
+                switch ((int)Proiettile[i].Turni)
                 {
-                    Proiettile[i].Turni -= 1;
-                }
-                else if (Proiettile[i].Turni == 1)
-                {
-                    Transform _Temp = Instantiate<Transform>(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y,3), Quaternion.identity);
-                }
-                else
-                {
-                    Transform _TempStalaggmite = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
-                    _TempStalaggmite.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -2);
-                    Proiettile[i].Turni -= 1;
+                    case 0:
+                        Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
+                        _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
+                        if (_TempTentacle.position == PlayerREF.transform.position)
+                        {
+                            player.ExecuteGameOver();
+                        }
+                        //GameObject[] AllDeadZone = GameObject.FindGameObjectsWithTag("DeadZone");
+                        //for (int i1 = 0; i1 < AllDeadZone.Length; i1++)
+                        //{
+                        //    Destroy(AllDeadZone[i1].gameObject);
+                        //}
+                        Proiettile[i].Turni -= 1; break;
+                    case 1:
+                        Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
+                        _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
+                        Proiettile[i].Turni -= 1; break;
+                    //  if (_TempTentacle.position == PlayerREF.transform.position)
+                    // {
+                    //   player.ExecuteGameOver();
+                    //}
+                    default: Proiettile[i].Turni -= 1; break;
+
                 }
             }
             Go = false;

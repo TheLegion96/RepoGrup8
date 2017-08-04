@@ -54,7 +54,7 @@ namespace Completed
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
 
-        public bool isStillAlive = true;
+        public  bool isStillAlive = true;
 
         //Start overrides the Start function of MovingObject
         protected override void Start()
@@ -217,6 +217,10 @@ namespace Completed
                         else if (hit.transform.CompareTag("Stone"))
                         {
                             proceedWithTheTurn = false;
+                        }
+                        else if(hit.transform.tag=="Tentacle")
+                        {
+                            ExecuteGameOver();
                         }
                     }
 
