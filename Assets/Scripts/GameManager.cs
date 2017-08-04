@@ -14,6 +14,7 @@ namespace Completed
             LevelStart,
             Play,
             Pause,
+            Bestiario,
             RunningAnimation
         }
 
