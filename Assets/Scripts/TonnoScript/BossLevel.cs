@@ -1,19 +1,21 @@
-﻿using System.Collections;
+﻿using Completed;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossLevel : MonoBehaviour {
     [SerializeField]
-   static public  GameObject[] TNT;
+    static public GameObject[] TNT;
     [SerializeField]
     private GameObject BossNotStatic;
 
     static int MaxCounter;
     public int Counter = 0;
+    public Player player;
 
     // Use this for initialization
     void Start () {
-        TNT =GameObject.FindGameObjectsWithTag("Soda");
+        TNT = GameObject.FindGameObjectsWithTag("Soda");
         MaxCounter = TNT.Length;
     
     }
@@ -27,21 +29,22 @@ public class BossLevel : MonoBehaviour {
         {
             Counter = 0;
             Destroy(BossNotStatic.gameObject);
-            
+
+            player.LevelFinished();
         }
         else
             CannonTriggered();
     }
+
     public void CannonTriggered()
     {
         Counter = 0;
         for (int i = 0; i < TNT.Length; i++)
         {
-            if(TNT[i]==null)
+            if (TNT[i] == null)
             {
                 Counter++;
             }
-
         }
     }
 }

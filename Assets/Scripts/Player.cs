@@ -406,15 +406,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Exit.
             if (other.tag == "Exit")
             {
-                //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-                this.GetComponent<BoxCollider2D>().enabled = false;
-
-                GameManager.instance.playerTotalMoney += levelSteps;
-
-                GameManager.instance.GoToNextScene(restartLevelDelay, levelSteps);
-
-                //Disable the player object since level is over.
-                enabled = false;
+                LevelFinished();
             }
 
             //Check if the tag of the trigger collided with is Food.
@@ -459,6 +451,18 @@ namespace Completed
             }
 
 
+        }
+        public void LevelFinished()
+        {
+            //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
+            this.GetComponent<BoxCollider2D>().enabled = false;
+
+            GameManager.instance.playerTotalMoney += levelSteps;
+
+            GameManager.instance.GoToNextScene(restartLevelDelay, levelSteps);
+
+            //Disable the player object since level is over.
+            enabled = false;
         }
 
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
