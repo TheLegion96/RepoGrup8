@@ -77,6 +77,12 @@ public class RangedEnemy : Enemy
             //Set the attack trigger of animator to trigger Enemy attack animation.
             animator.SetTrigger("Attack");
 
+            //Stop the background music.
+            SoundManager.instance.musicSource.Stop();
+
+            //Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
+            SoundManager.instance.RandomizeSfx(attackSound1);
+
             Bullet.transform.GetComponent<Player>().ExecuteGameOver();
         }
         boxColliderEnemy.enabled = true;

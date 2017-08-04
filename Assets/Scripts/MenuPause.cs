@@ -21,10 +21,13 @@ public class MenuPause : MonoBehaviour
     public GameObject MenuPointer;
     private int menuIndex;
 
+    [Header("MenuSunds")]
+    public AudioClip switchSelection;
+    public AudioClip confirmSelection;
+
     // Use this for initialization
     void Start()
     {
-
         transform.position = pause[0].position;
         pauseIndex = 0;
 
@@ -71,8 +74,11 @@ public class MenuPause : MonoBehaviour
         if (transform.position == pause[0].position)
         {
             bookClosedMenuSubtitleMeshRenderer.enabled = true;
-            menuIndex = 0;
-            SetMenuVoice(menuIndex);
+            if (menuIndex != 0)
+            {
+                menuIndex = 0;
+                SetMenuVoice(menuIndex);
+            }
         }
         else
         {
@@ -82,6 +88,7 @@ public class MenuPause : MonoBehaviour
         //Confirm selection into Pause menu.
         if (GameManager.instance.state == GameManager.State.Pause && Input.GetKeyDown(KeyCode.Return))
         {
+            SoundManager.instance.PlaySingle(confirmSelection);
             switch (MenuVoices[menuIndex].name)
             {
                 case "MenuVoiceBestiario":
@@ -110,8 +117,11 @@ public class MenuPause : MonoBehaviour
         if (transform.position == pause[0].position)
         {
             bookClosedMenuSubtitleMeshRenderer.enabled = true;
-            menuIndex = 0;
-            SetMenuVoice(menuIndex);
+            if (menuIndex != 0)
+            {
+                menuIndex = 0;
+                SetMenuVoice(menuIndex);
+            }
         }
         else
         {
@@ -172,5 +182,6 @@ public class MenuPause : MonoBehaviour
         }
 
         MenuPointer.transform.position = new Vector3(MenuPointer.transform.position.x, MenuVoices[menuIndex].transform.position.y, MenuPointer.transform.position.z);
+        SoundManager.instance.PlaySingle(switchSelection);
     }
 }
