@@ -19,6 +19,9 @@ public class PlayerSelection : MonoBehaviour
     private Vector3 defaultScale = new Vector3(5, 5, 1);
     private Vector3 finalScale = new Vector3(6, 6, 1);
 
+    public AudioClip switchSelection;
+    public AudioClip confirmSelection;
+
     // Use this for initialization
     void Start()
     {
@@ -41,6 +44,8 @@ public class PlayerSelection : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            SoundManager.instance.PlaySingle(confirmSelection);
+
             Player.gender = tmpGender;
 
             SceneManager.LoadScene("0_TUTORIAL - Scene 1", LoadSceneMode.Single);
@@ -61,8 +66,10 @@ public class PlayerSelection : MonoBehaviour
             Selected = true;
         
             An.SetTrigger("SelectMale");
-           
+
         }
+
+        SoundManager.instance.PlaySingle(switchSelection);
     }
 
 }
