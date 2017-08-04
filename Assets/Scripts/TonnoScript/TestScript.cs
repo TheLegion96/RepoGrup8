@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour {
+public class TestScript : MonoBehaviour
+{
 
     public static bool Go = false;
     [Header("IMPOSTARE I VALORI A n.5")]
     public CustomVector2[] Proiettile;
     [Header("NON TOCCATE")]
-    [SerializeField]private GameObject DeadZone;
+    [SerializeField]
+    private GameObject DeadZone;
     private Player player;
-    [SerializeField]private GameObject PlayerREF;
+    [SerializeField] private GameObject PlayerREF;
     [SerializeField] private GameObject Object;
     [System.Serializable]
     public struct CustomVector2
@@ -27,9 +29,10 @@ public class TestScript : MonoBehaviour {
             Turni = Turn;
         }
     }
-   
+
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
 
         #region Instanziazione Casuale Proiettili Disabilitiata (Abilitare solo in casi estremi togliendo i commenti)   
         //for (int i = 0; i < Proiettile.Length; i++)
@@ -47,12 +50,23 @@ public class TestScript : MonoBehaviour {
         //}
 
         #endregion
+
+
         Go = false;
 
+        for (int i = 0; i < Proiettile.Length; i++)
+        {
+            if ((int)Proiettile[i].Turni == 0)
+            {
+
+                Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
+                _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
+            }
+        }
     }
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag=="Soda")
+        if (collision.gameObject.tag == "Soda")
         {
             Destroy(this.gameObject);
         }
@@ -64,7 +78,8 @@ public class TestScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
         if (Go)
         {
@@ -79,13 +94,13 @@ public class TestScript : MonoBehaviour {
                         {
                             player.ExecuteGameOver();
                         }
-                       
+
                         Proiettile[i].Turni -= 1; break;
                     case 1:
                         Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                         _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
                         Proiettile[i].Turni -= 1; break;
-                  
+
                     default: Proiettile[i].Turni -= 1; break;
 
                 }

@@ -8,8 +8,11 @@ public class BossLevel : MonoBehaviour {
     [SerializeField]
     private GameObject BossNotStatic;
 
-	// Use this for initialization
-	void Start () {
+    static int MaxCounter;
+    public int Counter = 0;
+
+    // Use this for initialization
+    void Start () {
         TNT =GameObject.FindGameObjectsWithTag("Soda");
         MaxCounter = TNT.Length;
     
@@ -28,10 +31,7 @@ public class BossLevel : MonoBehaviour {
         }
         else
             CannonTriggered();
-
     }
-    static int MaxCounter;
-   public int Counter = 0;
     public void CannonTriggered()
     {
         Counter = 0;
@@ -43,6 +43,5 @@ public class BossLevel : MonoBehaviour {
             }
 
         }
-      
     }
 }
