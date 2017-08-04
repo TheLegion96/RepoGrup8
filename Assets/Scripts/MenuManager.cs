@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Completed;
 
 public class MenuManager : MonoBehaviour
 {
 
     public Animator openMap;
+
+    public AudioClip switchSelection;
+    public AudioClip confirmSelection;
 
     private bool isToken_1 = false;
     private bool isToken_2 = false;
@@ -130,17 +134,21 @@ public class MenuManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 openMap.SetTrigger("Next");
+                SoundManager.instance.PlaySingle(switchSelection);
                 
             }
 
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 openMap.SetTrigger("Previous");
+                SoundManager.instance.PlaySingle(switchSelection);
             }
 
             // Load levels
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SoundManager.instance.PlaySingle(confirmSelection);
+
                 if (animatorStateInfo.IsName("Map1Anim"))
                 {
                     SceneManager.LoadScene("Character_Selection");
@@ -171,6 +179,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello1_Stanza1");
                 }
             }
@@ -190,6 +199,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello1_Stanza2");
                 }
             }
@@ -209,6 +219,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello1_Stanza3");
                 }
             }
@@ -228,6 +239,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello2_Stanza1");
                 }
             }
@@ -247,6 +259,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello2_Stanza2");
                 }
             }
@@ -266,6 +279,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello2_Stanza3");
                 }
             }
@@ -285,6 +299,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello3_Stanza1");
                 }
             }
@@ -304,6 +319,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello3_Stanza2");
                 }
             }
@@ -323,6 +339,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("Livello3_Stanza3");
                 }
             }
@@ -342,6 +359,7 @@ public class MenuManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    SoundManager.instance.PlaySingle(confirmSelection);
                     SceneManager.LoadScene("");
                 }
             }

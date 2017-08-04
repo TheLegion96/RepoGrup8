@@ -14,6 +14,7 @@ namespace Completed
             LevelStart,
             Play,
             Pause,
+            Bestiario,
             RunningAnimation
         }
 
@@ -197,7 +198,7 @@ namespace Completed
 
             //Get a reference to our image LevelImage by finding it by name.
             levelImage = GameObject.Find("LevelImage");
-            if (levelImage != null)
+            if (levelImage != null && title != null)
             {
                 GameObject leveTitleGameObject = GameObject.Find("LevelText");
                 GameObject bookTitleOpenMenuGameObject = GameObject.Find("BookTitleOpenMenu");

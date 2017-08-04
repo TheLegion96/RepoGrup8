@@ -7,26 +7,28 @@ using UnityEngine.UI;
 
 public class PlayerSelection : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer Maschio, Femmina;
     private bool Selected;
     private Color Enabled = new Color(47, 47, 47);
     private Color Disabled = new Color(255, 255, 255);
 
-    public GameObject gO;
+
     private Text gOText;
     private Player.Gender tmpGender;
+    Animator An;
 
     private Vector3 defaultScale = new Vector3(5, 5, 1);
     private Vector3 finalScale = new Vector3(6, 6, 1);
+
+    public AudioClip switchSelection;
+    public AudioClip confirmSelection;
 
     // Use this for initialization
     void Start()
     {
         /*  Maschio.color = Enabled;
           Femmina.color = Disabled;*/
-        gO = GameObject.Find("Sex");
-        gOText = gO.GetComponent<Text>();
-
+    
+        An = GetComponent<Animator>();
         SetSelectedCharacter(Player.Gender.Male);
     }
 
@@ -42,12 +44,13 @@ public class PlayerSelection : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            SoundManager.instance.PlaySingle(confirmSelection);
+
             Player.gender = tmpGender;
 
             SceneManager.LoadScene("0_TUTORIAL - Scene 1", LoadSceneMode.Single);
         }
     }
-
     void SetSelectedCharacter(Player.Gender gender)
     {
         tmpGender = gender;
@@ -55,24 +58,18 @@ public class PlayerSelection : MonoBehaviour
         if (tmpGender == Player.Gender.Female)
         {
             Selected = false;
-            gOText.text = "Femmina";
 
-            for (int i = 0; i < 10; i++)
-            {
-                Femmina.transform.localScale = finalScale;
-                Maschio.transform.localScale = defaultScale;
-            }
+            An.SetTrigger("SelectFemale");
+           
         }
         else {
             Selected = true;
-            gOText.text = "Maschio";
+        
+            An.SetTrigger("SelectMale");
 
-            for (int i = 0; i < 10; i++)
-            {
-                Maschio.transform.localScale = finalScale;
-                Femmina.transform.localScale = defaultScale;
-            }
         }
+
+        SoundManager.instance.PlaySingle(switchSelection);
     }
 
 }

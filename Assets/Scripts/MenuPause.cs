@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class MenuPause : MonoBehaviour
 {
@@ -21,14 +22,20 @@ public class MenuPause : MonoBehaviour
     public GameObject MenuPointer;
     private int menuIndex;
 
+    [Header("MenuSounds")]
+    public AudioClip switchSelection;
+    public AudioClip confirmSelection;
+
+    private SpriteRenderer bestiarioSpriteRenderer;
+
     // Use this for initialization
     void Start()
     {
-
         transform.position = pause[0].position;
         pauseIndex = 0;
 
         bookClosedMenuSubtitleMeshRenderer = GameObject.Find("BookClosedMenuSubtitle").GetComponent<MeshRenderer>();
+        bestiarioSpriteRenderer = GameObject.Find("Bestiario").GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -50,7 +57,6 @@ public class MenuPause : MonoBehaviour
                 {
                     CloseMenu();
                 }
-
             }
         }
 
@@ -71,21 +77,31 @@ public class MenuPause : MonoBehaviour
         if (transform.position == pause[0].position)
         {
             bookClosedMenuSubtitleMeshRenderer.enabled = true;
-            menuIndex = 0;
-            SetMenuVoice(menuIndex);
+            if (menuIndex != 0)
+            {
+                menuIndex = 0;
+                SetMenuVoice(menuIndex);
+            }
         }
         else
         {
             bookClosedMenuSubtitleMeshRenderer.enabled = false;
         }
 
-        //Confirm selection into Pause menu.
-        if (GameManager.instance.state == GameManager.State.Pause && Input.GetKeyDown(KeyCode.Return))
+
+        if (GameManager.instance.state == GameManager.State.Bestiario && Input.GetKeyDown(KeyCode.Return))
         {
+            SoundManager.instance.PlaySingle(confirmSelection);
+            CloseBestiario();
+        }
+        //Confirm selection into Pause menu.
+        else if (GameManager.instance.state == GameManager.State.Pause && Input.GetKeyDown(KeyCode.Return))
+        {
+            SoundManager.instance.PlaySingle(confirmSelection);
             switch (MenuVoices[menuIndex].name)
             {
                 case "MenuVoiceBestiario":
-
+                    OpenBestiario();
                     break;
                 case "MenuVoiceRiprendi":
                     CloseMenu();
@@ -110,8 +126,11 @@ public class MenuPause : MonoBehaviour
         if (transform.position == pause[0].position)
         {
             bookClosedMenuSubtitleMeshRenderer.enabled = true;
-            menuIndex = 0;
-            SetMenuVoice(menuIndex);
+            if (menuIndex != 0)
+            {
+                menuIndex = 0;
+                SetMenuVoice(menuIndex);
+            }
         }
         else
         {
@@ -136,6 +155,17 @@ public class MenuPause : MonoBehaviour
 
     }
 
+    private void OpenBestiario()
+    {
+        if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Bestiario;
+        bestiarioSpriteRenderer.DOFade(1, 1);
+    }
+    private void CloseBestiario()
+    {
+        bestiarioSpriteRenderer.DOFade(0, 1);
+        if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
+    }
+    
     private void OpenMenu()
     {
         //bookClosedMenuSubtitleMeshRenderer.enabled = false;
@@ -172,5 +202,6 @@ public class MenuPause : MonoBehaviour
         }
 
         MenuPointer.transform.position = new Vector3(MenuPointer.transform.position.x, MenuVoices[menuIndex].transform.position.y, MenuPointer.transform.position.z);
+        SoundManager.instance.PlaySingle(switchSelection);
     }
 }
