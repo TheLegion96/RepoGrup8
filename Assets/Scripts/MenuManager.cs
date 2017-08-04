@@ -360,7 +360,7 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("");
+                    SceneManager.LoadScene("_LevelTemplate_Tonno3boss");
                 }
             }
             else

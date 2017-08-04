@@ -1,9 +1,26 @@
 fileFormatVersion: 2
 guid: 289f541fc59c88a47bbbf3b03fb58e1a
-timeCreated: 1501749654
+timeCreated: 1501857359
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: NEED FIX melee1 sx_0
+    21300002: NEED FIX melee1 sx_1
+    21300004: NEED FIX melee1 sx_2
+    21300006: NEED FIX melee1 sx_3
+    21300008: NEED FIX melee1 sx_4
+    21300010: NEED FIX melee1 sx_5
+    21300012: NEED FIX melee1 sx_6
+    21300014: NEED FIX melee1 sx_7
+    21300016: NEED FIX melee1 sx_8
+    21300018: NEED FIX melee1 sx_9
+    21300020: NEED FIX melee1 sx_10
+    21300022: NEED FIX melee1 sx_11
+    21300024: NEED FIX melee1 sx_12
+    21300026: NEED FIX melee1 sx_13
+    21300028: NEED FIX melee1 sx_14
+    21300030: NEED FIX melee1 sx_15
+    21300032: NEED FIX melee1 sx_16
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -84,9 +101,230 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 12834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_1
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 12834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_2
+      rect:
+        serializedVersion: 2
+        x: 6250
+        y: 12834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_3
+      rect:
+        serializedVersion: 2
+        x: 9350
+        y: 12834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_4
+      rect:
+        serializedVersion: 2
+        x: 12450
+        y: 12834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_5
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 9334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_6
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 9334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_7
+      rect:
+        serializedVersion: 2
+        x: 6250
+        y: 9334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_8
+      rect:
+        serializedVersion: 2
+        x: 9350
+        y: 9334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_9
+      rect:
+        serializedVersion: 2
+        x: 12450
+        y: 9334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_10
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 5834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_11
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 5834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_12
+      rect:
+        serializedVersion: 2
+        x: 6250
+        y: 5834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_13
+      rect:
+        serializedVersion: 2
+        x: 9350
+        y: 5834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_14
+      rect:
+        serializedVersion: 2
+        x: 12450
+        y: 5834
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_15
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: NEED FIX melee1 sx_16
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 2334
+        width: 3100
+        height: 3500
+      alignment: 9
+      pivot: {x: 0.5, y: 0.443}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
-  spritePackingTag: R1
+  spritePackingTag: M1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0d299f5e3a89b934da5c54d490df6c02
-timeCreated: 1501753123
+timeCreated: 1501856218
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -104,7 +104,7 @@ TextureImporter:
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -112,12 +112,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_1
       rect:
         serializedVersion: 2
-        x: 3150
+        x: 3250
         y: 5042
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -125,12 +125,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_2
       rect:
         serializedVersion: 2
-        x: 6250
+        x: 6450
         y: 5042
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -138,12 +138,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_3
       rect:
         serializedVersion: 2
-        x: 9350
+        x: 9650
         y: 5042
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -151,12 +151,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_4
       rect:
         serializedVersion: 2
-        x: 12450
+        x: 12850
         y: 5042
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -169,7 +169,7 @@ TextureImporter:
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -177,12 +177,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_6
       rect:
         serializedVersion: 2
-        x: 3150
+        x: 3250
         y: 1942
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -190,12 +190,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_7
       rect:
         serializedVersion: 2
-        x: 6250
+        x: 6450
         y: 1942
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -203,12 +203,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_8
       rect:
         serializedVersion: 2
-        x: 9350
+        x: 9650
         y: 1942
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -216,12 +216,12 @@ TextureImporter:
       name: MALE LONG IDLE DX_9
       rect:
         serializedVersion: 2
-        x: 12450
+        x: 12850
         y: 1942
         width: 3100
         height: 3100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
