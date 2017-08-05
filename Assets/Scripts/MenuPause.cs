@@ -118,6 +118,16 @@ public class MenuPause : MonoBehaviour
             }
         }
 
+        if (GameManager.instance.state == GameManager.State.Bestiario /*&& (Input.GetKeyDown(KeyCode.LeftArrow)|| Input.GetKeyDown(KeyCode.RightArrow))*/)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                NavigateBestiario(KeyCode.LeftArrow);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            { NavigateBestiario(KeyCode.RightArrow); }
+        }
+
         //Move book from A to B.
         if (transform.position != pause[pauseIndex].position)
         {
@@ -154,14 +164,47 @@ public class MenuPause : MonoBehaviour
             isPaused = false;*/
 
     }
+    List<GameObject> Child = new List<GameObject>();
 
     private void OpenBestiario()
     {
         if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Bestiario;
+      
+     
+        foreach (Transform child in transform)
+        {
+            Child.Add(child.gameObject);  
+        }
         bestiarioSpriteRenderer.DOFade(1, 1);
+        for (int i = 0; i < Child.Count; i++)
+        {
+            if(Child[i].name=="Bestiario")
+            {
+                Child[i].SetActive(true);
+                bestiarioSpriteRenderer.DOFade(0, 1);
+                NavigateBestiario();
+            }
+            else
+            {
+                Child[i].SetActive(false);
+            }
+        }
     }
     private void CloseBestiario()
     {
+        bestiarioSpriteRenderer.DOFade(1, 1);
+        for (int i = 0; i < Child.Count; i++)
+        {
+            if (Child[i].name == "Bestiario")
+            {
+                Child[i].SetActive(false);
+            }
+            else
+            {
+                Child[i].SetActive(true);
+                bestiarioSpriteRenderer.DOFade(0, 1);
+            }
+        }
         bestiarioSpriteRenderer.DOFade(0, 1);
         if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
     }
@@ -204,4 +247,110 @@ public class MenuPause : MonoBehaviour
         MenuPointer.transform.position = new Vector3(MenuPointer.transform.position.x, MenuVoices[menuIndex].transform.position.y, MenuPointer.transform.position.z);
         SoundManager.instance.PlaySingle(switchSelection);
     }
+    [SerializeField] SpriteRenderer[] Bestie;
+    [SerializeField] TextMesh[] TestiBestie;
+    private int index;
+    private void NavigateBestiario()
+    {
+        switch (index)
+        {
+            case 0:
+                Bestie[0].enabled = true;
+                TestiBestie[0].gameObject.SetActive(true);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+
+                break;
+            case 1:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = true;
+                TestiBestie[1].gameObject.SetActive(true);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+                break;
+            case 2:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = true;
+                TestiBestie[2].gameObject.SetActive(true);
+                break;
+        }
+    }
+    
+        private void NavigateBestiario(KeyCode In)
+    {
+        if (In == KeyCode.LeftArrow)
+        {
+            index++;
+            if(index>3)
+            { index = 0; }
+        }
+        if (In == KeyCode.RightArrow)
+        {
+            index--;
+            if(index<0)
+            { index = 2; }
+
+        }
+
+        switch (index)
+        {
+            case 0:
+                Bestie[0].enabled = true;
+                TestiBestie[0].gameObject.SetActive(true);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+
+                break;
+            case 1:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = true;
+                TestiBestie[1].gameObject.SetActive(true);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+                break;
+            case 2:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = true;
+                TestiBestie[2].gameObject.SetActive(true);
+                break;
+        }
+    }
 }
+
+

@@ -427,6 +427,10 @@ namespace Completed
 
             //Check if the tag of the trigger collided with is Soda.
             /*else*/
+            if (other.tag == "Tentacle")
+            {
+                ExecuteGameOver();
+            }
             if (other.tag == "Soda")
             {
                 //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
