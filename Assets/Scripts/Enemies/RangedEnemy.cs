@@ -187,14 +187,24 @@ public class RangedEnemy : Enemy
             {
                 //if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
                 // {
-             /*   if ()
-                {
+                /*   if ()
+                   {
 
-                }*/
-                if (checkCollision.transform.tag == "Stone"||checkCollision.transform.tag != "Enemy")
+                   }*/
+                if (checkCollision.transform.tag == "Enemy")
                 {
-                    Destroy(_TempLaserDeadZone.gameObject);
-                    break;
+                    if (checkCollision.transform.gameObject is RangedEnemy)
+                    {
+                        Destroy(_TempLaserDeadZone.gameObject);
+                        break;
+                    }
+
+                }
+                if (checkCollision.transform.tag == "Stone"/*||checkCollision.transform.tag != "Enemy"*/)
+                {              
+                        Destroy(_TempLaserDeadZone.gameObject);
+                        break;
+                 
                 }
 
 
