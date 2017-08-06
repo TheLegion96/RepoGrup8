@@ -41,6 +41,7 @@ public class RangedEnemy : Enemy
         if (CDTick==0)
         {
             CDTick = maxTicks;
+          //  CheckIfRaycastIs0();
         }
         CountDownMesh.text = CDTick.ToString();
        
@@ -52,11 +53,13 @@ public class RangedEnemy : Enemy
             CheckStoneRaycast(ref end, ref EnemyAimingWay);
 
             ChangeSightAnimation(EnemyAimingWay);
+            InstanceLaserDeadZone(EnemyAimingWay);
             tick = 0;
         }
      if (tick != tickbeforechange)
         {
            InstanceLaserDeadZone(EnemyAimingWay);
+          //  CheckIfRaycastIs0();
         }
         
         
@@ -88,7 +91,17 @@ public class RangedEnemy : Enemy
         boxColliderEnemy.enabled = true;
       
     }
-
+    private void CheckIfRaycastIs0()
+    {
+        
+        /*
+        int counterLaserDeadZone= 0;
+        counterLaserDeadZone = (int)GameObject.FindGameObjectsWithTag("LaserDeadZone").Length;
+        if(counterLaserDeadZone==0)
+        {
+            InstanceLaserDeadZone(EnemyAimingWay);
+        }*/
+    }
     public void CheckStoneRaycast(ref Vector2 parEnd, ref LineOfSight parEnemyAimingWay)
     {
         //Check se devo disabilitare e riattivare il box collider o, se è già spento, lasciarlo così perché se ne occupa qualcun altro.
@@ -172,11 +185,20 @@ public class RangedEnemy : Enemy
             checkCollision = Physics2D.Linecast(_TempLaserDeadZone.position, _TempLaserDeadZone.position);
             if (checkCollision.transform != null)
             {
-                if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
+                //if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
+                // {
+             /*   if ()
+                {
+
+                }*/
+                if (checkCollision.transform.tag == "Stone"||checkCollision.transform.tag != "Enemy")
                 {
                     Destroy(_TempLaserDeadZone.gameObject);
                     break;
                 }
+
+
+                // }
                 else
                 {
                     _TempLaserDeadZone.GetComponent<BoxCollider2D>().enabled = true;
