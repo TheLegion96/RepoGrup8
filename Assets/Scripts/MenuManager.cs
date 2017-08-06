@@ -24,33 +24,26 @@ public class MenuManager : MonoBehaviour
     private bool isToken_9 = false;
     private bool isToken_10 = false;
 
-
+    private bool isTokenGrey_1;
+    private bool isTokenGrey_2;
+    private bool isTokenGrey_3;
+    private bool isTokenGrey_4;
+    private bool isTokenGrey_5;
+    private bool isTokenGrey_6;
+    private bool isTokenGrey_7;
+    private bool isTokenGrey_8;
+    private bool isTokenGrey_9;
+    private bool isTokenGrey_10;
 
     // Level Icons
-    private SpriteRenderer lvl1Enabled;
-    private SpriteRenderer lvl2Enabled;
-    private SpriteRenderer lvl3Enabled;
-    private SpriteRenderer lvl4Enabled;
-    private SpriteRenderer lvl5Enabled;
-    private SpriteRenderer lvl6Enabled;
-    private SpriteRenderer lvl7Enabled;
-    private SpriteRenderer lvl8Enabled;
-    private SpriteRenderer lvl9Enabled;
-    private SpriteRenderer lvl10Enabled;
+    private SpriteRenderer lvl1Enabled, lvl2Enabled, lvl3Enabled, lvl4Enabled, lvl5Enabled,
+                           lvl6Enabled, lvl7Enabled, lvl8Enabled, lvl9Enabled, lvl10Enabled;
 
     // Tokens Render
-    private SpriteRenderer Token_1;
-    private SpriteRenderer Token_2;
-    private SpriteRenderer Token_3;
-    private SpriteRenderer Token_4;
-    private SpriteRenderer Token_5;
-    private SpriteRenderer Token_6;
-    private SpriteRenderer Token_7;
-    private SpriteRenderer Token_8;
-    private SpriteRenderer Token_9;
-    private SpriteRenderer Token_10;
-
-    private SpriteRenderer TokenGrey;
+    private SpriteRenderer Token_1, Token_2, Token_3, Token_4, Token_5,
+                           Token_6, Token_7, Token_8, Token_9, Token_10,
+                           TokenGrey_1, TokenGrey_2, TokenGrey_3, TokenGrey_4, TokenGrey_5,
+                           TokenGrey_6, TokenGrey_7, TokenGrey_8, TokenGrey_9, TokenGrey_10;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
@@ -89,12 +82,16 @@ public class MenuManager : MonoBehaviour
         Token_9 = GameObject.Find("Token_9").GetComponent<SpriteRenderer>();
         Token_10 = GameObject.Find("Token_10").GetComponent<SpriteRenderer>();
 
-        TokenGrey = GameObject.Find("TokenGrey").GetComponent<SpriteRenderer>();
-
-
-
-
-
+        TokenGrey_1 = GameObject.Find("TokenGrey_1").GetComponent<SpriteRenderer>();
+        TokenGrey_2 = GameObject.Find("TokenGrey_2").GetComponent<SpriteRenderer>();
+        TokenGrey_3 = GameObject.Find("TokenGrey_3").GetComponent<SpriteRenderer>();
+        TokenGrey_4 = GameObject.Find("TokenGrey_4").GetComponent<SpriteRenderer>();
+        TokenGrey_5 = GameObject.Find("TokenGrey_5").GetComponent<SpriteRenderer>();
+        TokenGrey_6 = GameObject.Find("TokenGrey_6").GetComponent<SpriteRenderer>();
+        TokenGrey_7 = GameObject.Find("TokenGrey_7").GetComponent<SpriteRenderer>();
+        TokenGrey_8 = GameObject.Find("TokenGrey_8").GetComponent<SpriteRenderer>();
+        TokenGrey_9 = GameObject.Find("TokenGrey_9").GetComponent<SpriteRenderer>();
+        TokenGrey_10 = GameObject.Find("TokenGrey_10").GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -175,6 +172,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_1)
                 {
                     Token_1.enabled = true;
+                    TokenGrey_1.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -195,6 +193,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_2)
                 {
                     Token_2.enabled = true;
+                    TokenGrey_2.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -215,6 +214,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_3)
                 {
                     Token_3.enabled = true;
+                    TokenGrey_3.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -235,6 +235,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_4)
                 {
                     Token_4.enabled = true;
+                    TokenGrey_4.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -255,6 +256,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_5)
                 {
                     Token_5.enabled = true;
+                    TokenGrey_5.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -275,6 +277,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_6)
                 {
                     Token_6.enabled = true;
+                    TokenGrey_6.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -295,6 +298,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_7)
                 {
                     Token_7.enabled = true;
+                    TokenGrey_7.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -315,6 +319,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_8)
                 {
                     Token_8.enabled = true;
+                    TokenGrey_8.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -335,6 +340,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_9)
                 {
                     Token_9.enabled = true;
+                    TokenGrey_9.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -355,6 +361,7 @@ public class MenuManager : MonoBehaviour
                 if (isToken_10)
                 {
                     Token_10.enabled = true;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -372,7 +379,35 @@ public class MenuManager : MonoBehaviour
 
             if (animatorStateInfo.IsName("OpenLevels"))
             {
-                TokenGrey.enabled = true;
+                if(!isToken_1)
+                    TokenGrey_1.enabled = true;
+
+                if (!isToken_2)
+                    TokenGrey_2.enabled = true;
+
+                if (!isToken_3)
+                    TokenGrey_3.enabled = true;
+
+                if (!isToken_4)
+                    TokenGrey_4.enabled = true;
+
+                if (!isToken_5)
+                    TokenGrey_5.enabled = true;
+
+                if (!isToken_6)
+                    TokenGrey_6.enabled = true;
+
+                if (!isToken_7)
+                    TokenGrey_7.enabled = true;
+
+                if (!isToken_8)
+                    TokenGrey_8.enabled = true;
+
+                if (!isToken_9)
+                    TokenGrey_9.enabled = true;
+
+                if (!isToken_10)
+                    TokenGrey_10.enabled = true;
             }
 
             if (!animatorStateInfo.IsName("Level1"))
