@@ -35,7 +35,8 @@ public class MenuManager : MonoBehaviour
     private SpriteRenderer Token_1, Token_2, Token_3, Token_4, Token_5,
                            Token_6, Token_7, Token_8, Token_9, Token_10,
                            TokenGrey_1, TokenGrey_2, TokenGrey_3, TokenGrey_4, TokenGrey_5,
-                           TokenGrey_6, TokenGrey_7, TokenGrey_8, TokenGrey_9, TokenGrey_10;
+                           TokenGrey_6, TokenGrey_7, TokenGrey_8, TokenGrey_9, TokenGrey_10,
+                           Grupp8;
 
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
@@ -95,6 +96,8 @@ public class MenuManager : MonoBehaviour
         Capitolo8 = GameObject.Find("Capitolo8").GetComponentInChildren<Text>();
         Capitolo9 = GameObject.Find("Capitolo9").GetComponentInChildren<Text>();
         Capitolo10 = GameObject.Find("Capitolo10").GetComponentInChildren<Text>();
+
+        Grupp8 = GameObject.Find("Grupp8").GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -159,7 +162,9 @@ public class MenuManager : MonoBehaviour
                 }
                 else if (animatorStateInfo.IsName("Map3Anim"))
                 {
-                    SceneManager.LoadScene("Credits_simone");
+                    openMap.SetTrigger("Enter");
+                    Grupp8.enabled = true;
+                    //SceneManager.LoadScene("Credits_simone");
                 }
                 else if (animatorStateInfo.IsName("Map4Anim"))
                 {
