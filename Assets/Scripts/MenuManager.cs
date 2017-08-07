@@ -199,49 +199,7 @@ public class MenuManager : MonoBehaviour
                 {
                     openMap.SetTrigger("Enter");
 
-                    lvl1Enabled.gameObject.SetActive(true);
-                    lvl2Enabled.gameObject.SetActive(true);
-                    lvl3Enabled.gameObject.SetActive(true);
-                    lvl4Enabled.gameObject.SetActive(true);
-                    lvl5Enabled.gameObject.SetActive(true);
-                    lvl6Enabled.gameObject.SetActive(true);
-                    lvl7Enabled.gameObject.SetActive(true);
-                    lvl8Enabled.gameObject.SetActive(true);
-                    lvl9Enabled.gameObject.SetActive(true);
-                    lvl10Enabled.gameObject.SetActive(true);
-
-                    Token_1.gameObject.SetActive(true);
-                    Token_2.gameObject.SetActive(true);
-                    Token_3.gameObject.SetActive(true);
-                    Token_4.gameObject.SetActive(true);
-                    Token_5.gameObject.SetActive(true);
-                    Token_6.gameObject.SetActive(true);
-                    Token_7.gameObject.SetActive(true);
-                    Token_8.gameObject.SetActive(true);
-                    Token_9.gameObject.SetActive(true);
-                    Token_10.gameObject.SetActive(true);
-
-                    TokenGrey_1.gameObject.SetActive(true);
-                    TokenGrey_2.gameObject.SetActive(true);
-                    TokenGrey_3.gameObject.SetActive(true);
-                    TokenGrey_4.gameObject.SetActive(true);
-                    TokenGrey_5.gameObject.SetActive(true);
-                    TokenGrey_6.gameObject.SetActive(true);
-                    TokenGrey_7.gameObject.SetActive(true);
-                    TokenGrey_8.gameObject.SetActive(true);
-                    TokenGrey_9.gameObject.SetActive(true);
-                    TokenGrey_10.gameObject.SetActive(true);
-
-                    Capitolo1.gameObject.SetActive(true);
-                    Capitolo2.gameObject.SetActive(true);
-                    Capitolo3.gameObject.SetActive(true);
-                    Capitolo4.gameObject.SetActive(true);
-                    Capitolo5.gameObject.SetActive(true);
-                    Capitolo6.gameObject.SetActive(true);
-                    Capitolo7.gameObject.SetActive(true);
-                    Capitolo8.gameObject.SetActive(true);
-                    Capitolo9.gameObject.SetActive(true);
-                    Capitolo10.gameObject.SetActive(true);
+                    StartCoroutine(ActivateSceneSelection());
                 }
                 else if (animatorStateInfo.IsName("Map3Anim")) // Enter to Credits
                 {
@@ -716,6 +674,56 @@ public class MenuManager : MonoBehaviour
                     Token_10.enabled = false;
             }
         }
+    }
+
+    IEnumerator ActivateSceneSelection() {
+        yield return new WaitForSeconds(.5f);
+
+        lvl1Enabled.gameObject.SetActive(true);
+        lvl2Enabled.gameObject.SetActive(true);
+        lvl3Enabled.gameObject.SetActive(true);
+        lvl4Enabled.gameObject.SetActive(true);
+        lvl5Enabled.gameObject.SetActive(true);
+        lvl6Enabled.gameObject.SetActive(true);
+        lvl7Enabled.gameObject.SetActive(true);
+        lvl8Enabled.gameObject.SetActive(true);
+        lvl9Enabled.gameObject.SetActive(true);
+        lvl10Enabled.gameObject.SetActive(true);
+
+        Token_1.gameObject.SetActive(true);
+        Token_2.gameObject.SetActive(true);
+        Token_3.gameObject.SetActive(true);
+        Token_4.gameObject.SetActive(true);
+        Token_5.gameObject.SetActive(true);
+        Token_6.gameObject.SetActive(true);
+        Token_7.gameObject.SetActive(true);
+        Token_8.gameObject.SetActive(true);
+        Token_9.gameObject.SetActive(true);
+        Token_10.gameObject.SetActive(true);
+
+        TokenGrey_1.gameObject.SetActive(true);
+        TokenGrey_2.gameObject.SetActive(true);
+        TokenGrey_3.gameObject.SetActive(true);
+        TokenGrey_4.gameObject.SetActive(true);
+        TokenGrey_5.gameObject.SetActive(true);
+        TokenGrey_6.gameObject.SetActive(true);
+        TokenGrey_7.gameObject.SetActive(true);
+        TokenGrey_8.gameObject.SetActive(true);
+        TokenGrey_9.gameObject.SetActive(true);
+        TokenGrey_10.gameObject.SetActive(true);
+
+        Capitolo1.gameObject.SetActive(true);
+        Capitolo2.gameObject.SetActive(true);
+        Capitolo3.gameObject.SetActive(true);
+        Capitolo4.gameObject.SetActive(true);
+        Capitolo5.gameObject.SetActive(true);
+        Capitolo6.gameObject.SetActive(true);
+        Capitolo7.gameObject.SetActive(true);
+        Capitolo8.gameObject.SetActive(true);
+        Capitolo9.gameObject.SetActive(true);
+        Capitolo10.gameObject.SetActive(true);
+
+        yield return null;
     }
 
     IEnumerator ShowCreditsInfo()
