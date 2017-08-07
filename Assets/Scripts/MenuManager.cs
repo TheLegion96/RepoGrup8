@@ -32,7 +32,8 @@ public class MenuManager : MonoBehaviour
 
     // Level Icons
     private SpriteRenderer lvl1Enabled, lvl2Enabled, lvl3Enabled, lvl4Enabled, lvl5Enabled,
-                           lvl6Enabled, lvl7Enabled, lvl8Enabled, lvl9Enabled, lvl10Enabled;
+                           lvl6Enabled, lvl7Enabled, lvl8Enabled, lvl9Enabled, lvl10Enabled,
+                           buttonDown, buttonLeft, buttonRight, buttonUp, buttonReturn, buttonBackspace;
 
     // Tokens Render
     private SpriteRenderer Token_1, Token_2, Token_3, Token_4, Token_5,
@@ -98,6 +99,13 @@ public class MenuManager : MonoBehaviour
         Capitolo8 = GameObject.Find("Capitolo8").GetComponentInChildren<Text>();
         Capitolo9 = GameObject.Find("Capitolo9").GetComponentInChildren<Text>();
         Capitolo10 = GameObject.Find("Capitolo10").GetComponentInChildren<Text>();
+
+        buttonDown = GameObject.Find("Down").GetComponent<SpriteRenderer>();
+        buttonUp = GameObject.Find("Up").GetComponent<SpriteRenderer>();
+        buttonLeft = GameObject.Find("Left").GetComponent<SpriteRenderer>();
+        buttonRight = GameObject.Find("Right").GetComponent<SpriteRenderer>();
+        buttonReturn = GameObject.Find("Return").GetComponent<SpriteRenderer>();
+        buttonBackspace = GameObject.Find("Backspace").GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -106,6 +114,8 @@ public class MenuManager : MonoBehaviour
 
         if (!animatorStateInfo.IsName("OpenMap"))
         {
+
+
             if (
                 animatorStateInfo.IsName("Map1Anim") ||
                 animatorStateInfo.IsName("Map2Anim") ||
@@ -134,17 +144,20 @@ public class MenuManager : MonoBehaviour
             }
 
             // Navigation
-            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            if (!animatorStateInfo.IsName("Credits"))
             {
-                openMap.SetTrigger("Next");
-                SoundManager.instance.PlaySingle(switchSelection);
-                
-            }
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    openMap.SetTrigger("Next");
+                    SoundManager.instance.PlaySingle(switchSelection);
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                openMap.SetTrigger("Previous");
-                SoundManager.instance.PlaySingle(switchSelection);
+                }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    openMap.SetTrigger("Previous");
+                    SoundManager.instance.PlaySingle(switchSelection);
+                }
             }
 
             // Load levels
@@ -152,17 +165,61 @@ public class MenuManager : MonoBehaviour
             {
                 SoundManager.instance.PlaySingle(confirmSelection);
 
-                if (animatorStateInfo.IsName("Map1Anim"))
+                if (animatorStateInfo.IsName("Map1Anim")) // Start Game
                 {
                     SceneManager.LoadScene("Character_Selection");
                 }
-                else if (animatorStateInfo.IsName("Map2Anim"))
+                else if (animatorStateInfo.IsName("Map2Anim")) // Enter to Select Level Menu
                 {
                     openMap.SetTrigger("Enter");
+
+                    lvl1Enabled.gameObject.SetActive(true);
+                    lvl2Enabled.gameObject.SetActive(true);
+                    lvl3Enabled.gameObject.SetActive(true);
+                    lvl4Enabled.gameObject.SetActive(true);
+                    lvl5Enabled.gameObject.SetActive(true);
+                    lvl6Enabled.gameObject.SetActive(true);
+                    lvl7Enabled.gameObject.SetActive(true);
+                    lvl8Enabled.gameObject.SetActive(true);
+                    lvl9Enabled.gameObject.SetActive(true);
+                    lvl10Enabled.gameObject.SetActive(true);
+
+                    Token_1.gameObject.SetActive(true);
+                    Token_2.gameObject.SetActive(true);
+                    Token_3.gameObject.SetActive(true);
+                    Token_4.gameObject.SetActive(true);
+                    Token_5.gameObject.SetActive(true);
+                    Token_6.gameObject.SetActive(true);
+                    Token_7.gameObject.SetActive(true);
+                    Token_8.gameObject.SetActive(true);
+                    Token_9.gameObject.SetActive(true);
+                    Token_10.gameObject.SetActive(true);
+
+                    TokenGrey_1.gameObject.SetActive(true);
+                    TokenGrey_2.gameObject.SetActive(true);
+                    TokenGrey_3.gameObject.SetActive(true);
+                    TokenGrey_4.gameObject.SetActive(true);
+                    TokenGrey_5.gameObject.SetActive(true);
+                    TokenGrey_6.gameObject.SetActive(true);
+                    TokenGrey_7.gameObject.SetActive(true);
+                    TokenGrey_8.gameObject.SetActive(true);
+                    TokenGrey_9.gameObject.SetActive(true);
+                    TokenGrey_10.gameObject.SetActive(true);
+
+                    Capitolo1.gameObject.SetActive(true);
+                    Capitolo2.gameObject.SetActive(true);
+                    Capitolo3.gameObject.SetActive(true);
+                    Capitolo4.gameObject.SetActive(true);
+                    Capitolo5.gameObject.SetActive(true);
+                    Capitolo6.gameObject.SetActive(true);
+                    Capitolo7.gameObject.SetActive(true);
+                    Capitolo8.gameObject.SetActive(true);
+                    Capitolo9.gameObject.SetActive(true);
+                    Capitolo10.gameObject.SetActive(true);
                 }
-                else if (animatorStateInfo.IsName("Map3Anim"))
+                else if (animatorStateInfo.IsName("Map3Anim")) // Enter to Credits
                 {
-                    SceneManager.LoadScene("Credits_simone");
+                    openMap.SetTrigger("Enter");
                 }
                 else if (animatorStateInfo.IsName("Map4Anim"))
                 {
@@ -170,395 +227,470 @@ public class MenuManager : MonoBehaviour
                 }
             }
 
+            //if (!animatorStateInfo.IsName("Credits"))
+            //{
+
+            //}
+
+            // Back Menu
+
+            bool checkSelectedLevelEnabled = true;
+
+            if (animatorStateInfo.IsName("Level1") || animatorStateInfo.IsName("Level2") || animatorStateInfo.IsName("Level3") || animatorStateInfo.IsName("Level4") ||
+                animatorStateInfo.IsName("Level5") || animatorStateInfo.IsName("Level6") || animatorStateInfo.IsName("Level7") || animatorStateInfo.IsName("Level8") ||
+                animatorStateInfo.IsName("Level9") || animatorStateInfo.IsName("Boss") || animatorStateInfo.IsName("Credits"))
+            {
+                if (Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    // Force hide elements
+                    lvl1Enabled.gameObject.SetActive(false);
+                    lvl2Enabled.gameObject.SetActive(false);
+                    lvl3Enabled.gameObject.SetActive(false);
+                    lvl4Enabled.gameObject.SetActive(false);
+                    lvl5Enabled.gameObject.SetActive(false);
+                    lvl6Enabled.gameObject.SetActive(false);
+                    lvl7Enabled.gameObject.SetActive(false);
+                    lvl8Enabled.gameObject.SetActive(false);
+                    lvl9Enabled.gameObject.SetActive(false);
+                    lvl10Enabled.gameObject.SetActive(false);
+
+                    Token_1.gameObject.SetActive(false);
+                    Token_2.gameObject.SetActive(false);
+                    Token_3.gameObject.SetActive(false);
+                    Token_4.gameObject.SetActive(false);
+                    Token_5.gameObject.SetActive(false);
+                    Token_6.gameObject.SetActive(false);
+                    Token_7.gameObject.SetActive(false);
+                    Token_8.gameObject.SetActive(false);
+                    Token_9.gameObject.SetActive(false);
+                    Token_10.gameObject.SetActive(false);
+
+                    TokenGrey_1.gameObject.SetActive(false);
+                    TokenGrey_2.gameObject.SetActive(false);
+                    TokenGrey_3.gameObject.SetActive(false);
+                    TokenGrey_4.gameObject.SetActive(false);
+                    TokenGrey_5.gameObject.SetActive(false);
+                    TokenGrey_6.gameObject.SetActive(false);
+                    TokenGrey_7.gameObject.SetActive(false);
+                    TokenGrey_8.gameObject.SetActive(false);
+                    TokenGrey_9.gameObject.SetActive(false);
+                    TokenGrey_10.gameObject.SetActive(false);
+
+                    Capitolo1.gameObject.SetActive(false);
+                    Capitolo2.gameObject.SetActive(false);
+                    Capitolo3.gameObject.SetActive(false);
+                    Capitolo4.gameObject.SetActive(false);
+                    Capitolo5.gameObject.SetActive(false);
+                    Capitolo6.gameObject.SetActive(false);
+                    Capitolo7.gameObject.SetActive(false);
+                    Capitolo8.gameObject.SetActive(false);
+                    Capitolo9.gameObject.SetActive(false);
+                    Capitolo10.gameObject.SetActive(false);
+
+                    // Back to main menu
+                    openMap.SetTrigger("Back");
+
+                    checkSelectedLevelEnabled = false;
+
+                    //StartCoroutine(BackCoroutine());
+                }
+            }
+
             // Navigate Levels
-            if (animatorStateInfo.IsName("Level1"))
+            if (checkSelectedLevelEnabled)
             {
-                lvl1Enabled.enabled = true;
-                Capitolo1.enabled = true;
-
-                if (isToken_1)
+                if (animatorStateInfo.IsName("Level1"))
                 {
-                    Token_1.enabled = true;
+                    lvl1Enabled.enabled = true;
+                    Capitolo1.enabled = true;
+
+                    if (isToken_1)
+                    {
+                        Token_1.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = true;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello1_Stanza1");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = true;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl1Enabled.enabled = false;
+                    Capitolo1.enabled = false;
+
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level2"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello1_Stanza1");
-                }
-            }
-            else
-            {
-                lvl1Enabled.enabled = false;
-                Capitolo1.enabled = false;
+                    lvl2Enabled.enabled = true;
+                    Capitolo2.enabled = true;
 
-            }
+                    if (isToken_2)
+                    {
+                        Token_2.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = true;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-            if (animatorStateInfo.IsName("Level2"))
-            {
-                lvl2Enabled.enabled = true;
-                Capitolo2.enabled = true;
-
-                if (isToken_2)
-                {
-                    Token_2.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello1_Stanza2");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = true;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl2Enabled.enabled = false;
+                    Capitolo2.enabled = false;
+
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level3"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello1_Stanza2");
-                }
-            }
-            else
-            {
-                lvl2Enabled.enabled = false;
-                Capitolo2.enabled = false;
+                    lvl3Enabled.enabled = true;
+                    Capitolo3.enabled = true;
 
-            }
+                    if (isToken_3)
+                    {
+                        Token_3.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = true;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-            if (animatorStateInfo.IsName("Level3"))
-            {
-                lvl3Enabled.enabled = true;
-                Capitolo3.enabled = true;
-
-                if (isToken_3)
-                {
-                    Token_3.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello1_Stanza3");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = true;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl3Enabled.enabled = false;
+                    Capitolo3.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level4"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello1_Stanza3");
-                }
-            }
-            else
-            {
-                lvl3Enabled.enabled = false;
-                Capitolo3.enabled = false;
-            }
+                    lvl4Enabled.enabled = true;
+                    Capitolo4.enabled = true;
 
-            if (animatorStateInfo.IsName("Level4"))
-            {
-                lvl4Enabled.enabled = true;
-                Capitolo4.enabled = true;
+                    if (isToken_4)
+                    {
+                        Token_4.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = true;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_4)
-                {
-                    Token_4.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello2_Stanza1");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = true;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl4Enabled.enabled = false;
+                    Capitolo4.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level5"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello2_Stanza1");
-                }
-            }
-            else
-            {
-                lvl4Enabled.enabled = false;
-                Capitolo4.enabled = false;
-            }
+                    lvl5Enabled.enabled = true;
+                    Capitolo5.enabled = true;
 
-            if (animatorStateInfo.IsName("Level5"))
-            {
-                lvl5Enabled.enabled = true;
-                Capitolo5.enabled = true;
+                    if (isToken_5)
+                    {
+                        Token_5.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = true;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_5)
-                {
-                    Token_5.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello2_Stanza2");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = true;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl5Enabled.enabled = false;
+                    Capitolo5.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level6"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello2_Stanza2");
-                }
-            }
-            else
-            {
-                lvl5Enabled.enabled = false;
-                Capitolo5.enabled = false;
-            }
+                    lvl6Enabled.enabled = true;
+                    Capitolo6.enabled = true;
 
-            if (animatorStateInfo.IsName("Level6"))
-            {
-                lvl6Enabled.enabled = true;
-                Capitolo6.enabled = true;
+                    if (isToken_6)
+                    {
+                        Token_6.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = true;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_6)
-                {
-                    Token_6.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello2_Stanza3");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = true;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
-
+                    lvl6Enabled.enabled = false;
+                    Capitolo6.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level7"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello2_Stanza3");
-                }
-            }
-            else
-            {
-                lvl6Enabled.enabled = false;
-                Capitolo6.enabled = false;
-            }
+                    lvl7Enabled.enabled = true;
+                    Capitolo7.enabled = true;
 
-            if (animatorStateInfo.IsName("Level7"))
-            {
-                lvl7Enabled.enabled = true;
-                Capitolo7.enabled = true;
+                    if (isToken_7)
+                    {
+                        Token_7.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = true;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_7)
-                {
-                    Token_7.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello3_Stanza1");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = true;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
-
+                    lvl7Enabled.enabled = false;
+                    Capitolo7.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level8"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello3_Stanza1");
-                }
-            }
-            else
-            {
-                lvl7Enabled.enabled = false;
-                Capitolo7.enabled = false;
-            }
+                    lvl8Enabled.enabled = true;
+                    Capitolo8.enabled = true;
 
-            if (animatorStateInfo.IsName("Level8"))
-            {
-                lvl8Enabled.enabled = true;
-                Capitolo8.enabled = true;
+                    if (isToken_8)
+                    {
+                        Token_8.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = true;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_8)
-                {
-                    Token_8.enabled = true; 
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello3_Stanza2");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = true;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = false;
+                    lvl8Enabled.enabled = false;
+                    Capitolo8.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Level9"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello3_Stanza2");
-                }
-            }
-            else
-            {
-                lvl8Enabled.enabled = false;
-                Capitolo8.enabled = false;
-            }
+                    lvl9Enabled.enabled = true;
+                    Capitolo9.enabled = true;
 
-            if (animatorStateInfo.IsName("Level9"))
-            {
-                lvl9Enabled.enabled = true;
-                Capitolo9.enabled = true;
+                    if (isToken_9)
+                    {
+                        Token_9.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = true;
+                        TokenGrey_10.enabled = false;
+                    }
 
-                if (isToken_9)
-                {
-                    Token_9.enabled = true;
-                    
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("Livello3_Stanza3");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = true;
-                    TokenGrey_10.enabled = false;
+                    lvl9Enabled.enabled = false;
+                    Capitolo9.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (animatorStateInfo.IsName("Boss"))
                 {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("Livello3_Stanza3");
-                }
-            }
-            else
-            {
-                lvl9Enabled.enabled = false;
-                Capitolo9.enabled = false;
-            }
+                    lvl10Enabled.enabled = true;
+                    Capitolo10.enabled = true;
 
-            if (animatorStateInfo.IsName("Boss"))
-            {
-                lvl10Enabled.enabled = true;
-                Capitolo10.enabled = true;
+                    if (isToken_10)
+                    {
+                        Token_10.enabled = true;
+                    }
+                    else
+                    {
+                        TokenGrey_1.enabled = false;
+                        TokenGrey_2.enabled = false;
+                        TokenGrey_3.enabled = false;
+                        TokenGrey_4.enabled = false;
+                        TokenGrey_5.enabled = false;
+                        TokenGrey_6.enabled = false;
+                        TokenGrey_7.enabled = false;
+                        TokenGrey_8.enabled = false;
+                        TokenGrey_9.enabled = false;
+                        TokenGrey_10.enabled = true;
+                    }
 
-                if (isToken_10)
-                {
-                    Token_10.enabled = true;  
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        SoundManager.instance.PlaySingle(confirmSelection);
+                        SceneManager.LoadScene("_LevelTemplate_Tonno3boss");
+                    }
                 }
                 else
                 {
-                    TokenGrey_1.enabled = false;
-                    TokenGrey_2.enabled = false;
-                    TokenGrey_3.enabled = false;
-                    TokenGrey_4.enabled = false;
-                    TokenGrey_5.enabled = false;
-                    TokenGrey_6.enabled = false;
-                    TokenGrey_7.enabled = false;
-                    TokenGrey_8.enabled = false;
-                    TokenGrey_9.enabled = false;
-                    TokenGrey_10.enabled = true;
+                    lvl10Enabled.enabled = false;
+                    Capitolo10.enabled = false;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    SoundManager.instance.PlaySingle(confirmSelection);
-                    SceneManager.LoadScene("_LevelTemplate_Tonno3boss");
-                }
+                if (!animatorStateInfo.IsName("Level1"))
+                    Token_1.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level2"))
+                    Token_2.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level3"))
+                    Token_3.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level4"))
+                    Token_4.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level5"))
+                    Token_5.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level6"))
+                    Token_6.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level7"))
+                    Token_7.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level8"))
+                    Token_8.enabled = false;
+
+                if (!animatorStateInfo.IsName("Level9"))
+                    Token_9.enabled = false;
+
+                if (!animatorStateInfo.IsName("Boss"))
+                    Token_10.enabled = false;
             }
-            else
-            {
-                lvl10Enabled.enabled = false;
-                Capitolo10.enabled = false;
-            }
-
-            if (!animatorStateInfo.IsName("Level1"))
-                Token_1.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level2"))
-                Token_2.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level3"))
-                Token_3.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level4"))
-                Token_4.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level5"))
-                Token_5.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level6"))
-                Token_6.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level7"))
-                Token_7.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level8"))
-                Token_8.enabled = false;
-
-            if (!animatorStateInfo.IsName("Level9"))
-                Token_9.enabled = false;
-
-            if (!animatorStateInfo.IsName("Boss"))
-                Token_10.enabled = false;
-
         }
     }
 
 
-        
+    IEnumerator BackCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        openMap.SetTrigger("Back");
+        yield return null;
+    }
+
+
 }
