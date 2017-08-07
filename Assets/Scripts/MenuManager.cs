@@ -10,13 +10,16 @@ public class MenuManager : MonoBehaviour
 
     public Animator openMap;
 
+    private Text Capitolo1, Capitolo2, Capitolo3, Capitolo4, Capitolo5,
+                 Capitolo6, Capitolo7, Capitolo8, Capitolo9, Capitolo10;
+
     public AudioClip switchSelection;
     public AudioClip confirmSelection;
 
     private bool isToken_1 = false;
     private bool isToken_2 = false;
     private bool isToken_3 = false;
-    private bool isToken_4 = true;
+    private bool isToken_4 = false;
     private bool isToken_5 = false;
     private bool isToken_6 = false;
     private bool isToken_7 = false;
@@ -24,16 +27,8 @@ public class MenuManager : MonoBehaviour
     private bool isToken_9 = false;
     private bool isToken_10 = false;
 
-    private bool isTokenGrey_1;
-    private bool isTokenGrey_2;
-    private bool isTokenGrey_3;
-    private bool isTokenGrey_4;
-    private bool isTokenGrey_5;
-    private bool isTokenGrey_6;
-    private bool isTokenGrey_7;
-    private bool isTokenGrey_8;
-    private bool isTokenGrey_9;
-    private bool isTokenGrey_10;
+    private bool isTokenGrey_1, isTokenGrey_2, isTokenGrey_3, isTokenGrey_4, isTokenGrey_5,
+                 isTokenGrey_6, isTokenGrey_7, isTokenGrey_8, isTokenGrey_9, isTokenGrey_10;
 
     // Level Icons
     private SpriteRenderer lvl1Enabled, lvl2Enabled, lvl3Enabled, lvl4Enabled, lvl5Enabled,
@@ -92,6 +87,17 @@ public class MenuManager : MonoBehaviour
         TokenGrey_8 = GameObject.Find("TokenGrey_8").GetComponent<SpriteRenderer>();
         TokenGrey_9 = GameObject.Find("TokenGrey_9").GetComponent<SpriteRenderer>();
         TokenGrey_10 = GameObject.Find("TokenGrey_10").GetComponent<SpriteRenderer>();
+
+        Capitolo1 = GameObject.Find("Capitolo1").GetComponentInChildren<Text>();
+        Capitolo2 = GameObject.Find("Capitolo2").GetComponentInChildren<Text>();
+        Capitolo3 = GameObject.Find("Capitolo3").GetComponentInChildren<Text>();
+        Capitolo4 = GameObject.Find("Capitolo4").GetComponentInChildren<Text>();
+        Capitolo5 = GameObject.Find("Capitolo5").GetComponentInChildren<Text>();
+        Capitolo6 = GameObject.Find("Capitolo6").GetComponentInChildren<Text>();
+        Capitolo7 = GameObject.Find("Capitolo7").GetComponentInChildren<Text>();
+        Capitolo8 = GameObject.Find("Capitolo8").GetComponentInChildren<Text>();
+        Capitolo9 = GameObject.Find("Capitolo9").GetComponentInChildren<Text>();
+        Capitolo10 = GameObject.Find("Capitolo10").GetComponentInChildren<Text>();
     }
 
     void Update()
@@ -168,11 +174,24 @@ public class MenuManager : MonoBehaviour
             if (animatorStateInfo.IsName("Level1"))
             {
                 lvl1Enabled.enabled = true;
+                Capitolo1.enabled = true;
 
                 if (isToken_1)
                 {
                     Token_1.enabled = true;
-                    TokenGrey_1.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = true;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -183,17 +202,32 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                lvl1Enabled.enabled = false;                
+                lvl1Enabled.enabled = false;
+                Capitolo1.enabled = false;
+
             }
 
             if (animatorStateInfo.IsName("Level2"))
             {
                 lvl2Enabled.enabled = true;
+                Capitolo2.enabled = true;
 
                 if (isToken_2)
                 {
                     Token_2.enabled = true;
-                    TokenGrey_2.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = true;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -205,16 +239,31 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl2Enabled.enabled = false;
+                Capitolo2.enabled = false;
+
             }
 
             if (animatorStateInfo.IsName("Level3"))
             {
                 lvl3Enabled.enabled = true;
+                Capitolo3.enabled = true;
 
                 if (isToken_3)
                 {
                     Token_3.enabled = true;
-                    TokenGrey_3.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = true;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -226,16 +275,30 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl3Enabled.enabled = false;
+                Capitolo3.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level4"))
             {
                 lvl4Enabled.enabled = true;
+                Capitolo4.enabled = true;
 
                 if (isToken_4)
                 {
                     Token_4.enabled = true;
-                    TokenGrey_4.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = true;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -247,16 +310,30 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl4Enabled.enabled = false;
+                Capitolo4.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level5"))
             {
                 lvl5Enabled.enabled = true;
+                Capitolo5.enabled = true;
 
                 if (isToken_5)
                 {
                     Token_5.enabled = true;
-                    TokenGrey_5.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = true;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -268,16 +345,31 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl5Enabled.enabled = false;
+                Capitolo5.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level6"))
             {
                 lvl6Enabled.enabled = true;
+                Capitolo6.enabled = true;
 
                 if (isToken_6)
                 {
                     Token_6.enabled = true;
-                    TokenGrey_6.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = true;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
+
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -289,16 +381,31 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl6Enabled.enabled = false;
+                Capitolo6.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level7"))
             {
                 lvl7Enabled.enabled = true;
+                Capitolo7.enabled = true;
 
                 if (isToken_7)
                 {
                     Token_7.enabled = true;
-                    TokenGrey_7.enabled = false;
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = true;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
+
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -310,16 +417,30 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl7Enabled.enabled = false;
+                Capitolo7.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level8"))
             {
                 lvl8Enabled.enabled = true;
+                Capitolo8.enabled = true;
 
                 if (isToken_8)
                 {
-                    Token_8.enabled = true;
-                    TokenGrey_8.enabled = false;
+                    Token_8.enabled = true; 
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = true;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -331,16 +452,31 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl8Enabled.enabled = false;
+                Capitolo8.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Level9"))
             {
                 lvl9Enabled.enabled = true;
+                Capitolo9.enabled = true;
 
                 if (isToken_9)
                 {
                     Token_9.enabled = true;
-                    TokenGrey_9.enabled = false;
+                    
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = true;
+                    TokenGrey_10.enabled = false;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -352,16 +488,30 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl9Enabled.enabled = false;
+                Capitolo9.enabled = false;
             }
 
             if (animatorStateInfo.IsName("Boss"))
             {
                 lvl10Enabled.enabled = true;
+                Capitolo10.enabled = true;
 
                 if (isToken_10)
                 {
-                    Token_10.enabled = true;
-                    TokenGrey_10.enabled = false;
+                    Token_10.enabled = true;  
+                }
+                else
+                {
+                    TokenGrey_1.enabled = false;
+                    TokenGrey_2.enabled = false;
+                    TokenGrey_3.enabled = false;
+                    TokenGrey_4.enabled = false;
+                    TokenGrey_5.enabled = false;
+                    TokenGrey_6.enabled = false;
+                    TokenGrey_7.enabled = false;
+                    TokenGrey_8.enabled = false;
+                    TokenGrey_9.enabled = false;
+                    TokenGrey_10.enabled = true;
                 }
 
                 if (Input.GetKeyDown(KeyCode.Return))
@@ -373,41 +523,7 @@ public class MenuManager : MonoBehaviour
             else
             {
                 lvl10Enabled.enabled = false;
-            }
-
-            // Grey Token
-
-            if (animatorStateInfo.IsName("OpenLevels"))
-            {
-                if(!isToken_1)
-                    TokenGrey_1.enabled = true;
-
-                if (!isToken_2)
-                    TokenGrey_2.enabled = true;
-
-                if (!isToken_3)
-                    TokenGrey_3.enabled = true;
-
-                if (!isToken_4)
-                    TokenGrey_4.enabled = true;
-
-                if (!isToken_5)
-                    TokenGrey_5.enabled = true;
-
-                if (!isToken_6)
-                    TokenGrey_6.enabled = true;
-
-                if (!isToken_7)
-                    TokenGrey_7.enabled = true;
-
-                if (!isToken_8)
-                    TokenGrey_8.enabled = true;
-
-                if (!isToken_9)
-                    TokenGrey_9.enabled = true;
-
-                if (!isToken_10)
-                    TokenGrey_10.enabled = true;
+                Capitolo10.enabled = false;
             }
 
             if (!animatorStateInfo.IsName("Level1"))
