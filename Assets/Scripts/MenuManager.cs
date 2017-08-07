@@ -43,17 +43,22 @@ public class MenuManager : MonoBehaviour
     private Vector3 position = new Vector3(0f, 0f, 0f);
     private Vector3 scale = new Vector3(0.56f, 0.56f, 0f);
 
-    private float textsOpacity = 0;
+    private float mainMenuTextsOpacity = 0;
+    private bool isCreditsEnabled = false;
+    private float creditsTextsOpacity = 0;
 
-    private TextMesh[] textMeshes;
+    private TextMesh[] openMapTextMeshes;
 
+    [Header("Credits Info")]
+    public TextMesh creditsText;
+    public SpriteRenderer creditsImage;
 
     void Start()
     {
         transform.position = position;
         transform.localScale = scale;
 
-        textMeshes = openMap.GetComponentsInChildren<TextMesh>();
+        openMapTextMeshes = openMap.GetComponentsInChildren<TextMesh>();
 
         lvl1Enabled = GameObject.Find("Selezione1").GetComponent<SpriteRenderer>();
         lvl2Enabled = GameObject.Find("Selezione2").GetComponent<SpriteRenderer>();
@@ -106,8 +111,8 @@ public class MenuManager : MonoBehaviour
         buttonReturn = GameObject.Find("Return").GetComponent<SpriteRenderer>();
         buttonBackspace = GameObject.Find("Backspace").GetComponent<SpriteRenderer>();
 
-        Grupp8 = GameObject.Find("Grupp8").GetComponent<SpriteRenderer>();
-        TestoCrediti = GameObject.Find("TestoCrediti").GetComponentInChildren<Text>();
+        //Grupp8 = GameObject.Find("Grupp8").GetComponent<SpriteRenderer>();
+        //TestoCrediti = GameObject.Find("TestoCrediti").GetComponentInChildren<Text>();
     }
 
     void Update()
@@ -123,23 +128,23 @@ public class MenuManager : MonoBehaviour
                 animatorStateInfo.IsName("Map4Anim")
                 )
             {
-                if (textsOpacity < 1)
+                if (mainMenuTextsOpacity < 1)
                 {
-                    textsOpacity = Mathf.Clamp(textsOpacity + Time.deltaTime, 0, 1);
+                    mainMenuTextsOpacity = Mathf.Clamp(mainMenuTextsOpacity + Time.deltaTime, 0, 1);
 
-                    foreach (TextMesh item in textMeshes)
+                    foreach (TextMesh item in openMapTextMeshes)
                     {
-                        item.color = new Color(item.color.r, item.color.g, item.color.b, textsOpacity);
+                        item.color = new Color(item.color.r, item.color.g, item.color.b, mainMenuTextsOpacity);
                     }
                 }
             }
-            else if (textsOpacity > 0)
+            else if (mainMenuTextsOpacity > 0)
             {
-                textsOpacity = 0;
+                mainMenuTextsOpacity = 0;
 
-                foreach (TextMesh item in textMeshes)
+                foreach (TextMesh item in openMapTextMeshes)
                 {
-                    item.color = new Color(item.color.r, item.color.g, item.color.b, textsOpacity);
+                    item.color = new Color(item.color.r, item.color.g, item.color.b, mainMenuTextsOpacity);
                 }
             }
 
@@ -157,6 +162,27 @@ public class MenuManager : MonoBehaviour
                 {
                     openMap.SetTrigger("Previous");
                     SoundManager.instance.PlaySingle(switchSelection);
+                }
+
+                if (creditsTextsOpacity > 0)
+                {
+                    // BLOCCO SPOSTATO SOTTO
+
+                    //creditsTextsOpacity = 0;
+
+                    //creditsImage.color = new Color(creditsImage.color.r, creditsImage.color.g, creditsImage.color.b, creditsTextsOpacity);
+                    //creditsText.color = new Color(creditsText.color.r, creditsText.color.g, creditsText.color.b, creditsTextsOpacity);
+                }
+            }
+            // Credits
+            else
+            {
+                if (isCreditsEnabled && creditsTextsOpacity < 1)
+                {
+                    creditsTextsOpacity = Mathf.Clamp(creditsTextsOpacity + Time.deltaTime, 0, 1);
+                    
+                    creditsImage.color = new Color(creditsImage.color.r, creditsImage.color.g, creditsImage.color.b, creditsTextsOpacity);
+                    creditsText.color = new Color(creditsText.color.r, creditsText.color.g, creditsText.color.b, creditsTextsOpacity);
                 }
             }
 
@@ -220,8 +246,7 @@ public class MenuManager : MonoBehaviour
                 else if (animatorStateInfo.IsName("Map3Anim")) // Enter to Credits
                 {
                     openMap.SetTrigger("Enter");
-                    Grupp8.enabled = true;
-                    TestoCrediti.enabled = true;
+                    StartCoroutine(ShowCreditsInfo());
                 }
                 else if (animatorStateInfo.IsName("Map4Anim"))
                 {
@@ -231,9 +256,17 @@ public class MenuManager : MonoBehaviour
 
             bool checkSelectedLevelEnabled = true;
 
-            if (animatorStateInfo.IsName("Level1") || animatorStateInfo.IsName("Level2") || animatorStateInfo.IsName("Level3") || animatorStateInfo.IsName("Level4") ||
-                animatorStateInfo.IsName("Level5") || animatorStateInfo.IsName("Level6") || animatorStateInfo.IsName("Level7") || animatorStateInfo.IsName("Level8") ||
-                animatorStateInfo.IsName("Level9") || animatorStateInfo.IsName("Boss") || animatorStateInfo.IsName("Credits"))
+            if (animatorStateInfo.IsName("Level1") ||
+                animatorStateInfo.IsName("Level2") ||
+                animatorStateInfo.IsName("Level3") ||
+                animatorStateInfo.IsName("Level4") ||
+                animatorStateInfo.IsName("Level5") ||
+                animatorStateInfo.IsName("Level6") ||
+                animatorStateInfo.IsName("Level7") ||
+                animatorStateInfo.IsName("Level8") ||
+                animatorStateInfo.IsName("Level9") ||
+                animatorStateInfo.IsName("Boss") ||
+                animatorStateInfo.IsName("Credits"))
             {
                 if (Input.GetKeyDown(KeyCode.Backspace))
                 {
@@ -287,10 +320,13 @@ public class MenuManager : MonoBehaviour
 
                     checkSelectedLevelEnabled = false;
 
-                    Grupp8.enabled = false;
-                    TestoCrediti.enabled = false;
+                    //Grupp8.enabled = false;
+                    //TestoCrediti.enabled = false;
+                    isCreditsEnabled = false;
+                    creditsTextsOpacity = 0;
 
-                    //StartCoroutine(BackCoroutine());
+                    creditsImage.color = new Color(creditsImage.color.r, creditsImage.color.g, creditsImage.color.b, creditsTextsOpacity);
+                    creditsText.color = new Color(creditsText.color.r, creditsText.color.g, creditsText.color.b, creditsTextsOpacity);
                 }
             }
 
@@ -682,11 +718,12 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-
-    IEnumerator BackCoroutine()
+    IEnumerator ShowCreditsInfo()
     {
-        yield return new WaitForSeconds(2);
-        openMap.SetTrigger("Back");
+        yield return new WaitForSeconds(1);
+        isCreditsEnabled = true;
+        //Grupp8.enabled = true;
+        //TestoCrediti.enabled = true;
         yield return null;
     }
 
