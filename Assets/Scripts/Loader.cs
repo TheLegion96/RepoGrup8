@@ -14,6 +14,7 @@ namespace Completed
         public int maxStepsForToken;           //Steps necessary to collect the level token.
         [Tooltip("Default: 0.1")]
         public float turnDelay = 0.1f;          //Delay between each Player turn. Default: 0.1f.
+        public string deadText = "Oh no, hai fallito!\nRiprova con R e ricorda\ndi stare attento!";
 
         void Awake()
         {
@@ -29,6 +30,7 @@ namespace Completed
             GameManager.instance.ChapterText = (sceneChapterText != null && sceneChapterText != string.Empty ? sceneChapterText : "Untold Story.");
             GameManager.instance.MaxStepsForToken = maxStepsForToken;
             GameManager.instance.turnDelay = turnDelay;
+            GameManager.instance.deadText = deadText;
             GameManager.setRestartAvailable = false;
             //Check if a SoundManager has already been assigned to static variable GameManager.instance or if it's still null
             if (SoundManager.instance == null)

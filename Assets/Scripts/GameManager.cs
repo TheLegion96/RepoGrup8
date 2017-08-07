@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using DG.Tweening;
 
 namespace Completed
 {
@@ -22,13 +23,13 @@ namespace Completed
 
         public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
         public float turnDelay = 0.1f;                          //Delay between each Player turn.
+        public string deadText;
         public int playerTotalMoney = 0;                        //Starting value for Player Money.
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
         [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
 
-
-        private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
-        private Text levelTitleText;                            //Text to display current level number.
+        private GameObject levelSignboard;                      //Image to block out level as levels are being set up, background for levelText.
+        private TextMesh levelTitleText;                        //Text to display current level number.
         private TextMesh BookClosedMenuSubtitleTextMesh;
         private TextMesh bookTitleOpenMenuTextMesh;
         private TextMesh bookSubtitleTextMesh;
@@ -197,8 +198,8 @@ namespace Completed
             doingSetup = true;
 
             //Get a reference to our image LevelImage by finding it by name.
-            levelImage = GameObject.Find("LevelImage");
-            if (levelImage != null && title != null)
+            levelSignboard = GameObject.Find("LevelSignboard");
+            if (levelSignboard != null && title != null)
             {
                 GameObject leveTitleGameObject = GameObject.Find("LevelText");
                 GameObject bookTitleOpenMenuGameObject = GameObject.Find("BookTitleOpenMenu");
@@ -211,12 +212,12 @@ namespace Completed
                     if (leveTitleGameObject != null)
                     {
                         //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        levelTitleText = leveTitleGameObject.GetComponent<Text>();
+                        levelTitleText = leveTitleGameObject.GetComponent<TextMesh>();
 
                         //Set the text of levelText to the string "Day" and append the current level number.
                         //levelText.text = "Day " + level;
                         //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(levelTitleText, title);
+                        UpdateSceneBookProperty(levelTitleText, title + "\n" + subtitle);
                     }
 
                     if (bookTitleOpenMenuGameObject != null)
@@ -269,10 +270,11 @@ namespace Completed
                     }
 
                     //[Verza] Moving title block.
-                    StartCoroutine(MoveTitleBlock());
+                    //StartCoroutine(MoveTitleBlock());
+                    levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y - 8f, 1);
 
                     //Set levelImage to active blocking player's view of the game board during setup.
-                    levelImage.SetActive(true);
+                    //levelSignboard.SetActive(true);
 
                     //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
                     Invoke("HideLevelImage", levelStartDelay);
@@ -294,7 +296,8 @@ namespace Completed
         }
 
         IEnumerator MoveTitleBlock()
-        {
+        {  
+            
             /*Vector3 startPosition = new Vector3(0, 305, 0);
             Vector3 endPosition = new Vector3(0, 5, 0);
             float movingSeconds = 2f;
@@ -318,7 +321,8 @@ namespace Completed
         void HideLevelImage()
         {
             //Disable the levelImage gameObject.
-            levelImage.SetActive(false);
+            //levelSignboard.SetActive(false);
+            levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y + 8f, 1);
 
             //Set doingSetup to false allowing player to move again.
             doingSetup = false;
@@ -333,6 +337,7 @@ namespace Completed
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
+                    levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y + 8f, 1).OnComplete(ResetScene);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 }
 
@@ -346,6 +351,10 @@ namespace Completed
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
 
+        }
+        void ResetScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         #region Enemies
@@ -438,12 +447,12 @@ namespace Completed
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
         {
-            setRestartAvailable = true;
+            setRestartAvailable = true; 
             //Set levelText to display number of levels passed and game over message
-            levelTitleText.text = "Sei morto nel livello " + level + "!\n Premi R per ricominciare il quadro";
+            levelTitleText.text = deadText;
 
             //Enable black background image gameObject.
-            levelImage.SetActive(true);
+            levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y - 8f, 1);
 
 
             //Disable this GameManager.
