@@ -201,9 +201,42 @@ namespace Completed
             doingSetup = true;
 
             tutorialLayer = GameObject.Find("TutorialLayer");
+            levelSignboard = GameObject.Find("LevelSignboard");
+            GameObject leveTitleGameObject = GameObject.Find("LevelText");
+
+            if (leveTitleGameObject != null)
+            {
+                //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                levelTitleText = leveTitleGameObject.GetComponent<TextMesh>();
+            }
+
             if (tutorialLayer != null)
             {
                 tutorialLayer.GetComponent<Tutorial>().ClosedTutorialCallback += StartGamePlayPhase;
+            }
+            else
+            {
+                // LEVEL SIGNBOARD
+                if (levelSignboard != null && title != null)
+                {
+                    if (levelTitleText != null)
+                    {
+                        //Set the text of levelText to the string "Day" and append the current level number.
+                        //levelText.text = "Day " + level;
+                        //[Verza] Added dynamic title.
+                        UpdateSceneBookProperty(levelTitleText, title + "\n" + subtitle);
+                    
+                        //[Verza] Moving title block.
+                        //StartCoroutine(MoveTitleBlock());
+                        levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y - 8f, 1);
+
+                        //Set levelImage to active blocking player's view of the game board during setup.
+                        //levelSignboard.SetActive(true);
+
+                        //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
+                        Invoke("HideLevelImage", levelStartDelay);
+                    }
+                }
             }
 
             // PAUSE BOOK
@@ -262,37 +295,6 @@ namespace Completed
                         tmpChapterTextAccaped = tmpChapterTextAccaped.Replace("\\n", "\n");
                     }
                     UpdateSceneBookProperty(bookChapterTextTextMesh, tmpChapterTextAccaped);
-                }
-            }
-
-            // LEVEL SIGNBOARD
-            levelSignboard = GameObject.Find("LevelSignboard");
-            if (levelSignboard != null && title != null)
-            {
-                GameObject leveTitleGameObject = GameObject.Find("LevelText");
-
-                if (leveTitleGameObject != null)
-                {
-                    if (leveTitleGameObject != null)
-                    {
-                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        levelTitleText = leveTitleGameObject.GetComponent<TextMesh>();
-
-                        //Set the text of levelText to the string "Day" and append the current level number.
-                        //levelText.text = "Day " + level;
-                        //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(levelTitleText, title + "\n" + subtitle);
-                    }
-
-                    //[Verza] Moving title block.
-                    //StartCoroutine(MoveTitleBlock());
-                    levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y - 8f, 1);
-
-                    //Set levelImage to active blocking player's view of the game board during setup.
-                    //levelSignboard.SetActive(true);
-
-                    //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-                    Invoke("HideLevelImage", levelStartDelay);
                 }
             }
 
@@ -445,11 +447,11 @@ namespace Completed
                         tempEnd = tempRangedEnemy.GetVectorDirection(tempEnemyAimingWay);
                         tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
                         tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
-                        //tempRangedEnemy.InstanceLaserDeadZone(tempEnemyAimingWay);
-
                     }
                     //saved = false;
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
+
+                    tempRangedEnemy.InstanceLaserDeadZone(tempRangedEnemy.EnemyAimingWay);
                 }
             }
 
