@@ -11,7 +11,8 @@ public class MenuManager : MonoBehaviour
     public Animator openMap;
 
     private Text Capitolo1, Capitolo2, Capitolo3, Capitolo4, Capitolo5,
-                 Capitolo6, Capitolo7, Capitolo8, Capitolo9, Capitolo10;
+                 Capitolo6, Capitolo7, Capitolo8, Capitolo9, Capitolo10,
+                 TestoCrediti;
 
     public AudioClip switchSelection;
     public AudioClip confirmSelection;
@@ -30,7 +31,8 @@ public class MenuManager : MonoBehaviour
     // Level Icons
     private SpriteRenderer lvl1Enabled, lvl2Enabled, lvl3Enabled, lvl4Enabled, lvl5Enabled,
                            lvl6Enabled, lvl7Enabled, lvl8Enabled, lvl9Enabled, lvl10Enabled,
-                           buttonDown, buttonLeft, buttonRight, buttonUp, buttonReturn, buttonBackspace;
+                           buttonDown, buttonLeft, buttonRight, buttonUp, buttonReturn, buttonBackspace,
+                           Grupp8;
 
     // Tokens Render
     private SpriteRenderer Token_1, Token_2, Token_3, Token_4, Token_5,
@@ -103,6 +105,9 @@ public class MenuManager : MonoBehaviour
         buttonRight = GameObject.Find("Right").GetComponent<SpriteRenderer>();
         buttonReturn = GameObject.Find("Return").GetComponent<SpriteRenderer>();
         buttonBackspace = GameObject.Find("Backspace").GetComponent<SpriteRenderer>();
+
+        Grupp8 = GameObject.Find("Grupp8").GetComponent<SpriteRenderer>();
+        TestoCrediti = GameObject.Find("TestoCrediti").GetComponentInChildren<Text>();
     }
 
     void Update()
@@ -111,8 +116,6 @@ public class MenuManager : MonoBehaviour
 
         if (!animatorStateInfo.IsName("OpenMap"))
         {
-
-
             if (
                 animatorStateInfo.IsName("Map1Anim") ||
                 animatorStateInfo.IsName("Map2Anim") ||
@@ -217,19 +220,14 @@ public class MenuManager : MonoBehaviour
                 else if (animatorStateInfo.IsName("Map3Anim")) // Enter to Credits
                 {
                     openMap.SetTrigger("Enter");
+                    Grupp8.enabled = true;
+                    TestoCrediti.enabled = true;
                 }
                 else if (animatorStateInfo.IsName("Map4Anim"))
                 {
                     Application.Quit();
                 }
             }
-
-            //if (!animatorStateInfo.IsName("Credits"))
-            //{
-
-            //}
-
-            // Back Menu
 
             bool checkSelectedLevelEnabled = true;
 
@@ -288,6 +286,9 @@ public class MenuManager : MonoBehaviour
                     openMap.SetTrigger("Back");
 
                     checkSelectedLevelEnabled = false;
+
+                    Grupp8.enabled = false;
+                    TestoCrediti.enabled = false;
 
                     //StartCoroutine(BackCoroutine());
                 }
