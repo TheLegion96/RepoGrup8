@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;	//Allows us to use UI.
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 namespace Completed
 {
@@ -54,7 +55,7 @@ namespace Completed
         private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
 
-        public  bool isStillAlive = true;
+        public bool isStillAlive = true;
 
         //Start overrides the Start function of MovingObject
         protected override void Start()
@@ -218,7 +219,7 @@ namespace Completed
                         {
                             proceedWithTheTurn = false;
                         }
-                 //       else
+                        //       else
                         /*if(hit.transform.tag=="Tentacle")
                         {
                             ExecuteGameOver();
@@ -427,7 +428,7 @@ namespace Completed
                 other.gameObject.SetActive(false);
             }
 
-          
+
             else if (other.tag == "Tentacle")
             {
                 ExecuteGameOver();
@@ -463,6 +464,28 @@ namespace Completed
             this.GetComponent<BoxCollider2D>().enabled = false;
 
             GameManager.instance.playerTotalMoney += levelSteps;
+
+
+            GameObject coinContainer = GameObject.Find("CoinContainer");
+            Transform coinTransform;
+            
+            if (coinContainer != null)
+            {
+                Vector3 mainCameraPosition = GameObject.Find("Main Camera").transform.position;
+                Vector3 coinFinalPosition = new Vector3(mainCameraPosition.x, mainCameraPosition.y, 0);
+                if (levelSteps <= GameManager.instance.MaxStepsForToken)
+                {
+                    coinTransform = GameObject.Find("CoinGold").transform;
+                }
+                else
+                {
+                    coinTransform = GameObject.Find("CoinSilver").transform;
+                }
+                coinTransform.DOScale(1, 1);
+                coinTransform.DOMove(coinFinalPosition, 1);
+
+                new WaitForSeconds(2);
+            }
 
             GameManager.instance.GoToNextScene(restartLevelDelay, levelSteps);
 
