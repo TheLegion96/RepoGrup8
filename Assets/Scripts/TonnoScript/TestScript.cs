@@ -65,12 +65,12 @@ public class TestScript : MonoBehaviour
 
         for (int i = 0; i < Proiettile.Length; i++)
         {
-            if ((int)Proiettile[i].Turni == 1)
+            if ((int)Proiettile[i].Turni == 0)
             {
                 Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                 _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
             }
-            if ((int)Proiettile[i].Turni == 0)
+            if ((int)Proiettile[i].Turni == 0 && false)
             {
                 Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
                 _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);

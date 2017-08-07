@@ -38,12 +38,20 @@ public class BossLevel : MonoBehaviour
                 //Destroy(BossNotStatic.gameObject);
                 BossNotStatic.GetComponent<Animator>().SetTrigger("Die");
 
-                player.LevelFinished();
+                StartCoroutine(FinishWithDelay());
 
             }
         }
         else
             CannonTriggered();
+    }
+
+    public IEnumerator FinishWithDelay()
+    {
+        player.enabled = false;
+        yield return new WaitForSeconds(1);
+        player.LevelFinished();
+        yield return null;
     }
 
     public void CannonTriggered()
