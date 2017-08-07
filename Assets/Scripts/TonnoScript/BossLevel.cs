@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossLevel : MonoBehaviour {
+public class BossLevel : MonoBehaviour
+{
     [SerializeField]
     static public GameObject[] TNT;
     [SerializeField]
@@ -13,24 +14,33 @@ public class BossLevel : MonoBehaviour {
     public int Counter = 0;
     public Player player;
 
+    private bool levelFinished = false;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         TNT = GameObject.FindGameObjectsWithTag("Soda");
         MaxCounter = TNT.Length;
-    
+
     }
 
-  //  private float nextActionTime = 0.0f;
-   // public float period = 0.1f;
+    //  private float nextActionTime = 0.0f;
+    // public float period = 0.1f;
 
     void Update()
     {
         if (MaxCounter <= Counter)
         {
-            Counter = 0;
-            Destroy(BossNotStatic.gameObject);
+            if (!levelFinished)
+            {
+                levelFinished = true;
+                Counter = 0;
+                //Destroy(BossNotStatic.gameObject);
+                BossNotStatic.GetComponent<Animator>().SetTrigger("Die");
 
-            player.LevelFinished();
+                player.LevelFinished();
+
+            }
         }
         else
             CannonTriggered();

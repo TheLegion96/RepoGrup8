@@ -31,6 +31,7 @@ public class TestScript : MonoBehaviour
     }
 
     private GameObject[] medusaFloors;
+    private GameObject[] cannons;
 
     // Use this for initialization
     void Start()
@@ -60,6 +61,7 @@ public class TestScript : MonoBehaviour
         Go = false;
 
         medusaFloors = GameObject.FindGameObjectsWithTag("MedusaFloor");
+        cannons = GameObject.FindGameObjectsWithTag("Soda");
 
         for (int i = 0; i < Proiettile.Length; i++)
         {
@@ -81,6 +83,20 @@ public class TestScript : MonoBehaviour
                         item.transform.position.y <= Proiettile[i].y + .5f)
                     {
                         item.GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                }
+
+                foreach (GameObject item in cannons)
+                {
+                    if (item != null)
+                    {
+                        if (item.transform.position.x >= Proiettile[i].x - .5f &&
+                            item.transform.position.x <= Proiettile[i].x + .5f &&
+                            item.transform.position.y >= Proiettile[i].y - .5f &&
+                            item.transform.position.y <= Proiettile[i].y + .5f)
+                        {
+                            item.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                        }
                     }
                 }
 
@@ -127,6 +143,20 @@ public class TestScript : MonoBehaviour
                                 item.transform.position.y <= Proiettile[i].y + .5f)
                             {
                                 item.GetComponent<SpriteRenderer>().enabled = false;
+                            }
+                        }
+
+                        foreach (GameObject item in cannons)
+                        {
+                            if (item != null)
+                            {
+                                if (item.transform.position.x >= Proiettile[i].x - .5f &&
+                                    item.transform.position.x <= Proiettile[i].x + .5f &&
+                                    item.transform.position.y >= Proiettile[i].y - .5f &&
+                                    item.transform.position.y <= Proiettile[i].y + .5f)
+                                {
+                                    item.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                                }
                             }
                         }
 

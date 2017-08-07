@@ -435,29 +435,40 @@ namespace Completed
             }
             if (other.tag == "Soda")
             {
-                //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
-                Destroy(other.gameObject);
-                Debug.Log("NEMICO DANNEGGIATO");
-
-                #region Old SodaScript (no need to open Clear after)
-                /* 
-                //Add pointsPerSoda to players food points total
-                levelSteps -= pointsPerSoda;
-
-                //Update foodText to represent current total and notify player that they gained points
-                totalStepsText.text = "(-" + pointsPerSoda + ") " + levelSteps;
-
-                //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
-                SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
-
-                //Disable the soda object the player collided with.
-                other.gameObject.SetActive(false);
-            */
-                #endregion
+                StartCoroutine(CannonCoroutine(other.gameObject));
             }
-
-
         }
+
+        IEnumerator CannonCoroutine(GameObject otherGameObject)
+        {
+            otherGameObject.GetComponentInChildren<Animator>().SetTrigger("Shoot");
+            GameObject.Find("Placeholder10su10").GetComponent<Animator>().SetTrigger("TakeDamage");
+            
+            yield return new WaitForSeconds(1);
+
+            //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
+            Destroy(otherGameObject);
+            Debug.Log("NEMICO DANNEGGIATO");
+
+            #region Old SodaScript (no need to open Clear after)
+            /* 
+            //Add pointsPerSoda to players food points total
+            levelSteps -= pointsPerSoda;
+
+            //Update foodText to represent current total and notify player that they gained points
+            totalStepsText.text = "(-" + pointsPerSoda + ") " + levelSteps;
+
+            //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
+            SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
+
+            //Disable the soda object the player collided with.
+            other.gameObject.SetActive(false);
+            */
+            #endregion
+
+            yield return null;
+        }
+
         public void LevelFinished()
         {
             //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
