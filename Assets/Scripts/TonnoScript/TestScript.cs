@@ -30,6 +30,8 @@ public class TestScript : MonoBehaviour
         }
     }
 
+    private GameObject[] medusaFloors;
+
     // Use this for initialization
     void Start()
     {
@@ -57,6 +59,8 @@ public class TestScript : MonoBehaviour
         #endregion
         Go = false;
 
+        medusaFloors = GameObject.FindGameObjectsWithTag("MedusaFloor");
+
         for (int i = 0; i < Proiettile.Length; i++)
         {
             if ((int)Proiettile[i].Turni == 1)
@@ -68,6 +72,18 @@ public class TestScript : MonoBehaviour
             {
                 Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
                 _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
+
+                foreach (GameObject item in medusaFloors)
+                {
+                    if (item.transform.position.x >= Proiettile[i].x - .5f &&
+                        item.transform.position.x <= Proiettile[i].x + .5f &&
+                        item.transform.position.y >= Proiettile[i].y - .5f &&
+                        item.transform.position.y <= Proiettile[i].y + .5f)
+                    {
+                        item.GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                }
+
                 if (_TempTentacle.position == PlayerREF.transform.position)
                 {
                     player.ExecuteGameOver();
@@ -81,10 +97,10 @@ public class TestScript : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-      /*  if (collision.gameObject.tag == "Player")
-        {
-            player.ExecuteGameOver();
-        }*/
+        /*  if (collision.gameObject.tag == "Player")
+          {
+              player.ExecuteGameOver();
+          }*/
 
     }
 
@@ -100,14 +116,28 @@ public class TestScript : MonoBehaviour
                 {
                     case 0:
                         Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
-                        _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);                 
-                        Proiettile[i].Turni -= 1; break;
+                        _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
+                        Proiettile[i].Turni -= 1;
+
+                        foreach (GameObject item in medusaFloors)
+                        {
+                            if (item.transform.position.x >= Proiettile[i].x - .5f &&
+                                item.transform.position.x <= Proiettile[i].x + .5f &&
+                                item.transform.position.y >= Proiettile[i].y - .5f &&
+                                item.transform.position.y <= Proiettile[i].y + .5f)
+                            {
+                                item.GetComponent<SpriteRenderer>().enabled = false;
+                            }
+                        }
+
+                        break;
                     case 1:
                         Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                         _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-                        Proiettile[i].Turni -= 1;                   
-                            break;
-                    default: Proiettile[i].Turni -= 1;
+                        Proiettile[i].Turni -= 1;
+                        break;
+                    default:
+                        Proiettile[i].Turni -= 1;
                         break;
 
                 }
