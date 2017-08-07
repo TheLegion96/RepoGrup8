@@ -10,7 +10,7 @@ public class RangedEnemy : Enemy
     [SerializeField] private TextMesh CountDownMesh;
     public bool DoThisOnlyWhenAllDeadZoneAreON = false;
     private int CDTick;
-  
+
 
     //Start overrides the virtual Start function of the base class. 
     protected override void Start()
@@ -34,17 +34,17 @@ public class RangedEnemy : Enemy
         boxColliderEnemy.enabled = false;
 
         end = GetVectorDirection(EnemyAimingWay);
-       
-        tick++;            
+
+        tick++;
         CDTick = maxTicks - tick;
         int tickbeforechange = maxTicks - 1;
-        if (CDTick==0)
+        if (CDTick == 0)
         {
             CDTick = maxTicks;
-          //  CheckIfRaycastIs0();
+            //  CheckIfRaycastIs0();
         }
         CountDownMesh.text = CDTick.ToString();
-       
+
         if (tick == maxTicks)
         {
             ChangeAimingDirection(ref EnemyAimingWay);
@@ -53,16 +53,16 @@ public class RangedEnemy : Enemy
             CheckStoneRaycast(ref end, ref EnemyAimingWay);
 
             ChangeSightAnimation(EnemyAimingWay);
-            InstanceLaserDeadZone(EnemyAimingWay);
+            //InstanceLaserDeadZone(EnemyAimingWay);
             tick = 0;
         }
-     if (tick != tickbeforechange)
+        if (tick != tickbeforechange)
         {
-           InstanceLaserDeadZone(EnemyAimingWay);
-          //  CheckIfRaycastIs0();
+            //InstanceLaserDeadZone(EnemyAimingWay);
+            //  CheckIfRaycastIs0();
         }
-        
-        
+
+
 
 
         //[Verza] Spostato nel Game Manager.
@@ -89,11 +89,11 @@ public class RangedEnemy : Enemy
             Bullet.transform.GetComponent<Player>().ExecuteGameOver();
         }
         boxColliderEnemy.enabled = true;
-      
+
     }
     private void CheckIfRaycastIs0()
     {
-        
+
         /*
         int counterLaserDeadZone= 0;
         counterLaserDeadZone = (int)GameObject.FindGameObjectsWithTag("LaserDeadZone").Length;
@@ -142,14 +142,14 @@ public class RangedEnemy : Enemy
             boxColliderEnemy.enabled = true;
         }
     }
-  
+
     public void InstanceLaserDeadZone(LineOfSight parEnemyAimingWay)
     {
 
         for (int i = 1; i < 9; i++)
         {
-        Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, this.transform.position, Quaternion.identity); 
-       Vector3 _TempEndPosition = new Vector3();
+            Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, this.transform.position, Quaternion.identity);
+            Vector3 _TempEndPosition = new Vector3();
             switch (parEnemyAimingWay)
             {
                 case LineOfSight.down:
@@ -181,7 +181,7 @@ public class RangedEnemy : Enemy
                     _TempLaserDeadZone.position = _TempEndPosition;
                     break;
             }
-        RaycastHit2D checkCollision;
+            RaycastHit2D checkCollision;
             checkCollision = Physics2D.Linecast(_TempLaserDeadZone.position, _TempLaserDeadZone.position);
             if (checkCollision.transform != null)
             {
@@ -189,21 +189,26 @@ public class RangedEnemy : Enemy
                 {
                     Destroy(_TempLaserDeadZone.gameObject);
                     break;
+
+
                 }
-                //if (checkCollision.transform.tag == "Enemy")
-                //{
-                //    if (checkCollision.transform.gameObject is RangedEnemy)
-                //    {
-                //        Destroy(_TempLaserDeadZone.gameObject);
-                //        break;
-                //    }
-                //}
-                //if (checkCollision.transform.tag == "Stone"/*||checkCollision.transform.tag != "Enemy"*/)
-                //{              
-                //        Destroy(_TempLaserDeadZone.gameObject);
-                //        break;
-                //
-                //}
+                /*
+                if (checkCollision.transform.tag == "Enemy")
+                {
+                    if (checkCollision.transform.gameObject is RangedEnemy)
+                    {
+                    }
+
+                }
+                if (checkCollision.transform.tag == "Stone"/*||checkCollision.transform.tag != "Enemy"* /)
+                {
+                    Destroy(_TempLaserDeadZone.gameObject);
+                    break;
+
+                }
+
+                */
+                // }
                 else
                 {
                     _TempLaserDeadZone.GetComponent<BoxCollider2D>().enabled = true;
@@ -212,18 +217,19 @@ public class RangedEnemy : Enemy
 
             if (_TempLaserDeadZone != null)
             {
+
                 _TempLaserDeadZone.position = _TempEndPosition;
                 _LaserDeadZone.Add(_TempLaserDeadZone);
             }
-            
+
         }
     }
-  
+
 
     public void InstanceDeadZone(LineOfSight parEnemyAimingWay)
     {
-       // Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x + 4, this.transform.position.y), Quaternion.identity);
-  
+        // Transform _TempLaserDeadZone = Instantiate(LaserDeadzone.transform, new Vector3(this.transform.position.x + 4, this.transform.position.y), Quaternion.identity);
+
         Vector3 _TempEndPosition = new Vector3();
         for (int i = 1; i < 9; i++)
         {
@@ -280,7 +286,7 @@ public class RangedEnemy : Enemy
 
             if (_TempDeadZone != null)
             {
-              
+
                 _TempDeadZone.position = _TempEndPosition;
                 _DeadZone.Add(_TempDeadZone);
             }
@@ -289,7 +295,7 @@ public class RangedEnemy : Enemy
 
 
     }
-  
+
 
 
 }
