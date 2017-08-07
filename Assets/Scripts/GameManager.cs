@@ -168,6 +168,7 @@ namespace Completed
             if (instance != null)
             {
                 instance.level = SceneManager.GetActiveScene().buildIndex + 1;
+                instance.playersTurn = true;
                 instance.InitGame();
                 switch (SceneManager.GetActiveScene().name)
                 {
@@ -225,7 +226,7 @@ namespace Completed
                         //levelText.text = "Day " + level;
                         //[Verza] Added dynamic title.
                         UpdateSceneBookProperty(levelTitleText, title + "\n" + subtitle);
-                    
+
                         //[Verza] Moving title block.
                         //StartCoroutine(MoveTitleBlock());
                         levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y - 8f, 1);
@@ -448,10 +449,13 @@ namespace Completed
                         tempRangedEnemy.CheckStoneRaycast(ref tempEnd, ref tempEnemyAimingWay);
                         tempRangedEnemy.InstanceDeadZone(tempEnemyAimingWay);
                     }
+                    else
+                    {
+                        tempRangedEnemy.InstanceLaserDeadZone(tempRangedEnemy.EnemyAimingWay);
+                    }
                     //saved = false;
                     //yield return new WaitForSeconds(enemies[i].moveTime / 100);
 
-                    tempRangedEnemy.InstanceLaserDeadZone(tempRangedEnemy.EnemyAimingWay);
                 }
             }
 
@@ -503,6 +507,7 @@ namespace Completed
             {
                 // BRAVO! SETTARE IL TOKEN.
                 Debug.Log("Bravo!");
+                MenuManager.SetToken(SceneManager.GetActiveScene().name);
             }
             else
             {

@@ -40,7 +40,12 @@ public class TestScript : MonoBehaviour
         //    Proiettile[i].x = Mathf.Round(Random.Range(10, 130) / 10);
         //    Proiettile[i].x = Mathf.Round(Proiettile[i].x);
         //    Proiettile[i].x += 0.5f;
-
+        #region JOJO REFENCE
+        //  SONO CHI NO SADAME 
+        //JOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOJO
+        //A chiunque legga sta region cerchi DIOVANIA su Youtube
+        //Questa region non è stata scritta da Legion
+        #endregion
         //    Proiettile[i].y = Mathf.Round(Random.Range(10, 70));
         //    Proiettile[i].y = Mathf.Round(Proiettile[i].y /= 10);
         //    Proiettile[i].y += 0.5f;
@@ -50,8 +55,6 @@ public class TestScript : MonoBehaviour
         //}
 
         #endregion
-
-
         Go = false;
 
         for (int i = 0; i < Proiettile.Length; i++)
@@ -97,21 +100,15 @@ public class TestScript : MonoBehaviour
                 {
                     case 0:
                         Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
-                        _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-                       /* if (_TempTentacle.position == PlayerREF.transform.position)
-                        {
-                            player.ExecuteGameOver();
-                        }
-                        */
+                        _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);                 
                         Proiettile[i].Turni -= 1; break;
                     case 1:
                         Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                         _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-                        Proiettile[i].Turni -= 1;
-                    
+                        Proiettile[i].Turni -= 1;                   
                             break;
-
-                    default: Proiettile[i].Turni -= 1; break;
+                    default: Proiettile[i].Turni -= 1;
+                        break;
 
                 }
             }

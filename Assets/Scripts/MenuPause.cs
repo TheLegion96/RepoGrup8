@@ -129,7 +129,7 @@ public class MenuPause : MonoBehaviour
                 NavigateBestiario(KeyCode.LeftArrow);
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
-            { 
+            {
                 NavigateBestiario(KeyCode.RightArrow);
             }
         }
@@ -175,16 +175,16 @@ public class MenuPause : MonoBehaviour
     private void OpenBestiario()
     {
         if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Bestiario;
-      
-     
+
+
         foreach (Transform child in transform)
         {
-            Child.Add(child.gameObject);  
+            Child.Add(child.gameObject);
         }
         bestiarioSpriteRenderer.DOFade(1, 1);
         for (int i = 0; i < Child.Count; i++)
         {
-            if(Child[i].name=="Bestiario")
+            if (Child[i].name == "Bestiario")
             {
                 Child[i].SetActive(true);
                 bestiarioSpriteRenderer.DOFade(0, 1);
@@ -224,7 +224,7 @@ public class MenuPause : MonoBehaviour
         bestiarioSpriteRenderer.DOFade(0, 1);
         if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
     }
-    
+
     private void OpenMenu()
     {
         //bookClosedMenuSubtitleMeshRenderer.enabled = false;
@@ -280,6 +280,9 @@ public class MenuPause : MonoBehaviour
                 Bestie[2].enabled = false;
                 TestiBestie[2].gameObject.SetActive(false);
 
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
+
                 break;
             case 1:
                 Bestie[0].enabled = false;
@@ -292,6 +295,9 @@ public class MenuPause : MonoBehaviour
 
                 Bestie[2].enabled = false;
                 TestiBestie[2].gameObject.SetActive(false);
+
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
                 break;
             case 2:
                 Bestie[0].enabled = false;
@@ -304,23 +310,41 @@ public class MenuPause : MonoBehaviour
 
                 Bestie[2].enabled = true;
                 TestiBestie[2].gameObject.SetActive(true);
+
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
+                break;
+            case 3:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+
+                Bestie[3].enabled = true;
+                TestiBestie[3].gameObject.SetActive(true);
                 break;
         }
     }
-    
-        private void NavigateBestiario(KeyCode In)
+
+    private void NavigateBestiario(KeyCode In)
     {
         if (In == KeyCode.LeftArrow)
         {
             index++;
-            if(index>3)
+            if (index > 4)
             { index = 0; }
         }
         if (In == KeyCode.RightArrow)
         {
             index--;
-            if(index<0)
-            { index = 2; }
+            if (index < 0)
+            { index = 3; }
 
         }
 
@@ -338,6 +362,9 @@ public class MenuPause : MonoBehaviour
                 Bestie[2].enabled = false;
                 TestiBestie[2].gameObject.SetActive(false);
 
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
+
                 break;
             case 1:
                 Bestie[0].enabled = false;
@@ -350,6 +377,9 @@ public class MenuPause : MonoBehaviour
 
                 Bestie[2].enabled = false;
                 TestiBestie[2].gameObject.SetActive(false);
+
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
                 break;
             case 2:
                 Bestie[0].enabled = false;
@@ -362,6 +392,24 @@ public class MenuPause : MonoBehaviour
 
                 Bestie[2].enabled = true;
                 TestiBestie[2].gameObject.SetActive(true);
+
+                Bestie[3].enabled = false;
+                TestiBestie[3].gameObject.SetActive(false);
+                break;
+            case 3:
+                Bestie[0].enabled = false;
+                TestiBestie[0].gameObject.SetActive(false);
+
+
+                Bestie[1].enabled = false;
+                TestiBestie[1].gameObject.SetActive(false);
+
+
+                Bestie[2].enabled = false;
+                TestiBestie[2].gameObject.SetActive(false);
+
+                Bestie[3].enabled = true;
+                TestiBestie[3].gameObject.SetActive(true);
                 break;
         }
     }
