@@ -28,6 +28,8 @@ namespace Completed
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
         [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
 
+        private GameObject tutorialLayer;
+
         private GameObject levelSignboard;                      //Image to block out level as levels are being set up, background for levelText.
         private TextMesh levelTitleText;                        //Text to display current level number.
         private TextMesh BookClosedMenuSubtitleTextMesh;
@@ -167,7 +169,8 @@ namespace Completed
             {
                 instance.level = SceneManager.GetActiveScene().buildIndex + 1;
                 instance.InitGame();
-                switch (SceneManager.GetActiveScene().name) {
+                switch (SceneManager.GetActiveScene().name)
+                {
                     case "0_TUTORIAL - Scene 1":
                     case "0_TUTORIAL - Scene 2":
                     case "0_TUTORIAL - Scene 3":
@@ -197,17 +200,78 @@ namespace Completed
             //While doingSetup is true the player can't move, prevent player from moving while title card is up.
             doingSetup = true;
 
-            //Get a reference to our image LevelImage by finding it by name.
+            tutorialLayer = GameObject.Find("TutorialLayer");
+            if (tutorialLayer != null)
+            {
+                tutorialLayer.GetComponent<Tutorial>().ClosedTutorialCallback += StartGamePlayPhase;
+            }
+
+            // PAUSE BOOK
+            GameObject BookClosedMenuSubtitleGameObject = GameObject.Find("BookClosedMenuSubtitle");
+
+            if (BookClosedMenuSubtitleGameObject != null && title != null)
+            {
+                GameObject bookTitleOpenMenuGameObject = GameObject.Find("BookTitleOpenMenu");
+                GameObject bookSubtitleGameObject = GameObject.Find("BookSubtitle");
+                GameObject bookChapterTextGameObject = GameObject.Find("BookChapterText");
+
+                if (bookTitleOpenMenuGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    bookTitleOpenMenuTextMesh = bookTitleOpenMenuGameObject.GetComponent<TextMesh>();
+
+                    //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
+                    //bookTitleTextMesh.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    UpdateSceneBookProperty(bookTitleOpenMenuTextMesh, title);
+                }
+
+                if (bookSubtitleGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    bookSubtitleTextMesh = bookSubtitleGameObject.GetComponent<TextMesh>();
+
+                    //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
+                    //bookTitleTextMesh.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    UpdateSceneBookProperty(bookSubtitleTextMesh, subtitle);
+                }
+
+                if (BookClosedMenuSubtitleGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    BookClosedMenuSubtitleTextMesh = BookClosedMenuSubtitleGameObject.GetComponent<TextMesh>();
+
+                    //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
+                    //bookTitleTextMesh.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    UpdateSceneBookProperty(BookClosedMenuSubtitleTextMesh, subtitle);
+                }
+
+                if (bookChapterTextGameObject != null)
+                {
+                    //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
+                    bookChapterTextTextMesh = bookChapterTextGameObject.GetComponent<TextMesh>();
+
+                    //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
+                    //bookTitleTextMesh.text = "Day " + level;
+                    //[Verza] Added dynamic title.
+                    string tmpChapterTextAccaped = "" + chapterText;
+                    if (tmpChapterTextAccaped.Contains("\\n"))
+                    {
+                        tmpChapterTextAccaped = tmpChapterTextAccaped.Replace("\\n", "\n");
+                    }
+                    UpdateSceneBookProperty(bookChapterTextTextMesh, tmpChapterTextAccaped);
+                }
+            }
+
+            // LEVEL SIGNBOARD
             levelSignboard = GameObject.Find("LevelSignboard");
             if (levelSignboard != null && title != null)
             {
                 GameObject leveTitleGameObject = GameObject.Find("LevelText");
-                GameObject bookTitleOpenMenuGameObject = GameObject.Find("BookTitleOpenMenu");
-                GameObject bookSubtitleGameObject = GameObject.Find("BookSubtitle");
-                GameObject BookClosedMenuSubtitleGameObject = GameObject.Find("BookClosedMenuSubtitle");
-                GameObject bookChapterTextGameObject = GameObject.Find("BookChapterText");
 
-                if (leveTitleGameObject != null || BookClosedMenuSubtitleGameObject != null)
+                if (leveTitleGameObject != null)
                 {
                     if (leveTitleGameObject != null)
                     {
@@ -218,55 +282,6 @@ namespace Completed
                         //levelText.text = "Day " + level;
                         //[Verza] Added dynamic title.
                         UpdateSceneBookProperty(levelTitleText, title + "\n" + subtitle);
-                    }
-
-                    if (bookTitleOpenMenuGameObject != null)
-                    {
-                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        bookTitleOpenMenuTextMesh = bookTitleOpenMenuGameObject.GetComponent<TextMesh>();
-
-                        //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
-                        //bookTitleTextMesh.text = "Day " + level;
-                        //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(bookTitleOpenMenuTextMesh, title);
-                    }
-
-                    if (bookSubtitleGameObject != null)
-                    {
-                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        bookSubtitleTextMesh = bookSubtitleGameObject.GetComponent<TextMesh>();
-
-                        //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
-                        //bookTitleTextMesh.text = "Day " + level;
-                        //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(bookSubtitleTextMesh, subtitle);
-                    }
-
-                    if (BookClosedMenuSubtitleGameObject != null)
-                    {
-                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        BookClosedMenuSubtitleTextMesh = BookClosedMenuSubtitleGameObject.GetComponent<TextMesh>();
-
-                        //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
-                        //bookTitleTextMesh.text = "Day " + level;
-                        //[Verza] Added dynamic title.
-                        UpdateSceneBookProperty(BookClosedMenuSubtitleTextMesh, subtitle);
-                    }
-
-                    if (bookChapterTextGameObject != null)
-                    {
-                        //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
-                        bookChapterTextTextMesh = bookChapterTextGameObject.GetComponent<TextMesh>();
-
-                        //Set the text of bookTitleTextMesh to the string "Day" and append the current level number.
-                        //bookTitleTextMesh.text = "Day " + level;
-                        //[Verza] Added dynamic title.
-                        string tmpChapterTextAccaped = "" + chapterText;
-                        if (tmpChapterTextAccaped.Contains("\\n"))
-                        {
-                            tmpChapterTextAccaped = tmpChapterTextAccaped.Replace("\\n", "\n");
-                        }
-                        UpdateSceneBookProperty(bookChapterTextTextMesh, tmpChapterTextAccaped);
                     }
 
                     //[Verza] Moving title block.
@@ -296,8 +311,8 @@ namespace Completed
         }
 
         IEnumerator MoveTitleBlock()
-        {  
-            
+        {
+
             /*Vector3 startPosition = new Vector3(0, 305, 0);
             Vector3 endPosition = new Vector3(0, 5, 0);
             float movingSeconds = 2f;
@@ -324,6 +339,10 @@ namespace Completed
             //levelSignboard.SetActive(false);
             levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y + 8f, 1);
 
+            StartGamePlayPhase();
+        }
+        void StartGamePlayPhase()
+        {
             //Set doingSetup to false allowing player to move again.
             doingSetup = false;
 
@@ -338,7 +357,6 @@ namespace Completed
                 if (Input.GetKeyDown(KeyCode.R))
                 {
                     levelSignboard.transform.DOMoveY(levelSignboard.transform.position.y + 8f, 1).OnComplete(ResetScene);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 }
 
             }
@@ -447,7 +465,7 @@ namespace Completed
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
         {
-            setRestartAvailable = true; 
+            setRestartAvailable = true;
             //Set levelText to display number of levels passed and game over message
             levelTitleText.text = deadText;
 
