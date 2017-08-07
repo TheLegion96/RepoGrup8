@@ -732,4 +732,23 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public static bool GetToken(int roomNumber)
+    {
+        switch (roomNumber)
+        {
+            case 1: return isToken_1;
+            case 2: return isToken_2;
+            case 3: return isToken_3;
+            case 4: return isToken_4;
+            case 5: return isToken_5;
+            case 6: return isToken_6;
+            case 7: return isToken_7;
+            case 8: return isToken_8;
+            case 9: return isToken_9;
+            case 10: return isToken_10;
+        }
+
+        return false;
+    }
+
 }

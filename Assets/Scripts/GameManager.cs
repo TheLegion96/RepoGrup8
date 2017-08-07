@@ -184,6 +184,9 @@ namespace Completed
                     case "Livello3_Stanza1":
                     case "Livello3_Stanza2":
                     case "Livello3_Stanza3":
+                    case "_LevelTemplate_Tonno3boss":
+                    case "_Prototype_End":
+                    case "_Prototype_AfterEnd":
                         break;
                     default:
                         instance.playerTotalMoney = 0;
