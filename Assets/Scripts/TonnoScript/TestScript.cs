@@ -78,10 +78,10 @@ public class TestScript : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        if (collision.gameObject.tag == "Player")
+      /*  if (collision.gameObject.tag == "Player")
         {
             player.ExecuteGameOver();
-        }
+        }*/
 
     }
 
@@ -98,16 +98,18 @@ public class TestScript : MonoBehaviour
                     case 0:
                         Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
                         _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-                        if (_TempTentacle.position == PlayerREF.transform.position)
+                       /* if (_TempTentacle.position == PlayerREF.transform.position)
                         {
                             player.ExecuteGameOver();
                         }
-
+                        */
                         Proiettile[i].Turni -= 1; break;
                     case 1:
                         Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                         _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-                        Proiettile[i].Turni -= 1; break;
+                        Proiettile[i].Turni -= 1;
+                    
+                            break;
 
                     default: Proiettile[i].Turni -= 1; break;
 

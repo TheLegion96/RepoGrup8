@@ -27,6 +27,10 @@ public class MenuPause : MonoBehaviour
     public AudioClip confirmSelection;
 
     private SpriteRenderer bestiarioSpriteRenderer;
+    [SerializeField] SpriteRenderer[] Bestie;
+    [SerializeField] TextMesh[] TestiBestie;
+    [SerializeField] SpriteRenderer[] TastiniBelli;
+    [SerializeField] TextMesh Indietro;
 
     // Use this for initialization
     void Start()
@@ -125,7 +129,9 @@ public class MenuPause : MonoBehaviour
                 NavigateBestiario(KeyCode.LeftArrow);
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
-            { NavigateBestiario(KeyCode.RightArrow); }
+            { 
+                NavigateBestiario(KeyCode.RightArrow);
+            }
         }
 
         //Move book from A to B.
@@ -189,6 +195,11 @@ public class MenuPause : MonoBehaviour
                 Child[i].SetActive(false);
             }
         }
+        for (int i = 0; i < TastiniBelli.Length; i++)
+        {
+            TastiniBelli[i].enabled = true;
+        }
+        Indietro.gameObject.SetActive(true);
     }
     private void CloseBestiario()
     {
@@ -205,6 +216,11 @@ public class MenuPause : MonoBehaviour
                 bestiarioSpriteRenderer.DOFade(0, 1);
             }
         }
+        for (int i = 0; i < TastiniBelli.Length; i++)
+        {
+            TastiniBelli[i].enabled = false;
+        }
+        Indietro.gameObject.SetActive(false);
         bestiarioSpriteRenderer.DOFade(0, 1);
         if (GameManager.instance != null) GameManager.instance.state = GameManager.State.Pause;
     }
@@ -247,8 +263,6 @@ public class MenuPause : MonoBehaviour
         MenuPointer.transform.position = new Vector3(MenuPointer.transform.position.x, MenuVoices[menuIndex].transform.position.y, MenuPointer.transform.position.z);
         SoundManager.instance.PlaySingle(switchSelection);
     }
-    [SerializeField] SpriteRenderer[] Bestie;
-    [SerializeField] TextMesh[] TestiBestie;
     private int index;
     private void NavigateBestiario()
     {

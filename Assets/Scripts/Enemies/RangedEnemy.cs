@@ -185,30 +185,25 @@ public class RangedEnemy : Enemy
             checkCollision = Physics2D.Linecast(_TempLaserDeadZone.position, _TempLaserDeadZone.position);
             if (checkCollision.transform != null)
             {
-                //if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
-                // {
-                /*   if ()
-                   {
-
-                   }*/
-                if (checkCollision.transform.tag == "Enemy")
+                if (checkCollision.transform.tag == "Stone" || checkCollision.transform.tag == "Enemy")
                 {
-                    if (checkCollision.transform.gameObject is RangedEnemy)
-                    {
-                        Destroy(_TempLaserDeadZone.gameObject);
-                        break;
-                    }
-
+                    Destroy(_TempLaserDeadZone.gameObject);
+                    break;
                 }
-                if (checkCollision.transform.tag == "Stone"/*||checkCollision.transform.tag != "Enemy"*/)
-                {              
-                        Destroy(_TempLaserDeadZone.gameObject);
-                        break;
-                 
-                }
-
-
-                // }
+                //if (checkCollision.transform.tag == "Enemy")
+                //{
+                //    if (checkCollision.transform.gameObject is RangedEnemy)
+                //    {
+                //        Destroy(_TempLaserDeadZone.gameObject);
+                //        break;
+                //    }
+                //}
+                //if (checkCollision.transform.tag == "Stone"/*||checkCollision.transform.tag != "Enemy"*/)
+                //{              
+                //        Destroy(_TempLaserDeadZone.gameObject);
+                //        break;
+                //
+                //}
                 else
                 {
                     _TempLaserDeadZone.GetComponent<BoxCollider2D>().enabled = true;
@@ -217,7 +212,6 @@ public class RangedEnemy : Enemy
 
             if (_TempLaserDeadZone != null)
             {
-
                 _TempLaserDeadZone.position = _TempEndPosition;
                 _LaserDeadZone.Add(_TempLaserDeadZone);
             }

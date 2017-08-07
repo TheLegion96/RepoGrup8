@@ -218,10 +218,11 @@ namespace Completed
                         {
                             proceedWithTheTurn = false;
                         }
-                        else if(hit.transform.tag=="Tentacle")
+                 //       else
+                        /*if(hit.transform.tag=="Tentacle")
                         {
                             ExecuteGameOver();
-                        }
+                        }*/
                     }
 
                     if (isStillAlive && proceedWithTheTurn)
@@ -284,8 +285,9 @@ namespace Completed
             //}
             new_Coordinate = this.transform.position;
             //Set the playersTurn boolean of GameManager to false now that players turn is over.
-            TestScript.Go = true;
+
             GameManager.instance.playersTurn = false;
+            TestScript.Go = true;
         }
 
 
@@ -425,9 +427,8 @@ namespace Completed
                 other.gameObject.SetActive(false);
             }
 
-            //Check if the tag of the trigger collided with is Soda.
-            /*else*/
-            if (other.tag == "Tentacle")
+          
+            else if (other.tag == "Tentacle")
             {
                 ExecuteGameOver();
             }
