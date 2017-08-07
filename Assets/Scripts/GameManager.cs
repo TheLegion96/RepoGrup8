@@ -507,6 +507,7 @@ namespace Completed
             {
                 // BRAVO! SETTARE IL TOKEN.
                 Debug.Log("Bravo!");
+                MenuManager.SetToken(SceneManager.GetActiveScene().name);
             }
             else
             {

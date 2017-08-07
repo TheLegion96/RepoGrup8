@@ -16,19 +16,16 @@ public class MenuManager : MonoBehaviour
     public AudioClip switchSelection;
     public AudioClip confirmSelection;
 
-    private bool isToken_1 = false;
-    private bool isToken_2 = false;
-    private bool isToken_3 = false;
-    private bool isToken_4 = false;
-    private bool isToken_5 = false;
-    private bool isToken_6 = false;
-    private bool isToken_7 = false;
-    private bool isToken_8 = false;
-    private bool isToken_9 = false;
-    private bool isToken_10 = false;
-
-    private bool isTokenGrey_1, isTokenGrey_2, isTokenGrey_3, isTokenGrey_4, isTokenGrey_5,
-                 isTokenGrey_6, isTokenGrey_7, isTokenGrey_8, isTokenGrey_9, isTokenGrey_10;
+    private static bool isToken_1 = false;
+    private static bool isToken_2 = false;
+    private static bool isToken_3 = false;
+    private static bool isToken_4 = false;
+    private static bool isToken_5 = false;
+    private static bool isToken_6 = false;
+    private static bool isToken_7 = false;
+    private static bool isToken_8 = false;
+    private static bool isToken_9 = false;
+    private static bool isToken_10 = false;
 
     // Level Icons
     private SpriteRenderer lvl1Enabled, lvl2Enabled, lvl3Enabled, lvl4Enabled, lvl5Enabled,
@@ -559,6 +556,48 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public static void SetToken(string sceneName)
+    {
+        switch (sceneName)
+        {
+            // Lvl 1
+            case "Livello1_Stanza1":
+                isToken_1 = true;
+                break;
+            case "Livello1_Stanza2":
+                isToken_2 = true;
+                break;
+            case "Livello1_Stanza3":
+                isToken_3 = true;
+                break;
 
+            // Lvl 2
+            case "Livello2_Stanza1":
+                isToken_4 = true;
+                break;
+            case "Livello2_Stanza2":
+                isToken_5 = true;
+                break;
+            case "Livello2_Stanza3":
+                isToken_6 = true;
+                break;
+
+            // Lvl 3
+            case "Livello3_Stanza1":
+                isToken_7 = true;
+                break;
+            case "Livello3_Stanza2":
+                isToken_8 = true;
+                break;
+            case "Livello3_Stanza3":
+                isToken_9 = true;
+                break;
+
+            // Boss
+            case "_LevelTemplate_Tonno3boss":
+                isToken_10 = true;
+                break;
+        }
+    }
         
 }
