@@ -491,7 +491,10 @@ namespace Completed
         //Goes to next scene when called.
         public void GoToNextScene(float delay, int playerSteps)
         {
-            SoundManager.instance.PlaySingle(sceneCompletedAudioClip);
+            if (playerSteps > 0)
+            {
+                SoundManager.instance.PlaySingle(sceneCompletedAudioClip);
+            }
             SetTokenInfo(playerSteps);
             Invoke("GoToNextScene_Invoked", delay);
         }
