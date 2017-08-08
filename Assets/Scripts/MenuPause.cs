@@ -93,7 +93,7 @@ public class MenuPause : MonoBehaviour
         }
 
 
-        if (GameManager.instance.state == GameManager.State.Bestiario && Input.GetKeyDown(KeyCode.Return))
+        if (GameManager.instance.state == GameManager.State.Bestiario && Input.GetKeyDown(KeyCode.Backspace))
         {
             SoundManager.instance.PlaySingle(confirmSelection);
             CloseBestiario();
@@ -334,13 +334,13 @@ public class MenuPause : MonoBehaviour
 
     private void NavigateBestiario(KeyCode In)
     {
-        if (In == KeyCode.LeftArrow)
+        if (In == KeyCode.RightArrow)
         {
             index++;
             if (index > 4)
             { index = 0; }
         }
-        if (In == KeyCode.RightArrow)
+        if (In == KeyCode.LeftArrow)
         {
             index--;
             if (index < 0)
