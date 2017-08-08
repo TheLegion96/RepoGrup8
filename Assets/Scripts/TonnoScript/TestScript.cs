@@ -33,6 +33,8 @@ public class TestScript : MonoBehaviour
     private GameObject[] medusaFloors;
     private GameObject[] cannons;
 
+    public AudioClip woodDestroyAudioClip;
+
     // Use this for initialization
     void Start()
     {
@@ -70,41 +72,6 @@ public class TestScript : MonoBehaviour
                 Transform _Temp = Instantiate(DeadZone.transform, new Vector3(Proiettile[i].x, Proiettile[i].y, -1), Quaternion.identity);
                 _Temp.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
             }
-            if ((int)Proiettile[i].Turni == 0 && false)
-            {
-                Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
-                _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
-
-                foreach (GameObject item in medusaFloors)
-                {
-                    if (item.transform.position.x >= Proiettile[i].x - .5f &&
-                        item.transform.position.x <= Proiettile[i].x + .5f &&
-                        item.transform.position.y >= Proiettile[i].y - .5f &&
-                        item.transform.position.y <= Proiettile[i].y + .5f)
-                    {
-                        item.GetComponent<SpriteRenderer>().enabled = false;
-                    }
-                }
-
-                foreach (GameObject item in cannons)
-                {
-                    if (item != null)
-                    {
-                        if (item.transform.position.x >= Proiettile[i].x - .5f &&
-                            item.transform.position.x <= Proiettile[i].x + .5f &&
-                            item.transform.position.y >= Proiettile[i].y - .5f &&
-                            item.transform.position.y <= Proiettile[i].y + .5f)
-                        {
-                            item.GetComponentInChildren<SpriteRenderer>().enabled = false;
-                        }
-                    }
-                }
-
-                if (_TempTentacle.position == PlayerREF.transform.position)
-                {
-                    player.ExecuteGameOver();
-                }
-            }
         }
     }
     public void OnCollisionEnter(Collision collision)
@@ -131,6 +98,8 @@ public class TestScript : MonoBehaviour
                 switch ((int)Proiettile[i].Turni)
                 {
                     case 0:
+                        SoundManager.instance.PlaySingle(woodDestroyAudioClip);
+
                         Transform _TempTentacle = Instantiate(Object.transform, this.transform.position, Quaternion.identity);
                         _TempTentacle.position = new Vector3(Proiettile[i].x, Proiettile[i].y, -1);
                         Proiettile[i].Turni -= 1;
