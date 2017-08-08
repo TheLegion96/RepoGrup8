@@ -441,6 +441,7 @@ namespace Completed
 
         IEnumerator CannonCoroutine(GameObject otherGameObject)
         {
+            otherGameObject.GetComponent<BoxCollider2D>().enabled = false;
             otherGameObject.GetComponentInChildren<Animator>().SetTrigger("Shoot");
             GameObject.Find("Placeholder10su10").GetComponent<Animator>().SetTrigger("TakeDamage");
             
