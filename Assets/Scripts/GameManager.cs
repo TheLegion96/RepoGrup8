@@ -38,6 +38,7 @@ namespace Completed
         private TextMesh bookChapterTextTextMesh;
         private int level = 1;                                  //Current level number, expressed in game as "Day 1".
         public List<Enemy> enemies;                             //List of all Enemy units, used to issue them move commands.
+        public AudioClip sceneCompletedAudioClip;
         private bool enemiesDying;                              //Boolean to check if enemies are dying.
         private bool enemiesMoving;                             //Boolean to check if enemies are moving.
         private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player from moving during setup.
@@ -490,6 +491,7 @@ namespace Completed
         //Goes to next scene when called.
         public void GoToNextScene(float delay, int playerSteps)
         {
+            SoundManager.instance.PlaySingle(sceneCompletedAudioClip);
             SetTokenInfo(playerSteps);
             Invoke("GoToNextScene_Invoked", delay);
         }
@@ -508,13 +510,7 @@ namespace Completed
         {
             if (playerSteps <= maxStepsForToken)
             {
-                // BRAVO! SETTARE IL TOKEN.
-                Debug.Log("Bravo!");
                 MenuManager.SetToken(SceneManager.GetActiveScene().name);
-            }
-            else
-            {
-                Debug.Log("Pippa!");
             }
         }
         #endregion
