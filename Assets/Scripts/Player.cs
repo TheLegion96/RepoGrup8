@@ -448,7 +448,8 @@ namespace Completed
             otherGameObject.GetComponent<BoxCollider2D>().enabled = false;
 
             otherGameObject.GetComponentInChildren<Animator>().SetTrigger("Shoot");
-            SoundManager.instance.PlaySingle(cannonShot);
+            //SoundManager.instance.PlaySingle(cannonShot);
+            otherGameObject.GetComponentInChildren<AudioSource>().Play();
 
             yield return new WaitForSeconds(.5f);
 
