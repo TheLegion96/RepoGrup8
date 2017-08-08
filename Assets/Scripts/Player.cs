@@ -57,6 +57,10 @@ namespace Completed
 
         public bool isStillAlive = true;
 
+        [Header("Boss Level Only")]
+        public AudioClip cannonShot;
+        public AudioClip bossScream;
+
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
@@ -442,9 +446,15 @@ namespace Completed
         IEnumerator CannonCoroutine(GameObject otherGameObject)
         {
             otherGameObject.GetComponent<BoxCollider2D>().enabled = false;
+
             otherGameObject.GetComponentInChildren<Animator>().SetTrigger("Shoot");
+            SoundManager.instance.PlaySingle(cannonShot);
+
+            yield return new WaitForSeconds(.5f);
+
             GameObject.Find("Placeholder10su10").GetComponent<Animator>().SetTrigger("TakeDamage");
-            
+            SoundManager.instance.PlaySingle(bossScream);
+
             yield return new WaitForSeconds(1);
 
             //other.transform.GetChild(0).transform.position = new Vector3(other.transform.GetChild(0).transform.position.x, other.transform.GetChild(0).transform.position.y, -2);
